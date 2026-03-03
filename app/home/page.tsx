@@ -30,7 +30,8 @@ export default function homePage() {
     </header>
 
     <main className=" w-full p-10 min-h-screen">
-        <section className="border-2 mb-10">
+        <section 
+        className="border-2 mb-10">
             <h2 className="text-2xl font-bold">期限通知一覧</h2>
             <ul >
                 <li>食材Aが1日で期限切れになります。</li>
