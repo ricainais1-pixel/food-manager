@@ -5,11 +5,12 @@ import Link from "next/link";
 export default function homePage() {
     return (
     <div>
-    <header className="flex justify-between items-center p-4">
+    <header 
+    className="flex justify-between items-center p-4 bg-lime-500">
         <h1 className="text-4xl font-bold ">食材ストック管理</h1>
         <nav>
-            <ul className="flex text-lg font-bold ">
-                <li>
+            <ul className="flex text-lg font-bold list-none ">
+                <li >
                     <Link href="/home">ホーム</Link>
                 </li>
                 <li>

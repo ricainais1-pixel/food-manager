@@ -3,7 +3,7 @@
 // import type { Database } from "../lib/database.types";
 
 // //メインページ
-// export default async function Page() {
+export default async function Page() {
 
 //   const supabase = createServerClient<Database>({ cookies });
 
@@ -15,9 +15,10 @@
 
 
 
-//   return (
+   return (
+    null
 //     <div>
 //       <h1 className="text-4xl font-bold">ホーム</h1>
 //     </div>
-//   );
-// }
+   );
+ }
