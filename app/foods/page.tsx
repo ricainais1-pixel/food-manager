@@ -14,6 +14,22 @@ type Food = {
 
 export default function Food () {
     const [editingFood, setEditingFood] = useState<Food | null>(null);
+    const foods : Food[] = [
+        {
+            id: 1,
+            食材名: "卵",
+            個数: 6,
+            期限: "2026-03-20",
+            カテゴリー: "冷蔵庫"
+        },
+        {
+            id: 2,
+            食材名: "牛乳",
+            個数: 1,
+            期限: "2026-03-31",
+            カテゴリー: "冷蔵庫"
+        }
+    ];
     
 
     // const { data } =await supabase
@@ -37,10 +53,12 @@ export default function Food () {
 
     return(
         <div>
-            <header className="flex justify-between items-center p-4">
-                <h1 className="text-4xl font-bold ">食材ストック管理</h1>
+            <header 
+            className="flex justify-between items-center p-4 bg-lime-500">
+                <h1 className="text-4xl font-bold  text-gray-200">食材ストック管理</h1>
                 <nav>
-                    <ul className="flex text-lg font-bold ">
+                    <ul 
+                    className="flex text-lg font-bold space-x-4 text-gray-200">
                         <li>
                             <Link href="/home">ホーム</Link>
                         </li>
@@ -60,66 +78,84 @@ export default function Food () {
                 </nav>
             </header>
 
-            <main className=" w-full p-10 min-h-screen">
-                <div className="flex">
-                    <h2 className="text-2xl font-bold">食材一覧</h2>
+            <main className=" max-w-[1000px] mx-auto mt-20 mb-10">
+                <div className="flex items-center justify-between mb-6 ">
+                    <h2 className="text-2xl font-bold">🥬食材一覧</h2>
 
-                    <select className="flex ml-6 border-1 rounded-md p-2">
-                        <option>冷蔵庫</option>
-                        <option>冷凍庫</option>
-                        <option>野菜室</option>
-                        <option>パントリー</option>
-                    </select>
+                    <div className="flex items-center space-x-4">
+                        <select 
+                        className="border-2 rounded-md p-2 focus:outline-none ">
+                            <option>冷蔵庫</option>
+                            <option>冷凍庫</option>
+                            <option>野菜室</option>
+                            <option>パントリー</option>
+                        </select>
+                        <Link 
+                        href="/newfoods"
+                        className="bg-blue-200 px-4 py-2 rounded-md" >
+                            食材追加
+                        </Link>
+                    </div>
                 </div>
 
-                <div className="flex">
-                    <Link href="/newfoods"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md" >食材追加</Link>
-                </div>
-
-                {editingFood === null ? (
-                <table className="mt-6 text-lg border-2 w-full">
-                    <thead>
-                        <tr>
-                            <th>食材名</th>
-                            <th>個数</th>
-                            <th>期限</th>
-                            <th>カテゴリー</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {foods.map((food) => (
-                        <tr key={food.id}>
-                            <td>{food.食材名}</td>
-                            <td>{food.個数}</td>
-                            <td>{food.期限}</td>
-                            <td>{food.カテゴリー}</td>
-                            <td>
-                                <button
-                                onClick={()=>handleEdit(food)}>編集</button>
-                                <button>削除</button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                ) : (
+                <div className="overflow-x-auto">
+                    {editingFood === null ? (
                     <div>
-                        <table className="mt-6 text-lg border-2 w-full">
-                            <thead>
+                        <table 
+                        className="mt-6 w-full border-2 border-gray-400 table-fixed mb-10">
+                            <thead className="border-b-2">
                                 <tr>
-                                    <th>食材名</th>
-                                    <th>個数</th>
-                                    <th>期限</th>
-                                    <th>カテゴリー</th>
+                                    <th className="border-r px-4 py-2">食材名</th>
+                                    <th className="border-r px-4 py-2">個数</th>
+                                    <th className="border-r px-4 py-2">期限</th>
+                                    <th className="border-r px-4 py-2">カテゴリー</th>
+                                    {/* <th className="px-4 py-2">操作</th> */}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foods.map((food) => (
+                                <tr key={food.id}>
+                                    <td className="border-r px-4 py-2">{food.食材名}</td>
+                                    <td className="border-r px-4 py-2">{food.個数}</td>
+                                    <td className="border-r px-4 py-2">{food.期限}</td>
+                                    <td className="border-r px-4 py-2">{food.カテゴリー}</td>
+                                    <td className="px-4 py-2 space-x-2 ">
+                                        <div className="flex justify-center gap-2">
+                                            <button 
+                                            onClick={() => handleEdit(food)}
+                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md">
+                                                編集</button>
+                                            <button 
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md">
+                                                削除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    ) : (
+                    <div>
+                        <table 
+                        className="mt-6 w-full border-2 border-gray-400 table-fixed mb-10">
+                            <thead className="border-b-2">
+                                <tr>
+                                    <th className="border-r px-4 py-2">食材名</th>
+                                    <th className="border-r px-4 py-2">個数</th>
+                                    <th className="border-r px-4 py-2">期限</th>
+                                    <th className="border-r px-4 py-2">カテゴリー</th>
+                                    {/* <th className="px-4 py-2">操作</th> */}
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <input type="text"/>
+                                    <td className="border-r px-4 py-2">
+                                        <input 
+                                        type="text"
+                                        defaultValue={editingFood?.食材名}/>
                                     </td>
-                                    <td>
+                                    <td className="border-r px-4 py-2">
                                         <select>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -128,7 +164,7 @@ export default function Food () {
                                             <option value="5">5</option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td className="border-r px-4 py-2">
                                         <select>
                                             <option value="1日">1日</option>
                                             <option value="3日">3日</option>
@@ -140,7 +176,7 @@ export default function Food () {
                                             <option value="詳細設定">詳細設定</option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td className="border-r px-4 py-2">
                                         <select>
                                             <option value="冷蔵庫">冷蔵庫</option>
                                             <option value="冷凍庫">冷凍庫</option>
@@ -148,16 +184,23 @@ export default function Food () {
                                             <option value="パントリー">パントリー</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <button>保存</button>
-                                        <button onClick={handleBack}>戻る</button>
+                                    <td className="border-r px-4 py-2">
+                                        <div className="flex justify-center gap-2">
+                                            <button
+                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md">保存</button>
+                                            <button 
+                                            onClick={handleBack}
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md">戻る</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                )}
+                    )}
+                </div>
             </main>
+            <footer className="bg-lime-500 h-10 flex items-center justify-center"> ©2026 食材管理アプリ</footer>
         </div>
     )
 }
