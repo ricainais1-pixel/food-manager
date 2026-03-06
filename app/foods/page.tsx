@@ -52,34 +52,38 @@ export default function Food () {
     }
 
     return(
-        <div>
+        <div className="min-h-screen flex flex-col">
             <header 
-            className="flex justify-between items-center p-4 bg-lime-500">
-                <h1 className="text-4xl font-bold  text-gray-200">食材ストック管理</h1>
-                <nav>
-                    <ul 
-                    className="flex text-lg font-bold space-x-4 text-gray-200">
-                        <li>
-                            <Link href="/home">ホーム</Link>
-                        </li>
-                        <li>
-                            <Link href="/foods">食材一覧</Link>
-                        </li>
-                        <li>
-                            <Link href="/newfoods">食材登録</Link>
-                        </li>
-                        <li>
-                            <Link href="/shopping">購入リスト</Link>
-                        </li>
-                        <li>
-                            <Link href="/users">ユーザー設定</Link>
-                        </li>
-                    </ul>
-                </nav>
+            className="sticky top-0 bg-lime-300 border-b z-50">
+                <div
+                className="flex items-center justify-between px-8 py-5">
+                    <h1 className="text-xl md:text-3xl font-bold ">食材ストック管理</h1>
+                    <nav className="hidden md:block">
+                        <ul 
+                        className="flex gap-6 text-lg font-medium">
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/home">ホーム</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/foods">食材一覧</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/newfoods">食材登録</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/shopping">購入リスト</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/users">ユーザー設定</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                    <button className="md:hidden text-2xl font-bold">☰</button>
+                </div>
             </header>
 
-            <main className=" max-w-[1000px] mx-auto mt-20 mb-10">
-                <div className="flex items-center justify-between mb-6 ">
+            <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
+                <div className="flex items-center justify-between mb-10 ">
                     <h2 className="text-2xl font-bold">🥬食材一覧</h2>
 
                     <div className="flex items-center space-x-4">
@@ -102,7 +106,7 @@ export default function Food () {
                     {editingFood === null ? (
                     <div>
                         <table 
-                        className="mt-6 w-full border-2 border-gray-400 table-fixed mb-10">
+                        className="w-full border-2 border-gray-400 table-fixed mb-10">
                             <thead className="border-b-2">
                                 <tr>
                                     <th className="border-r px-4 py-2">食材名</th>
@@ -200,7 +204,9 @@ export default function Food () {
                     )}
                 </div>
             </main>
-            <footer className="bg-lime-500 h-10 flex items-center justify-center"> ©2026 食材管理アプリ</footer>
+            <footer className="bg-gray-100 border-t mt-10"> 
+                <div className="max-w-[1200px] mx-auto py-4 text-center text-sm text-gray-500">© 2026 Food Stock App</div>
+            </footer>
         </div>
     )
 }
