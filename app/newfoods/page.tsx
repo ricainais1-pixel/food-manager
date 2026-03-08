@@ -1,8 +1,61 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import Food from "../foods/page";
+
+type Food = {
+    id:number;
+    name: string;
+    quantity: string;
+    expiry: string;
+    category: string;
+};
 
 export default function NewFoodPage () {
+
+    const [foods,setFoods] = useState <Food[]> ([]);
+    const [name, setName] = useState("");
+    const [quantity, setQuantity] = useState("");
+    const [expiry, setExpiry] = useState("");
+    const [category, setCategory] = useState("");
+
+    // 追加ボタン
+    const handleAddFood = () => {
+        const newFood : Food = {
+            id:Date.now(),
+            name,
+            quantity, 
+            expiry, 
+            category
+        };
+        setFoods([...foods, newFood]);
+        setName("");
+        setQuantity("");
+        setExpiry("");
+        setCategory("");
+    }
+    // 削除ボタン
+    const deleteFood = (id:number) => {
+        setFoods(foods.filter((food) => food.id !== id))
+    }
+
+    // 固定行の削除ボタン
+    const deleteInput = () => {
+        setName("");
+        setQuantity("1");
+        setExpiry("1日");
+        setCategory("冷蔵庫");
+    }
+
+    // selectを変更するとき
+    const updateFood = (id:number, field:string, value:string) => {
+        setFoods(
+            foods.map((food)=>food.id === id ? { ...food, [field]: value } : food
+            )
+        );
+    };
+
     return(
         <div className="min-h-screen flex flex-col">
             <header 
@@ -54,11 +107,17 @@ export default function NewFoodPage () {
                                     <input 
                                     type="text" 
                                     placeholder="食材名"
-                                    className="w-full border rounded px-2 py-1 focus:outline-none"/>
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                                    value={name}
+                                    onChange={(e) =>setName(e.target.value)}
+                                    />
                                 </td>
                                 <td className="border-r px-4 py-2">
-                                    <select className="w-full border rounded px-2 py-1 focus:outline-none">
-                                        <option value="1" selected>1</option>
+                                    <select 
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                                    value={quantity}
+                                    onChange={(e)=>setQuantity(e.target.value)}>
+                                        <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -66,10 +125,13 @@ export default function NewFoodPage () {
                                     </select>
                                 </td>
                                 <td className="border-r px-4 py-2">
-                                    <select className="w-full border rounded px-2 py-1 focus:outline-none">
+                                    <select 
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                                    value={expiry}
+                                    onChange={(e)=>setExpiry(e.target.value)}>
                                         <option value="1日">1日</option>
                                         <option value="3日">3日</option>
-                                        <option value="7日" selected>7日</option>
+                                        <option value="7日">7日</option>
                                         <option value="2週間">2週間</option>
                                         <option value="1か月">1か月</option>
                                         <option value="3か月">3か月</option>
@@ -78,8 +140,11 @@ export default function NewFoodPage () {
                                     </select>
                                 </td>
                                 <td className="border-r px-4 py-2">
-                                    <select className="w-full border rounded px-2 py-1 focus:outline-none">
-                                        <option value="冷蔵庫" selected>冷蔵庫</option>
+                                    <select 
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                                    value={category}
+                                    onChange={(e)=>setCategory(e.target.value)}>
+                                        <option value="冷蔵庫">冷蔵庫</option>
                                         <option value="冷凍庫">冷凍庫</option>
                                         <option value="野菜室">野菜室</option>
                                         <option value="パントリー">パントリー</option>
@@ -87,18 +152,78 @@ export default function NewFoodPage () {
                                 </td>
                                 <td className="px-2 py-2 text-center">
                                     <button
-                                    className="text-center bg-gray-300 px-2 py-1 rounded-md">削除</button>
+                                    className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                    onClick={deleteInput}>リセット</button>
                                 </td>
                             </tr>
+                            {foods.map((food)=>(
+                                <tr key={food.id}>
+                                    <td className="border-r px-4 py-2">
+                                        <input
+                                            type="text"
+                                            value={food.name}
+                                            placeholder="食材名"
+                                            className="w-full border rounded px-2 py-1 focus:outline-none"
+                                            onChange={(e) => updateFood(food.id, "name", e.target.value)}
+                                            />
+                                    </td>
+                                    <td className="border-r px-4 py-2">
+                                        <select 
+                                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                                        value={food.quantity}
+                                        onChange={(e) => updateFood(food.id, "quantity", e.target.value)}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </td>
+                                    <td className="border-r px-4 py-2">
+                                        <select 
+                                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                                        value={food.expiry}
+                                        onChange={(e) => updateFood(food.id, "expiry", e.target.value)}>
+                                            <option value="1日">1日</option>
+                                            <option value="3日">3日</option>
+                                            <option value="7日">7日</option>
+                                            <option value="2週間">2週間</option>
+                                            <option value="1か月">1か月</option>
+                                            <option value="3か月">3か月</option>
+                                            <option value="6か月">6か月</option>
+                                            <option value="詳細設定">詳細設定</option>
+                                        </select>
+                                    </td>
+                                    <td className="border-r px-4 py-2">
+                                        <select 
+                                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                                        value={food.category}
+                                        onChange={(e) => updateFood(food.id, "category", e.target.value)}>
+                                            <option value="冷蔵庫">冷蔵庫</option>
+                                            <option value="冷凍庫">冷凍庫</option>
+                                            <option value="野菜室">野菜室</option>
+                                            <option value="パントリー">パントリー</option>
+                                        </select>
+                                    </td>
+                                    <td className="px-2 py-2 text-center">
+                                        <button
+                                        className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                        onClick={()=>deleteFood(food.id)}
+                                        >削除</button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
                 <div className="flex justify-center mt-4">
                     <button 
-                    className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg"
+                    className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
+                    onClick={handleAddFood}
                     >+ 追加</button>
+                    {/* ↓ supabaseと連携するときに実装する */}
                     <button 
-                    className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 w-32 text-lg"
+                    className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 w-32 text-lg hover:bg-blue-400"
                     >登録</button>
                 </div>
             </main>

@@ -1,40 +1,72 @@
+"use client";
+
+import Link from "next/link";
+
 export default function Register () {
     return(
-        <div>
-            <header>
-                <h1>食材ストック管理</h1>
+        <div className="min-h-screen flex flex-col">
+            <header 
+            className="flex justify-between items-center p-4 bg-lime-500">
+                <h1 className="text-4xl font-bold  text-gray-200">食材ストック管理</h1>
                 <nav>
-                    <ul className="flex">
-                        <li>ホーム</li>
-                        <li>食材一覧</li>
-                        <li>登録</li>
-                        <li>購入リスト</li>
-                        <li>ユーザー設定</li>
+                    <ul className="flex text-lg font-bold ">
+                        <li className="mr-3">
+                            <button
+                            className="text-center bg-gray-200 text-lg rounded-md px-4 py-2 hover:bg-lime-200 ">
+                                <Link href="/signin">ログイン画面</Link>
+                            </button>
+                        </li>
                     </ul>
                 </nav>
-
             </header>
+
             <div>
-                <h2>新規登録フォーム</h2>
-                <ul>
-                    <li>
-                        <input type="text" placeholder="氏名" />
-                    </li>
-                    <li>
-                        <input type="text" placeholder="メールアドレス" />
-                    </li>
-                    <li>
-                        <input type="text" placeholder="ID" />
-                        <p>半角英数字4文字以上</p>
-                    </li>
-                    <li>
-                        <input type="text" placeholder="パスワード" />
-                        <p>半角英数字8文字以上</p>
-                    </li>
-                    
-                </ul>
-                <button>登録</button>
+                <main className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
+                    <h2 className="text-2xl font-bold mb-8 text-center">新規登録フォーム</h2>
+                    <ul className="max-w-md mx-auto space-y-6">
+                        <li>
+                            <h3 className="mb-1 font-semibold">氏名</h3>
+                            <input 
+                            type="text" 
+                            placeholder="氏名" 
+                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
+                        </li>
+                        <li>
+                            <h3 className="mb-1 font-semibold">メールアドレス</h3>
+                            <input 
+                            type="text" 
+                            placeholder="メールアドレス" 
+                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
+                        </li>
+                        <li>
+                            <h3 className="mb-1 font-semibold focus:outline-none focus:ring-0">ID</h3>
+                            <input 
+                            type="text" 
+                            placeholder="ID" 
+                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
+                            <p>(半角英数字4文字以上)</p>
+                        </li>
+                        <li>
+                            <h3 className="mb-1 font-semibold">パスワード</h3>
+                            <input 
+                            type="text" 
+                            placeholder="パスワード" 
+                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
+                            <p>(半角英数字8文字以上)</p>
+                        </li>
+                        
+                    </ul>
+                    <div className="flex justify-center mt-8">
+                        <button
+                        className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400">
+                            登録
+                        </button>
+                    </div>
+                </main>
             </div>
+            <footer className="bg-gray-100 border-t mt-10"> 
+                <div className="max-w-[1200px] mx-auto py-4 text-center text-sm text-gray-500">© 2026 Food Stock App</div>
+            </footer>
         </div>
     )
 }

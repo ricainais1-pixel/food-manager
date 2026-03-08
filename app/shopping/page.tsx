@@ -3,12 +3,67 @@
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Shopping () {
-    const [isAdding, setIsAdding] = useState(false);
+type Item = {
+    id: number;
+    name:string;
+    count:number;
+};
 
+export default function Shopping () {
+    const [draftItems, setDraftItems] = useState<Item[]>([]);
+    const [items,setItems] = useState <Item[]> ([
+        {id:1, name: "卵",count: 1}
+    ]);
+
+    // 追加ボタン
     const handleAdd = () => {
-        setIsAdding(true);
-        console.log("リスト追加");
+        const newItem = {
+            id: Date.now(),
+            name: "",
+            count: 1
+        };
+        setDraftItems([...draftItems, newItem]);    
+    };
+
+    // 保存ボタン
+    const handleSave = (draft: Item) => {
+        setItems([...items, draft]);
+
+        setDraftItems(
+            draftItems.filter((item) => item.id !== draft.id)
+        );
+    }
+
+    // 追加フォームで名前入力
+    const handleDraftNameChange = (id: number, value: string) => {
+        setDraftItems(
+            draftItems.map((item) =>
+            item.id === id ? { ...item, name: value } : item
+            )
+        );
+    };
+
+    // 個数変更
+    const handleDraftCountChange = (id: number, value: number) => {
+        setDraftItems(
+            draftItems.map((item) =>
+            item.id === id ? { ...item, count: value } : item
+            )
+        );
+    };
+
+    // 保存済みの削除ボタン
+    const handleDelete = (id: number) => {
+        setItems(
+            items.filter((item) => item.id !== id)
+        );
+    };
+
+    // 追加フォームの削除ボタン
+    const handleDraftDelete = (id: number) => {
+        setDraftItems(
+            draftItems.filter((item) => item.id !== id)
+        );
     };
 
     return(
@@ -55,33 +110,56 @@ export default function Shopping () {
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td className="border-r px-4 py-2">卵</td>
-                                <td className="border-r px-4 py-2">
-                                    <select
-                                    className="w-full border rounded px-2 py-1 focus:outline-none">
-                                        <option value="1" selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </td>
-                                <td className="px-2 py-2 text-center">
-                                    <button
-                                    className="text-center bg-gray-300 px-2 py-1 rounded-md">削除</button>
-                                </td>
-                            </tr>
-                            {isAdding ? (
-                                <tr>
+                            {items.map((item)=>(
+                                <tr key={item.id}>
+                                    <td
+                                    className="border-r px-4 py-2">{item.name}</td>
+                                    <td
+                                    className="border-r px-4 py-2">
+                                        <select
+                                        value={item.count}
+                                        className="w-full border rounded px-2 py-1 focus:outline-none">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </td>
+                                    <td className="px-2 py-2 text-center">
+                                        <div className="flex justify-center gap-4">
+                                            <button
+                                            className="text-center bg-blue-300 px-2 py-1 rounded-md hover:bg-blue-400">
+                                                編集
+                                            </button>
+                                            <button
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                            onClick={() => handleDelete(item.id)}
+                                            >
+                                                削除
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            
+                            {draftItems.map((draft) => (
+                                <tr key={draft.id}>
                                     <td className="border-r px-4 py-2">
                                         <input 
                                         placeholder="食材名" 
+                                        value={draft.name}
+                                        onChange={(e) =>
+                                            handleDraftNameChange(draft.id, e.target.value)}
                                         className="w-full border rounded px-2 py-1"/>
                                     </td>
                                     <td className="border-r px-4 py-2">
                                         <select
-                                        className="w-full border rounded px-2 py-1 focus:outline-none">
+                                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                                        value={draft.count}
+                                        onChange={(e) =>
+                                            handleDraftCountChange(draft.id, Number(e.target.value))
+                                        }>
                                             <option value="1" selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -90,20 +168,30 @@ export default function Shopping () {
                                         </select>
                                     </td>
                                     <td className="px-2 py-2 text-center">
-                                        <button
-                                        className="text-center bg-blue-300 px-2 py-1 rounded-md">保存</button>
+                                        <div className="flex justify-center gap-4">
+                                            <button
+                                            className="text-center bg-red-200 px-2 py-1 rounded-md hover:bg-red-400"
+                                            onClick={()=>handleSave(draft)}>
+                                                保存
+                                            </button>
+                                            <button
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                            onClick={()=>handleDraftDelete(draft.id)}>
+                                                削除
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
-                            ):null}
+                            ))}
                         </tbody>
                     </table>
                     <div className="flex justify-center mt-4">
                         <button 
-                        className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg"
+                        className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
                         onClick={handleAdd}
                         >+ 追加</button>
                         <button 
-                        className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 text-lg whitespace-nowrap"
+                        className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 text-lg whitespace-nowrap hover:bg-blue-400"
                         >在庫へ追加</button>
                     </div>
                 </div>

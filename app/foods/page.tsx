@@ -96,7 +96,7 @@ export default function Food () {
                         </select>
                         <Link 
                         href="/newfoods"
-                        className="bg-blue-200 px-4 py-2 rounded-md" >
+                        className="bg-blue-200 px-4 py-2 rounded-md hover:bg-blue-400" >
                             食材追加
                         </Link>
                     </div>
@@ -127,10 +127,10 @@ export default function Food () {
                                         <div className="flex justify-center gap-2">
                                             <button 
                                             onClick={() => handleEdit(food)}
-                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md">
+                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md hover:bg-blue-400">
                                                 編集</button>
                                             <button 
-                                            className="text-center bg-gray-300 px-2 py-1 rounded-md">
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400">
                                                 削除</button>
                                         </div>
                                     </td>
