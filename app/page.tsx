@@ -1,24 +1,35 @@
-// import {createServerClient} from "@supabase/auth-helpers-nextjs";
-// import { cookies } from "next/headers";
-// import type { Database } from "../lib/database.types";
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
+import type { Database } from "../lib/database.types"
 
-// //メインページ
 export default async function Page() {
 
-//   const supabase = createServerClient<Database>({ cookies });
+   const cookieStore = await cookies()
 
-// //セッションの取得
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession();
+   const supabase = createServerClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+         cookies: {
+         getAll() {
+            return cookieStore.getAll()
+         },
+         setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+               cookieStore.set(name, value, options)
+            )
+         }
+         }
+      }
+   )
 
-
-
+   const {
+      data: { session },
+   } = await supabase.auth.getSession()
 
    return (
-    null
-//     <div>
-//       <h1 className="text-4xl font-bold">ホーム</h1>
-//     </div>
-   );
- }
+      <div>
+         {session ? <div>ログイン済み</div> : <div>未ログイン</div>}
+      </div>
+   )
+}

@@ -49,11 +49,6 @@ export default function User () {
                         <div className="max-w-[500px] ml-10 mb-10">
                             <form>
                                 <div>
-                                    <span className="w-40 font-bold text-gray-600">ID</span>
-                                    <input className="border rounded px-2 py-1 w-full focus:outline-none" placeholder="IDを入力"/>
-                                    <p>(半角英数字4文字以上)</p>
-                                </div>
-                                <div>
                                     <span className="w-40 font-bold text-gray-600">氏名</span>
                                     <input className="border rounded px-2 py-1 w-full focus:outline-none" placeholder="氏名を入力" />
                                 </div>
@@ -76,10 +71,6 @@ export default function User () {
                     ) : (
                     <div className="max-w-[500px] ml-10 mb-10">
                         <ul className="space-y-5 text-lg">
-                            <li className="flex border-b pb-2">
-                                <span className="w-40 font-bold text-gray-600">ID</span>
-                                <p>A123</p>
-                            </li>
                             <li className="flex border-b pb-2">
                                 <span className="w-40 font-bold text-gray-600">氏名</span>
                                 <p>xx xx</p>

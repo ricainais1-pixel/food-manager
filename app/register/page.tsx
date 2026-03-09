@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 
+
 export default function Register () {
     return(
         <div className="min-h-screen flex flex-col">
-            <header 
+            {/* <header 
             className="flex justify-between items-center p-4 bg-lime-500">
                 <h1 className="text-4xl font-bold  text-gray-200">食材ストック管理</h1>
                 <nav>
@@ -18,44 +19,36 @@ export default function Register () {
                         </li>
                     </ul>
                 </nav>
-            </header>
+            </header> */}
 
             <div>
                 <main className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
-                    <h2 className="text-2xl font-bold mb-8 text-center">新規登録フォーム</h2>
-                    <ul className="max-w-md mx-auto space-y-6">
-                        <li>
+                    <h1 className="text-2xl font-bold mb-8 text-center">新規登録</h1>
+                    <form className="max-w-md mx-auto space-y-6">
+                        <div>
                             <h3 className="mb-1 font-semibold">氏名</h3>
                             <input 
                             type="text" 
                             placeholder="氏名" 
                             className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <h3 className="mb-1 font-semibold">メールアドレス</h3>
                             <input 
                             type="text" 
                             placeholder="メールアドレス" 
                             className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
-                        </li>
-                        <li>
-                            <h3 className="mb-1 font-semibold focus:outline-none focus:ring-0">ID</h3>
-                            <input 
-                            type="text" 
-                            placeholder="ID" 
-                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
-                            <p>(半角英数字4文字以上)</p>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <h3 className="mb-1 font-semibold">パスワード</h3>
                             <input 
                             type="text" 
                             placeholder="パスワード" 
                             className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"/>
                             <p>(半角英数字8文字以上)</p>
-                        </li>
+                        </div>
                         
-                    </ul>
+                    </form>
                     <div className="flex justify-center mt-8">
                         <button
                         className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400">

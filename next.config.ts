@@ -1,10 +1,11 @@
-// import type { NextConfig } from "next";
+/** @type{import('next').NextConfig} */
+const nextConfig = {
+    experimental:{
+        serverActions:true,
+    },
+    images:{
+        domains:['Food-App.supabase.co'],
+    },
+}
 
-// const nextConfig: NextConfig = {
-//   /* config options here */
-//   experimental: {
-//     serverActions: true,
-//   },
-// };
-
-// export default nextConfig;
+module.exports = nextConfig
