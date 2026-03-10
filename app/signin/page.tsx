@@ -33,7 +33,7 @@ const SigninPage = async () => {
         redirect("/"); 
     }
 
-  return <Login />; 
+    return <Login />; 
 };
 
 export default SigninPage;
