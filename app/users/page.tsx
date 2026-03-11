@@ -13,7 +13,7 @@ export default function User () {
 
     return(
         <div className="min-h-screen flex flex-col">
-            <header 
+            {/* <header 
             className="sticky top-0 bg-lime-300 border-b z-50">
                 <div
                 className="flex items-center justify-between px-8 py-5">
@@ -40,7 +40,7 @@ export default function User () {
                     </nav>
                     <button className="md:hidden text-2xl font-bold">☰</button>
                 </div>
-            </header>
+            </header> */}
 
             <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
                 <div>

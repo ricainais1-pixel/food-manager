@@ -76,7 +76,8 @@ const Navigation = ({
                                 <Link href="/signin">ログイン</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/signup">新規登録</Link>
+                                <Link href="/register"
+                                onClick={() => console.log('新規登録リンクがクリックされました')}>新規登録</Link>
                             </li>
                         </ul>
                     )}
