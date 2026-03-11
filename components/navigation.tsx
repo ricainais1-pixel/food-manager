@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import useStore from "@/store"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import type { Session } from "@supabase/supabase-js"
 import type { Database } from "@/lib/database.types"
 type ProfileType = Database['public']['Tables']['profiles']['Row']
@@ -17,6 +17,7 @@ const Navigation = ({
     profile: ProfileType | null
 }) => {
     const { setUser } = useStore()
+    const [isOpen, setIsOpen] = useState(false)
 
     const router = useRouter()
 
@@ -28,6 +29,10 @@ const Navigation = ({
     const handleLogout = async () => {
         await supabase.auth.signOut()
         router.refresh()
+    }
+    
+    const toggleMenu = () => {
+        setIsOpen(!isOpen)
     }
 
     useEffect(() => {
@@ -83,8 +88,57 @@ const Navigation = ({
                     )}
                 </nav>
 
-                <button className="md:hidden text-2xl font-bold">☰</button>
+                <button 
+                    onClick={toggleMenu}
+                    className="md:hidden text-2xl font-bold hover:text-lime-800"
+                >
+                    {isOpen ? '✕' : '☰'}
+                </button>
             </div>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+                <div className="md:hidden bg-lime-300 border-t px-8 py-4">
+                    {session ? (
+                        <ul className="flex flex-col gap-4 text-lg font-medium">
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/home" onClick={() => setIsOpen(false)}>ホーム</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/foods" onClick={() => setIsOpen(false)}>食材一覧</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/newfoods" onClick={() => setIsOpen(false)}>食材登録</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/shopping" onClick={() => setIsOpen(false)}>購入リスト</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/users" onClick={() => setIsOpen(false)}>ユーザー設定</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <button onClick={() => {
+                                    handleLogout()
+                                    setIsOpen(false)
+                                }}>ログアウト</button>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="flex flex-col gap-4 text-lg font-medium">
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/signin" onClick={() => setIsOpen(false)}>ログイン</Link>
+                            </li>
+                            <li className="hover:text-lime-800 cursor-pointer">
+                                <Link href="/register"
+                                onClick={() => {
+                                    console.log('新規登録リンクがクリックされました')
+                                    setIsOpen(false)
+                                }}>新規登録</Link>
+                            </li>
+                        </ul>
+                    )}
+                </div>
+            )}
         </header>
     )
 }

@@ -164,12 +164,15 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <button
-                    className="bg-lime-400 hover:bg-lime-500 px-6 py-2 rounded"
-                    disabled={loading}
-                    >
-                    保存
-                </button>
+                <div>
+                    <button
+                        className="bg-lime-400 hover:bg-lime-500 px-6 py-2 rounded"
+                        disabled={loading}
+                        >
+                        保存
+                    </button>
+                    <button>戻る</button>
+                </div>
             </form>
             {message && (<div className="text-center mt-4 text-green-600">{message}</div>
 )}
