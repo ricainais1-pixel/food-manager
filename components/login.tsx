@@ -1,12 +1,12 @@
 "use client";
 // ログイン画面の実装
 import { useState } from "react";
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from "next/link";
-import Loading from "../../loading";
+import Loading from "../app/loading";
 import * as z from 'zod'
 
 // 入力データの検証ツールを定義

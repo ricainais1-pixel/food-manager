@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import {useForm,SubmitHandler} from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link"
-import Loading from "../loading"
+import Loading from "../app/loading"
 import * as z from 'zod'
 import type { Database } from "@/lib/database.types"
 type Schema = z.infer<typeof schema>
@@ -144,7 +144,7 @@ const Signup = () =>{
             {message && <div className="mt-4 text-red-500">{message}</div>}
 
             <div className="mt-4">
-                <Link href="/signup" className="text-gray-500 font-bold">
+                <Link href="/signin" className="text-gray-500 font-bold">
                     ログインはこちら
                 </Link>
             </div>

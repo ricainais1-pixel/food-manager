@@ -1,22 +1,19 @@
 // app/signin/page.tsx
-import Login from "./components/login";
+import Login from "../../components/login";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Database } from "@/lib/database.types";
 
 const SigninPage = async () => {
-  const cookieStore = cookies(); // ReadonlyRequestCookies
+  const cookieStore = await cookies(); // ReadonlyRequestCookies
 
   // Supabase が要求する形式に変換
     const cookieMethods = {
-        getAll: () =>
-        cookieStore.getAll().map((c) => ({
-            name: c.name,
-            value: c.value ?? "", 
-        })),
-        setAll: () => {
+        getAll() {
+            return cookieStore.getAll();
         },
+        setAll() {},
     };
 
     const supabase = createServerClient<Database>(
@@ -29,9 +26,9 @@ const SigninPage = async () => {
 
     const { data: { session } } = await supabase.auth.getSession();
 
-    if (session) {
-        redirect("/"); 
-    }
+    // if (session) {
+    //     redirect("/"); 
+    // }
 
     return <Login />; 
 };
