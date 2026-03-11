@@ -1,15 +1,40 @@
 "use client";
 
+import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Database } from "@/lib/database.types";
 
 export default function User () {
-    const [isEditing,setIsEditing] = useState<boolean>(false);
 
-    // 編集画面へ切り替え
-    const handleToggleEdit = ():void => {
-        setIsEditing(true);
-    }
+    const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null);
+
+    useEffect(() => {
+        const supabase = createBrowserClient<Database>(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+
+        const fetchUser = async () => {
+            const {data:{user},error}= await supabase.auth.getUser();
+            if (error) return console.error(error);
+            if (!user) return;
+
+            const { data, error: profileError } = await supabase
+            .from("profiles")
+            .select("name,email")
+            .eq("id", user.id)
+            .single();
+
+            if (profileError) return console.error(profileError);
+
+            setUserInfo({
+                name: data.name ?? "",
+                email: data.email ?? ""
+            });
+        };
+        fetchUser();
+    }, []);
 
     return(
         <div className="min-h-screen flex flex-col">
@@ -45,39 +70,15 @@ export default function User () {
             <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
                 <div>
                     <h2 className="text-2xl font-bold mb-10">👤ユーザー情報</h2>
-                    {isEditing ? (
-                        <div className="max-w-[500px] ml-10 mb-10">
-                            <form>
-                                <div>
-                                    <span className="w-40 font-bold text-gray-600">氏名</span>
-                                    <input className="border rounded px-2 py-1 w-full focus:outline-none" placeholder="氏名を入力" />
-                                </div>
-                                <div>
-                                    <span className="w-40 font-bold text-gray-600">メールアドレス</span>
-                                    <input className="border rounded px-2 py-1 w-full focus:outline-none" placeholder="メールアドレスを入力"/>
-                                </div>
-                                <div>
-                                    <span className="w-40 font-bold text-gray-600">パスワード</span>
-                                    <input className="border rounded px-2 py-1 w-full focus:outline-none" placeholder="パスワードを入力"/>
-                                    <p>(半角英数字8文字以上)</p>
-                                </div>
-                                <div className="flex justify-center mt-6">
-                                    <button className="bg-red-200 hover:bg-red-400 px-8 py-3 rounded-md text-lg">
-                                        保存
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    ) : (
                     <div className="max-w-[500px] ml-10 mb-10">
                         <ul className="space-y-5 text-lg">
                             <li className="flex border-b pb-2">
                                 <span className="w-40 font-bold text-gray-600">氏名</span>
-                                <p>xx xx</p>
+                                <p>{userInfo?.name ?? "読み込み中..."}</p>
                             </li>
                             <li className="flex border-b pb-2">
                                 <span className="w-40 font-bold text-gray-600">メールアドレス</span>
-                                <p>yyyy@zzzz.com</p>
+                                <p>{userInfo?.email ?? "読み込み中..."}</p>
                             </li>
                             <li className="flex border-b pb-2">
                                 <span className="w-40 font-bold text-gray-600">パスワード</span>
@@ -85,14 +86,14 @@ export default function User () {
                             </li>
                         </ul>
                         <div className="flex justify-center mt-4">
-                            <button 
-                            className="text-center bg-blue-200 px-8 py-3 text-lg rounded-md mt-8 hover:bg-blue-400"
-                            onClick={handleToggleEdit}>
-                                編集
-                            </button>
+                            <Link href="/users/edit">
+                                <button 
+                                className="text-center bg-blue-200 px-8 py-3 text-lg rounded-md mt-8 hover:bg-blue-400">
+                                    編集
+                                </button>
+                            </Link>
                         </div>
                     </div>
-                    )}
                 </div>
             </main>
             <footer className="bg-gray-100 border-t mt-10"> 

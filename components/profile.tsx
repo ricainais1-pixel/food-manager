@@ -1,9 +1,8 @@
 'use client'
 
 // ユーザー情報の変更
-import { useState,useCallback,useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
 import {useForm,SubmitHandler} from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from 'zod'
@@ -21,16 +20,21 @@ const schema = z.object({
 
 // プロフィール
 const Profile = () => {
-    const router = useRouter()
     const supabase = createBrowserClient<Database>(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
     const [loading,setLoading] = useState(false)
-    const [avatar,setAvatar] = useState<File | null>(null)
     const [message,setMessage] = useState('')
-    const [fileMessage,setFileMessage] = useState('')
     const {user} =useStore()
+
+    // フォーム用の state を作る
+    const [initialValues, setInitialValues] = useState<Schema>({
+        name: "",
+        introduce: "",
+        email: "",
+        password: ""
+    });
 
     const {
         register,
@@ -87,9 +91,33 @@ const Profile = () => {
         }
     }
 
+    useEffect(() => {
+    const fetchUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+        .from("profiles")
+        .select("name,introduce,email")
+        .eq("id", user.id)
+        .single();
+
+        if (error) return console.error(error);
+
+        setInitialValues({
+        name: data.name ?? "",
+        introduce: data.introduce ?? "",
+        email: data.email ?? "",
+        password: ""
+        });
+    };
+
+    fetchUser();
+    }, [supabase]);
+
     return (
         <div>
-            <div className="text-center font-bold text-xl mb-10">プロフィール</div>
+            <div className="text-center font-bold text-xl mb-10">ユーザー情報編集画面</div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* 名前 */}
                 <div className="mb-5">
