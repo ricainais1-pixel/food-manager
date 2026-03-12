@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-//import { supabase } from "../../lib/supabase";
-import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+
+const supabase = createClient();
 
 type Food = {
     id: number;
@@ -10,39 +12,16 @@ type Food = {
     個数: number;
     期限: string;
     カテゴリー: string;
+    登録日: string;
 };
 
 export default function Food () {
     const [editingFood, setEditingFood] = useState<Food | null>(null);
-    const foods : Food[] = [
-        {
-            id: 1,
-            食材名: "卵",
-            個数: 6,
-            期限: "7日",
-            カテゴリー: "冷蔵庫"
-        },
-        {
-            id: 2,
-            食材名: "牛乳",
-            個数: 1,
-            期限: "7日",
-            カテゴリー: "冷蔵庫"
-        }
-    ];
+    const [foods, setFoods] = useState<Food[]>([]);
     
-
-    // const { data } =await supabase
-    // .from("Foods")
-    // .select("*");
-
-    // console.log(data);
-
-    // const foods = (data ?? []) as Food[];
-
     //編集ボタン
     const handleEdit = (food: Food ) => {
-        setEditingFood(food) ;
+        setEditingFood({ ...food });
         console.log("編集開始");
     };
 
@@ -50,6 +29,82 @@ export default function Food () {
     const handleBack = () => {
         setEditingFood(null);
     }
+
+    // 削除ボタン
+    const handleDelete = async (id: number) => {
+        const { error } = await supabase
+            .from("Foods")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            console.log(error);
+        } else {
+            setFoods(foods.filter((food) => food.id !== id));
+        }
+    };
+
+    // 編集保存ボタン
+    const handleSave = async () => {
+        
+        const { error } = await supabase
+            .from("Foods")
+            .update({
+            食材名: editingFood?.食材名,
+            個数: editingFood?.個数,
+            期限: editingFood?.期限,
+            カテゴリー: editingFood?.カテゴリー,
+            })
+            .eq("id", editingFood?.id);
+
+        if (error) {
+            console.log(error);
+        } else {
+            setEditingFood(null);
+
+        const { data } = await supabase
+            .from("Foods")
+            .select("*")
+            .order("期限", { ascending: true });
+
+            setFoods(data as Food[]);
+        }
+    };
+
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEditingFood({
+            ...editingFood!,
+            食材名: e.target.value,
+        });
+    };
+
+    
+    // 残日数計算
+    const getRemainingDays = (期限日: string) => {
+        const today = new Date();
+        const expire = new Date(期限日);
+        const diffDays = Math.ceil((expire.getTime() - today.getTime()) / (1000*60*60*24));
+        if (diffDays <= 0) return `期限切れ (${期限日})`;
+        return `残${diffDays}日 (${期限日})`;
+    };
+
+    useEffect(() => {
+        const getFoods = async () => {
+            const { data, error } = await supabase
+            .from("Foods")
+            .select("*")
+            .order("期限", { ascending: true });
+
+            if (error) {
+            console.log(error);
+            } else {
+            setFoods(data as Food[]);
+            }
+        };
+
+        getFoods();
+    }, []);
+
 
     return(
         <div className="min-h-screen flex flex-col">
@@ -121,7 +176,7 @@ export default function Food () {
                                 <tr key={food.id}>
                                     <td className="border-r px-4 py-2">{food.食材名}</td>
                                     <td className="border-r px-4 py-2">{food.個数}</td>
-                                    <td className="border-r px-4 py-2">{food.期限}</td>
+                                    <td className="border-r px-4 py-2">{getRemainingDays(food.期限)}</td>
                                     <td className="border-r px-4 py-2">{food.カテゴリー}</td>
                                     <td className="px-4 py-2 space-x-2 ">
                                         <div className="flex justify-center gap-2">
@@ -130,8 +185,11 @@ export default function Food () {
                                             className="mr-4 bg-blue-200 px-2 py-1 rounded-md hover:bg-blue-400">
                                                 編集</button>
                                             <button 
-                                            className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400">
-                                                削除</button>
+                                            className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                            onClick={() => handleDelete(food.id)}
+                                            >
+                                                削除
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -157,10 +215,20 @@ export default function Food () {
                                     <td className="border-r px-4 py-2">
                                         <input 
                                         type="text"
-                                        defaultValue={editingFood?.食材名}/>
+                                        value={editingFood?.食材名 ?? ""}
+                                        onChange={handleNameChange}
+                                        />
                                     </td>
                                     <td className="border-r px-4 py-2">
-                                        <select>
+                                        <select
+                                            value={editingFood?.個数}
+                                            onChange={(e)=>
+                                            setEditingFood({
+                                            ...editingFood!,
+                                            個数:Number(e.target.value)
+                                            })
+                                            }
+                                        >
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -169,19 +237,28 @@ export default function Food () {
                                         </select>
                                     </td>
                                     <td className="border-r px-4 py-2">
-                                        <select>
-                                            <option value="1日">1日</option>
-                                            <option value="3日">3日</option>
-                                            <option value="7日">7日</option>
-                                            <option value="2週間">2週間</option>
-                                            <option value="1か月">1か月</option>
-                                            <option value="3か月">3か月</option>
-                                            <option value="6か月">6か月</option>
-                                            <option value="詳細設定">詳細設定</option>
-                                        </select>
+                                        <input
+                                            type="date"
+                                            value={editingFood?.期限 ?? ""}
+                                            onChange={(e) =>
+                                                setEditingFood({
+                                                    ...editingFood!,
+                                                    期限: e.target.value,
+                                                })
+                                            }
+                                            className="border rounded px-2 py-1"
+                                        />
                                     </td>
                                     <td className="border-r px-4 py-2">
-                                        <select>
+                                        <select
+                                            value={editingFood?.カテゴリー}
+                                            onChange={(e)=>
+                                            setEditingFood({
+                                            ...editingFood!,
+                                            カテゴリー:e.target.value
+                                            })
+                                            }
+                                        >
                                             <option value="冷蔵庫">冷蔵庫</option>
                                             <option value="冷凍庫">冷凍庫</option>
                                             <option value="野菜室">野菜室</option>
@@ -191,7 +268,11 @@ export default function Food () {
                                     <td className="border-r px-4 py-2">
                                         <div className="flex justify-center gap-2">
                                             <button
-                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md">保存</button>
+                                            className="mr-4 bg-blue-200 px-2 py-1 rounded-md"
+                                            onClick={handleSave}
+                                            >
+                                                保存
+                                            </button>
                                             <button 
                                             onClick={handleBack}
                                             className="text-center bg-gray-300 px-2 py-1 rounded-md">戻る</button>
