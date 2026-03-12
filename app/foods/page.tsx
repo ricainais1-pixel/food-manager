@@ -8,11 +8,11 @@ const supabase = createClient();
 
 type Food = {
     id: number;
-    食材名: string;
-    個数: number;
-    期限: string;
-    カテゴリー: string;
-    登録日: string;
+    name: string;
+    quantity: string;
+    expiry: string;
+    category: string;
+    created_at?: string;
 };
 
 export default function Food () {
@@ -50,10 +50,10 @@ export default function Food () {
         const { error } = await supabase
             .from("Foods")
             .update({
-            食材名: editingFood?.食材名,
-            個数: editingFood?.個数,
-            期限: editingFood?.期限,
-            カテゴリー: editingFood?.カテゴリー,
+            name: editingFood?.name,
+            quantity: editingFood?.quantity,
+            expiry: editingFood?.expiry,
+            category: editingFood?.category,
             })
             .eq("id", editingFood?.id);
 
@@ -65,7 +65,7 @@ export default function Food () {
         const { data } = await supabase
             .from("Foods")
             .select("*")
-            .order("期限", { ascending: true });
+            .order("expiry", { ascending: true });
 
             setFoods(data as Food[]);
         }
@@ -74,18 +74,18 @@ export default function Food () {
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditingFood({
             ...editingFood!,
-            食材名: e.target.value,
+            name: e.target.value,
         });
     };
 
     
     // 残日数計算
-    const getRemainingDays = (期限日: string) => {
+    const getRemainingDays = (expiry日: string) => {
         const today = new Date();
-        const expire = new Date(期限日);
+        const expire = new Date(expiry日);
         const diffDays = Math.ceil((expire.getTime() - today.getTime()) / (1000*60*60*24));
-        if (diffDays <= 0) return `期限切れ (${期限日})`;
-        return `残${diffDays}日 (${期限日})`;
+        if (diffDays <= 0) return `expiry切れ (${expiry日})`;
+        return `残${diffDays}日 (${expiry日})`;
     };
 
     useEffect(() => {
@@ -93,7 +93,7 @@ export default function Food () {
             const { data, error } = await supabase
             .from("Foods")
             .select("*")
-            .order("期限", { ascending: true });
+            .order("expiry", { ascending: true });
 
             if (error) {
             console.log(error);
@@ -164,20 +164,20 @@ export default function Food () {
                         className="w-full border-2 border-gray-400 table-fixed mb-10">
                             <thead className="border-b-2">
                                 <tr>
-                                    <th className="border-r px-4 py-2">食材名</th>
-                                    <th className="border-r px-4 py-2">個数</th>
-                                    <th className="border-r px-4 py-2">期限</th>
-                                    <th className="border-r px-4 py-2">カテゴリー</th>
+                                    <th className="border-r px-4 py-2">name</th>
+                                    <th className="border-r px-4 py-2">quantity</th>
+                                    <th className="border-r px-4 py-2">expiry</th>
+                                    <th className="border-r px-4 py-2">category</th>
                                     {/* <th className="px-4 py-2">操作</th> */}
                                 </tr>
                             </thead>
                             <tbody>
                                 {foods.map((food) => (
                                 <tr key={food.id}>
-                                    <td className="border-r px-4 py-2">{food.食材名}</td>
-                                    <td className="border-r px-4 py-2">{food.個数}</td>
-                                    <td className="border-r px-4 py-2">{getRemainingDays(food.期限)}</td>
-                                    <td className="border-r px-4 py-2">{food.カテゴリー}</td>
+                                    <td className="border-r px-4 py-2">{food.name}</td>
+                                    <td className="border-r px-4 py-2">{food.quantity}</td>
+                                    <td className="border-r px-4 py-2">{getRemainingDays(food.expiry)}</td>
+                                    <td className="border-r px-4 py-2">{food.category}</td>
                                     <td className="px-4 py-2 space-x-2 ">
                                         <div className="flex justify-center gap-2">
                                             <button 
@@ -203,10 +203,10 @@ export default function Food () {
                         className="mt-6 w-full border-2 border-gray-400 table-fixed mb-10">
                             <thead className="border-b-2">
                                 <tr>
-                                    <th className="border-r px-4 py-2">食材名</th>
-                                    <th className="border-r px-4 py-2">個数</th>
-                                    <th className="border-r px-4 py-2">期限</th>
-                                    <th className="border-r px-4 py-2">カテゴリー</th>
+                                    <th className="border-r px-4 py-2">name</th>
+                                    <th className="border-r px-4 py-2">quantity</th>
+                                    <th className="border-r px-4 py-2">expiry</th>
+                                    <th className="border-r px-4 py-2">category</th>
                                     {/* <th className="px-4 py-2">操作</th> */}
                                 </tr>
                             </thead>
@@ -215,17 +215,17 @@ export default function Food () {
                                     <td className="border-r px-4 py-2">
                                         <input 
                                         type="text"
-                                        value={editingFood?.食材名 ?? ""}
+                                        value={editingFood?.name ?? ""}
                                         onChange={handleNameChange}
                                         />
                                     </td>
                                     <td className="border-r px-4 py-2">
                                         <select
-                                            value={editingFood?.個数}
+                                            value={editingFood?.quantity}
                                             onChange={(e)=>
                                             setEditingFood({
                                             ...editingFood!,
-                                            個数:Number(e.target.value)
+                                            quantity:e.target.value
                                             })
                                             }
                                         >
@@ -239,11 +239,11 @@ export default function Food () {
                                     <td className="border-r px-4 py-2">
                                         <input
                                             type="date"
-                                            value={editingFood?.期限 ?? ""}
+                                            value={editingFood?.expiry ?? ""}
                                             onChange={(e) =>
                                                 setEditingFood({
                                                     ...editingFood!,
-                                                    期限: e.target.value,
+                                                    expiry: e.target.value,
                                                 })
                                             }
                                             className="border rounded px-2 py-1"
@@ -251,11 +251,11 @@ export default function Food () {
                                     </td>
                                     <td className="border-r px-4 py-2">
                                         <select
-                                            value={editingFood?.カテゴリー}
+                                            value={editingFood?.category}
                                             onChange={(e)=>
                                             setEditingFood({
                                             ...editingFood!,
-                                            カテゴリー:e.target.value
+                                            category:e.target.value
                                             })
                                             }
                                         >

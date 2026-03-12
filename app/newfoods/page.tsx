@@ -1,15 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 import Food from "../foods/page";
 
+const supabase = createClient();
+
+
 type Food = {
-    id:number;
+    id: number;
     name: string;
     quantity: string;
     expiry: string;
     category: string;
+    created_at?: string;
 };
 
 export default function NewFoodPage () {
@@ -17,43 +21,120 @@ export default function NewFoodPage () {
     const [foods,setFoods] = useState <Food[]> ([]);
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [expiry, setExpiry] = useState("");
+    const [expiry, setExpiry] = useState(new Date().toISOString().split("T")[0]);
     const [category, setCategory] = useState("");
+    const [fixedRow, setFixedRow] = useState({
+        name: "",
+        quantity: "1",
+        expiry: new Date().toISOString().split("T")[0],
+        category: "冷蔵庫",
+        isVisible: true
+    });
 
-    // 追加ボタン
+    // 固定行リセット
+    const deleteFixedRow = () => {
+        setFixedRow({ ...fixedRow, isVisible: false });
+    };
+
+    // +追加ボタン
     const handleAddFood = () => {
-        const newFood : Food = {
-            id:Date.now(),
-            name,
-            quantity, 
-            expiry, 
-            category
-        };
-        setFoods([...foods, newFood]);
-        setName("");
-        setQuantity("");
-        setExpiry("");
-        setCategory("");
-    }
+        setFoods([
+            ...foods,
+            {
+            id: -Date.now(), 
+            name: "",
+            quantity: "1",
+            expiry: new Date().toISOString().split("T")[0],
+            category: "冷蔵庫"
+            }
+        ]);
+    };
     // 削除ボタン
-    const deleteFood = (id:number) => {
-        setFoods(foods.filter((food) => food.id !== id))
-    }
+    const deleteFood = async (id: number) => {
+        if (id < 0) {
+            setFoods(foods.filter((food) => food.id !== id));
+            return;
+        }
+        const { error } = await supabase.from('Foods').delete().eq('id', id);
+        if (error) console.log(error);
+        else setFoods(foods.filter((food) => food.id !== id));
+    };
 
-    // 固定行の削除ボタン
-    const deleteInput = () => {
-        setName("");
-        setQuantity("1");
-        setExpiry("1日");
-        setCategory("冷蔵庫");
-    }
+    // selectを更新するとき
+    const updateFood = async (id: number, field: string, value: string | number) => {
+        if (id > 0) {
+            const { error } = await supabase.from('Foods').update({ [field]: value }).eq('id', id);
+            if (error) {
+                console.log(error);
+                return;
+            }
+        }
 
-    // selectを変更するとき
-    const updateFood = (id:number, field:string, value:string) => {
         setFoods(
-            foods.map((food)=>food.id === id ? { ...food, [field]: value } : food
-            )
+            foods.map((food) => (food.id === id ? { ...food, [field]: value } : food))
         );
+    };
+
+    // supabaseの情報取得
+    useEffect(() => {
+        const fetchFoods = async () => {
+            const { error } = await supabase.from('Foods').select('*');
+            if (error) console.log(error);
+            // 既存データは表示しないので setFoods(data) は呼ばない
+        };
+        fetchFoods();
+    }, []);
+
+    // 登録ボタンでまとめて保存
+    const handleRegisterAll = async () => {
+        try {
+            const allFoods = [...foods];
+
+            // 固定行が入力されていれば追加
+            if (fixedRow.isVisible && fixedRow.name.trim() !== "") {
+                allFoods.push({
+                    id: -Date.now(),
+                    name: fixedRow.name,
+                    quantity: fixedRow.quantity || "1",
+                    expiry: fixedRow.expiry || new Date().toISOString().split("T")[0],
+                    category: fixedRow.category || "冷蔵庫",
+                });
+            }
+
+            const unsavedFoods = allFoods.filter(f => f.id < 0);
+
+            if (unsavedFoods.length === 0) {
+                alert("登録する行がありません");
+                return;
+            }
+
+            // id は送らずに Supabase に挿入
+            const foodsToInsert = unsavedFoods.map(food => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { id, ...rest } = food;
+                return rest;
+            });
+
+            const { error } = await supabase.from("Foods").insert(foodsToInsert);
+            if (error) {
+                alert("登録に失敗しました: " + error.message);
+                return;
+            }
+
+            // 登録後は画面表示用の foods をリセットして固定行もクリア
+            setFoods([]);        // 追加行リセット
+                setFixedRow({        // 固定行を非表示にする
+                name: "",
+                quantity: "1",
+                expiry: new Date().toISOString().split("T")[0],
+                category: "冷蔵庫",
+                isVisible: false
+            });
+            alert("登録完了しました！");
+        } catch (e) {
+            console.error(e);
+            alert("予期せぬエラーが発生しました");
+        }
     };
 
     return(
@@ -102,60 +183,60 @@ export default function NewFoodPage () {
                         </thead>
 
                         <tbody>
-                            <tr>
+                            {fixedRow.isVisible && (
+                                <tr>
+                                    <td className="border-r px-4 py-2">
+                                        <input
+                                        type="text"
+                                        placeholder="食材名"
+                                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                                        value={fixedRow.name}
+                                        onChange={(e) => setFixedRow({ ...fixedRow, name: e.target.value })}
+                                        />
+                                    </td>
                                 <td className="border-r px-4 py-2">
-                                    <input 
-                                    type="text" 
-                                    placeholder="食材名"
+                                    <select
                                     className="w-full border rounded px-2 py-1 focus:outline-none"
-                                    value={name}
-                                    onChange={(e) =>setName(e.target.value)}
+                                    value={fixedRow.quantity}
+                                    onChange={(e) => setFixedRow({ ...fixedRow, quantity: e.target.value })}
+                                    >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    </select>
+                                </td>
+                                <td className="border-r px-4 py-2">
+                                    <input
+                                    type="date"
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                                    value={fixedRow.expiry}
+                                    onChange={(e) => setFixedRow({ ...fixedRow, expiry: e.target.value })}
                                     />
                                 </td>
                                 <td className="border-r px-4 py-2">
-                                    <select 
+                                    <select
                                     className="w-full border rounded px-2 py-1 focus:outline-none"
-                                    value={quantity}
-                                    onChange={(e)=>setQuantity(e.target.value)}>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </td>
-                                <td className="border-r px-4 py-2">
-                                    <select 
-                                    className="w-full border rounded px-2 py-1 focus:outline-none"
-                                    value={expiry}
-                                    onChange={(e)=>setExpiry(e.target.value)}>
-                                        <option value="1日">1日</option>
-                                        <option value="3日">3日</option>
-                                        <option value="7日">7日</option>
-                                        <option value="2週間">2週間</option>
-                                        <option value="1か月">1か月</option>
-                                        <option value="3か月">3か月</option>
-                                        <option value="6か月">6か月</option>
-                                        <option value="詳細設定">詳細設定</option>
-                                    </select>
-                                </td>
-                                <td className="border-r px-4 py-2">
-                                    <select 
-                                    className="w-full border rounded px-2 py-1 focus:outline-none"
-                                    value={category}
-                                    onChange={(e)=>setCategory(e.target.value)}>
-                                        <option value="冷蔵庫">冷蔵庫</option>
-                                        <option value="冷凍庫">冷凍庫</option>
-                                        <option value="野菜室">野菜室</option>
-                                        <option value="パントリー">パントリー</option>
+                                    value={fixedRow.category}
+                                    onChange={(e) => setFixedRow({ ...fixedRow, category: e.target.value })}
+                                    >
+                                    <option value="冷蔵庫">冷蔵庫</option>
+                                    <option value="冷凍庫">冷凍庫</option>
+                                    <option value="野菜室">野菜室</option>
+                                    <option value="パントリー">パントリー</option>
                                     </select>
                                 </td>
                                 <td className="px-2 py-2 text-center">
                                     <button
                                     className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
-                                    onClick={deleteInput}>リセット</button>
+                                    onClick={deleteFixedRow}
+                                    >
+                                    削除
+                                    </button>
                                 </td>
-                            </tr>
+                                </tr>
+                            )}
                             {foods.map((food)=>(
                                 <tr key={food.id}>
                                     <td className="border-r px-4 py-2">
@@ -180,19 +261,12 @@ export default function NewFoodPage () {
                                         </select>
                                     </td>
                                     <td className="border-r px-4 py-2">
-                                        <select 
-                                        className="w-full border rounded px-2 py-1 focus:outline-none"
-                                        value={food.expiry}
-                                        onChange={(e) => updateFood(food.id, "expiry", e.target.value)}>
-                                            <option value="1日">1日</option>
-                                            <option value="3日">3日</option>
-                                            <option value="7日">7日</option>
-                                            <option value="2週間">2週間</option>
-                                            <option value="1か月">1か月</option>
-                                            <option value="3か月">3か月</option>
-                                            <option value="6か月">6か月</option>
-                                            <option value="詳細設定">詳細設定</option>
-                                        </select>
+                                        <input
+                                            type="date"
+                                            className="w-full border rounded px-2 py-1 focus:outline-none"
+                                            value={food.expiry}
+                                            onChange={(e) => updateFood(food.id, "expiry", e.target.value)}
+                                        />
                                     </td>
                                     <td className="border-r px-4 py-2">
                                         <select 
@@ -221,9 +295,9 @@ export default function NewFoodPage () {
                     className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
                     onClick={handleAddFood}
                     >+ 追加</button>
-                    {/* ↓ supabaseと連携するときに実装する */}
                     <button 
                     className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 w-32 text-lg hover:bg-blue-400"
+                    onClick={handleRegisterAll}
                     >登録</button>
                 </div>
             </main>
