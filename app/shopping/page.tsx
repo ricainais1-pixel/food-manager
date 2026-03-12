@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect } from "react";
+
+const supabase = createClient();
 
 type Item = {
     id: number;
-    name:string;
-    count:number;
+    name: string;
+    count: number;
+    user_id?: string;
 };
 
 export default function Shopping () {
@@ -65,6 +70,24 @@ export default function Shopping () {
             draftItems.filter((item) => item.id !== id)
         );
     };
+
+    useEffect(() => {
+    const fetchItems = async () => {
+        const { data, error } = await supabase
+            .from("shopping_list")
+            .select("*");
+
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        setItems(data ?? []);
+    };
+
+    fetchItems();
+
+}, []);
 
     return(
         <div className="min-h-screen flex flex-col">
