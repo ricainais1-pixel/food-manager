@@ -9,7 +9,7 @@ const supabase = createClient();
 type Food = {
     id: number;
     name: string;
-    count: string;
+    count:  number;
     expiry: string;
     category: string;
     created_at?: string;
@@ -39,7 +39,8 @@ export default function Food () {
             .eq("id", id);
 
         if (error) {
-            console.log(error);
+            console.log("削除エラー:",error);
+            alert("削除に失敗しました");
         } else {
             setFoods(foods.filter((food) => food.id !== id));
         }
@@ -87,6 +88,63 @@ export default function Food () {
         const diffDays = Math.ceil((expire.getTime() - today.getTime()) / (1000*60*60*24));
         if (diffDays <= 0) return `expiry切れ (${expiry日})`;
         return `残${diffDays}日 (${expiry日})`;
+    };
+
+    // 在庫の個数変更 or 期限切れ処理
+    const updateFoodCount = async (food: Food, newCount: number) => {
+        const isExpired = new Date(food.expiry) < new Date();
+        if (newCount <= 0 || isExpired) {
+            // 期限切れ or 個数0 → 購入リストに追加して在庫削除
+            const { data: userData } = await supabase.auth.getUser();
+            const userId = userData?.user?.id;
+            if (!userId) {
+                alert("ユーザー情報が取得できません");
+                return;
+            }
+
+            const { error: insertError } = await supabase
+                .from("shopping_list")
+                .insert([{
+                    name: food.name,
+                    count: 1,          // 必要な数だけ
+                    category: food.category,
+                    user_id: userId,
+                }]);
+
+            if (insertError) {
+                console.error("購入リスト追加エラー:", insertError);
+                alert(`購入リスト追加エラー: ${insertError.message || "不明なエラー"}`);
+                return;
+            }
+
+            const { error: deleteError } = await supabase
+                .from("Foods")
+                .delete()
+                .eq("id", food.id);
+
+            if (deleteError) {
+                console.error("在庫削除エラー:", deleteError);
+                alert(`在庫削除エラー: ${deleteError.message || "不明なエラー"}`);
+                return;
+            }
+
+            setFoods(prev => prev.filter(f => f.id !== food.id));
+        } else {
+            // 個数減少のみ → 在庫更新
+            const { error } = await supabase
+                .from("Foods")
+                .update({ count: newCount })
+                .eq("id", food.id);
+
+            if (error) {
+                console.error("在庫更新エラー:", error);
+                alert(`在庫更新エラー: ${error.message || "不明なエラー"}`);
+            } else {
+                setFoods(prev =>
+                    prev.map(f => (f.id === food.id ? { ...f, count: newCount } : f))
+                );
+            }
+        }
     };
 
     useEffect(() => {
@@ -181,7 +239,23 @@ export default function Food () {
                                     .map((food) => (
                                 <tr key={food.id}>
                                     <td className="border-r px-4 py-2">{food.name}</td>
-                                    <td className="border-r px-4 py-2">{food.count}</td>
+                                    <td className="border-r px-4 py-2 flex flex-col items-center justify-center gap-1">
+                                        <span>{food.count}</span>
+                                        <div className="flex flex-col">
+                                            <button
+                                                onClick={() => updateFoodCount(food, food.count + 1)}
+                                                className="bg-green-200 px-2 py-1 rounded hover:bg-green-400"
+                                            >
+                                                ▲
+                                            </button>
+                                            <button
+                                                onClick={() => updateFoodCount(food, food.count - 1)}
+                                                className="bg-red-200 px-2 py-1 rounded hover:bg-red-400"
+                                            >
+                                                ▼
+                                            </button>
+                                        </div>
+                                        </td>
                                     <td className="border-r px-4 py-2">{getRemainingDays(food.expiry)}</td>
                                     <td className="border-r px-4 py-2">{food.category}</td>
                                     <td className="px-4 py-2 space-x-2 ">
@@ -231,7 +305,7 @@ export default function Food () {
                                             onChange={(e)=>
                                             setEditingFood({
                                             ...editingFood!,
-                                            count:e.target.value
+                                            count: Number(e.target.value),
                                             })
                                             }
                                         >
