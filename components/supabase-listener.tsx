@@ -2,7 +2,7 @@
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import Navigation from "./navigation";
+import Navigation from "./Navigation/navigation";
 import type { Database } from "@/lib/database.types";
 
 // 認証状態の監視

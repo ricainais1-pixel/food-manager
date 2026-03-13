@@ -1,5 +1,4 @@
-// app/signin/page.tsx
-import Login from "../../components/login";
+import Login from "@/components/auth/login";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -26,9 +25,9 @@ const SigninPage = async () => {
 
     const { data: { session } } = await supabase.auth.getSession();
 
-    // if (session) {
-    //     redirect("/"); 
-    // }
+    if (session) {
+        redirect("/"); 
+    }
 
     return <Login />; 
 };

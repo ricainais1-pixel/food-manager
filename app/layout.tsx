@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import SupabaseListener from '../components/supabase-listener'
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import Navigation from '../components/navigation'
+import Navigation from '../components/Navigation/navigation'
 import type { Database } from "@/lib/database.types"
 
 const inter = Inter({ subsets: ['latin'] })
