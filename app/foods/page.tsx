@@ -9,7 +9,7 @@ const supabase = createClient();
 type Food = {
     id: number;
     name: string;
-    quantity: string;
+    count: string;
     expiry: string;
     category: string;
     created_at?: string;
@@ -18,6 +18,7 @@ type Food = {
 export default function Food () {
     const [editingFood, setEditingFood] = useState<Food | null>(null);
     const [foods, setFoods] = useState<Food[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>("すべて");
     
     //編集ボタン
     const handleEdit = (food: Food ) => {
@@ -51,7 +52,7 @@ export default function Food () {
             .from("Foods")
             .update({
             name: editingFood?.name,
-            quantity: editingFood?.quantity,
+            count: editingFood?.count,
             expiry: editingFood?.expiry,
             category: editingFood?.category,
             })
@@ -143,11 +144,14 @@ export default function Food () {
 
                     <div className="flex items-center space-x-4">
                         <select 
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
                         className="border-2 rounded-md p-2 focus:outline-none ">
-                            <option>冷蔵庫</option>
-                            <option>冷凍庫</option>
-                            <option>野菜室</option>
-                            <option>パントリー</option>
+                            <option value="すべて">すべて</option>
+                            <option value="冷蔵庫">冷蔵庫</option>
+                            <option value="冷凍庫">冷凍庫</option>
+                            <option value="野菜室">野菜室</option>
+                            <option value="パントリー">パントリー</option>
                         </select>
                         <Link 
                         href="/newfoods"
@@ -164,18 +168,20 @@ export default function Food () {
                         className="w-full border-2 border-gray-400 table-fixed mb-10">
                             <thead className="border-b-2">
                                 <tr>
-                                    <th className="border-r px-4 py-2">name</th>
-                                    <th className="border-r px-4 py-2">quantity</th>
-                                    <th className="border-r px-4 py-2">expiry</th>
-                                    <th className="border-r px-4 py-2">category</th>
+                                    <th className="border-r px-4 py-2">食材名</th>
+                                    <th className="border-r px-4 py-2">個数</th>
+                                    <th className="border-r px-4 py-2">期限</th>
+                                    <th className="border-r px-4 py-2">カテゴリー</th>
                                     {/* <th className="px-4 py-2">操作</th> */}
                                 </tr>
                             </thead>
                             <tbody>
-                                {foods.map((food) => (
+                                {foods.filter((food) =>
+                                    selectedCategory === "すべて"? true: food.category === selectedCategory)
+                                    .map((food) => (
                                 <tr key={food.id}>
                                     <td className="border-r px-4 py-2">{food.name}</td>
-                                    <td className="border-r px-4 py-2">{food.quantity}</td>
+                                    <td className="border-r px-4 py-2">{food.count}</td>
                                     <td className="border-r px-4 py-2">{getRemainingDays(food.expiry)}</td>
                                     <td className="border-r px-4 py-2">{food.category}</td>
                                     <td className="px-4 py-2 space-x-2 ">
@@ -204,7 +210,7 @@ export default function Food () {
                             <thead className="border-b-2">
                                 <tr>
                                     <th className="border-r px-4 py-2">name</th>
-                                    <th className="border-r px-4 py-2">quantity</th>
+                                    <th className="border-r px-4 py-2">count</th>
                                     <th className="border-r px-4 py-2">expiry</th>
                                     <th className="border-r px-4 py-2">category</th>
                                     {/* <th className="px-4 py-2">操作</th> */}
@@ -221,11 +227,11 @@ export default function Food () {
                                     </td>
                                     <td className="border-r px-4 py-2">
                                         <select
-                                            value={editingFood?.quantity}
+                                            value={editingFood?.count}
                                             onChange={(e)=>
                                             setEditingFood({
                                             ...editingFood!,
-                                            quantity:e.target.value
+                                            count:e.target.value
                                             })
                                             }
                                         >
