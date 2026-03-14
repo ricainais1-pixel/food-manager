@@ -88,7 +88,7 @@ export default function useFoodForm() {
         allFoods.push({
             id: -Date.now(),
             name: fixedRow.name,
-            count: parseInt(fixedRow.count) || null,
+            count: parseInt(fixedRow.count) || 1,
             expiry: fixedRow.expiry,
             category: fixedRow.category,
         });
