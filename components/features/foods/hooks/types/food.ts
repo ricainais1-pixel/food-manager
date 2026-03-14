@@ -9,16 +9,21 @@ export type Food = {
 
 export type FoodRowEditProps = {
     food: Food;
-    handleFieldChange: (field: keyof Food, value: string | number) => void;
-    handleSave: (food: Food) => void;
-    handleBack: () => void;
+    handlers: {
+        handleSave: (food: Food) => void;
+        handleNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        handleFieldChange: (field: keyof Food, value: string | number) => void;
+        handleBack: () => void;
+    };
 };
 
 export type FoodRowViewProps = {
     food: Food;
-    updateFoodCount: (food: Food, newCount: number) => void;
-    handleEdit: (food: Food) => void;
-    handleDelete: (id: number) => void;
-    getRemainingDays: (expiry: string) => string; // ←忘れずに追加
+    handlers: {
+        handleEdit: (food: Food) => void;
+        handleDelete: (id: number) => void;
+        updateFoodCount: (food: Food, newCount: number) => void;
+    };
+    getRemainingDays: (expiry: string) => string;
 };
 

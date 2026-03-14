@@ -1,25 +1,20 @@
 import Button from "@/components/common/Button";
 import { FoodRowEditProps } from "./hooks/types/food";
 
-export default function FoodRowEdit({
-    food,
-    handleFieldChange,
-    handleSave,
-    handleBack
-}: FoodRowEditProps) {
+export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
     return (
         <tr>
             <td className="border-r px-4 py-2">
                 <input 
                 type="text"
                 value={food.name}
-                onChange={(e) => handleFieldChange("name", e.target.value)}
+                onChange={(e) => handlers.handleFieldChange("name", e.target.value)}
                 />
             </td>
             <td className="border-r px-4 py-2">
                 <select
                     value={food.count}
-                    onChange={(e) => handleFieldChange("count", Number(e.target.value))
+                    onChange={(e) => handlers.handleFieldChange("count", Number(e.target.value))
                     }
                 >
                     <option value="1">1</option>
@@ -33,7 +28,7 @@ export default function FoodRowEdit({
                 <input
                     type="date"
                     value={food.expiry}
-                    onChange={(e) => handleFieldChange("expiry", e.target.value)
+                    onChange={(e) => handlers.handleFieldChange("expiry", e.target.value)
                     }
                     className="border rounded px-2 py-1"
                 />
@@ -41,7 +36,7 @@ export default function FoodRowEdit({
             <td className="border-r px-4 py-2">
                 <select
                     value={food.category}
-                    onChange={(e) => handleFieldChange("expiry", e.target.value)}
+                    onChange={(e) => handlers.handleFieldChange("expiry", e.target.value)}
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>
@@ -53,12 +48,12 @@ export default function FoodRowEdit({
                 <div className="flex justify-center gap-2">
                     <Button
                     className="mr-4 bg-blue-200 px-2 py-1 rounded-md"
-                    onClick={() => handleSave(food)}
+                    onClick={() => handlers.handleSave(food)}
                     >
                         保存
                     </Button>
                     <Button 
-                    onClick={handleBack}
+                    onClick={handlers.handleBack}
                     className="text-center bg-gray-300 px-2 py-1 rounded-md
                     ">
                         戻る

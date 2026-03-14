@@ -60,16 +60,18 @@ export default function FoodsPage () {
                     <FoodsTable
                         foods={foods}
                         editingFood={editingFood}
-                        handleEdit={handleEdit}
-                        handleBack={handleBack}
-                        handleDelete={handleDelete}
-                        handleSave={handleSave}
-                        handleNameChange={handleNameChange}
-                        getRemainingDays={getRemainingDays}
-                        updateFoodCount={updateFoodCount}
-                        selectedCategory={selectedCategory} 
+                        selectedCategory={selectedCategory}
                         setSelectedCategory={setSelectedCategory}
-                        handleFieldChange={handleFieldChange}
+                        getRemainingDays={getRemainingDays}
+                        handlers={{
+                            handleEdit,
+                            handleBack,
+                            handleDelete,
+                            handleSave,
+                            handleNameChange,
+                            updateFoodCount,
+                            handleFieldChange,
+                        }}
                     />
                     
                     <div className="flex items-center space-x-4">
