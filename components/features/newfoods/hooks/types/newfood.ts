@@ -1,4 +1,4 @@
-export type Food = {
+export type NewFood = {
     id: number;
     name: string;        // 食材名
     count: number;       // 個数

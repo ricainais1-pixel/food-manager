@@ -1,11 +1,11 @@
 "use client";
 
-import { Food, FixedRow } from "./hooks/types/newfood";
-import FoodRow from "./FoodRow";
-import FixedFoodRow from "./FixedFoodRow";
+import { NewFood, FixedRow } from "./hooks/types/newfood";
+import FoodRow from "./NewFoodRow";
+import FixedFoodRow from "./FixedNewFoodRow";
 
 type Props = {
-    foods: Food[];
+    foods: NewFood[];
     fixedRow: FixedRow;
     setFixedRow: React.Dispatch<React.SetStateAction<FixedRow>>;
     deleteFixedRow: () => void;
@@ -54,7 +54,7 @@ export default function NewFoodTable({
 
                     {foods
                     .filter(food => food.id < 0) // まだ登録されていない行だけ
-                    .map((food: Food) => (
+                    .map((food: NewFood) => (
                         <FoodRow
                             key={food.id}
                             food={food}

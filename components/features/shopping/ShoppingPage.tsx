@@ -3,7 +3,6 @@
 import Link from "next/link";
 import useShopping from "./hooks/useShopping";
 import ShoppingTable from "./ShoppingTable";
-import Button from "@/components/common/Button";
 
 export default function ShoppingPage() {
     const {
@@ -46,21 +45,6 @@ export default function ShoppingPage() {
             setEditingId={setEditingId}
             setOriginalItem={setOriginalItem}
         />
-        
-        <div className="flex justify-center mt-4">
-            <Button 
-            className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
-            onClick={handleAdd}
-            >
-                + 追加
-            </Button>
-            <Link href="./shopping/stock-from-shopping" >
-                <Button 
-                className="text-center rounded-md ml-20 bg-blue-200 px-8 py-3 text-lg whitespace-nowrap hover:bg-blue-400"
-                >在庫へ追加
-                </Button>
-            </Link>
-        </div>                    
     </div>
 
     );

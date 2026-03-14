@@ -1,6 +1,6 @@
 "use client";
 
-import { Food } from "../foods/hooks/types/newfood";
+import { Food } from "./hooks/types/newfood";
 import Button from "@/components/common/Button";
 
 type Props = {

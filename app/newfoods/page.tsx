@@ -1,7 +1,7 @@
 "use client";
 
-import useFoodForm from "@/components/features/foods/hooks/useFoodForm";
-import NewFoodTable from "@/components/features/foods/NewFoodTable";
+import useFoodForm from "@/components/features/newfoods/hooks/useNewFoodForm";
+import NewFoodTable from "@/components/features/newfoods/NewFoodTable";
 import Button from "@/components/common/Button";
 
 
