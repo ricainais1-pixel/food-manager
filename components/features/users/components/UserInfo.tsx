@@ -1,23 +1,12 @@
 "use client";
 
-import useFoodForm from "@/components/features/foods/hooks/useFoodForm";
-import NewFoodTable from "@/components/features/foods/NewFoodTable";
-import Button from "@/components/common/Button";
+import Link from "next/link";
+import { useUserInfo } from "../hooks/useUserInfo";
 
+export default function UserInfo() {
+    const { userInfo } = useUserInfo();
 
-export default function NewFoodPage() {
-    const {
-        foods,
-        fixedRow,
-        setFixedRow,
-        deleteFixedRow,
-        handleAddFood,
-        deleteFood,
-        updateFood,
-        handleRegisterAll
-    } = useFoodForm();
-
-        return(
+    return(
         <div className="min-h-screen flex flex-col">
             {/* <header 
             className="sticky top-0 bg-lime-300 border-b z-50">
@@ -50,37 +39,36 @@ export default function NewFoodPage() {
 
             <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
                 <div>
-                    <h2 className="text-2xl font-bold mb-20">📋食材登録</h2>
-                        <NewFoodTable
-                            foods={foods}
-                            fixedRow={fixedRow}
-                            setFixedRow={setFixedRow}
-                            deleteFixedRow={deleteFixedRow}
-                            updateFood={updateFood}
-                            deleteFood={deleteFood}
-                            handleRegisterAll={handleRegisterAll}
-                        />
-
-
-                    <div className="flex justify-center mt-4 gap-6">
-                        <Button
-                            className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
-                            onClick={handleAddFood}
-                        >
-                            + 追加
-                        </Button>
-                        <Button
-                            className="text-center rounded-md bg-blue-200 px-8 py-3 w-32 text-lg hover:bg-blue-400"
-                            onClick={handleRegisterAll}
-                        >
-                            登録
-                        </Button>
-                    </div> 
-                </div>           
+                    <h2 className="text-2xl font-bold mb-10">👤ユーザー情報</h2>
+                    <div className="max-w-[500px] ml-10 mb-10">
+                        <ul className="space-y-5 text-lg">
+                            <li className="flex border-b pb-2">
+                                <span className="w-40 font-bold text-gray-600">氏名</span>
+                                <p>{userInfo?.name ?? "読み込み中..."}</p>
+                            </li>
+                            <li className="flex border-b pb-2">
+                                <span className="w-40 font-bold text-gray-600">メールアドレス</span>
+                                <p>{userInfo?.email ?? "読み込み中..."}</p>
+                            </li>
+                            <li className="flex border-b pb-2">
+                                <span className="w-40 font-bold text-gray-600">パスワード</span>
+                                <p>••••••••</p>
+                            </li>
+                        </ul>
+                        <div className="flex justify-center mt-4">
+                            <Link href="/users/edit">
+                                <button 
+                                className="text-center bg-blue-200 px-8 py-3 text-lg rounded-md mt-8 hover:bg-blue-400">
+                                    編集
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </main>
             <footer className="bg-gray-100 border-t mt-10"> 
                 <div className="max-w-[1200px] mx-auto py-4 text-center text-sm text-gray-500">© 2026 Food Stock App</div>
             </footer>
         </div>
     )
-}
+};

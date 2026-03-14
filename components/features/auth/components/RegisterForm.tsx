@@ -6,7 +6,7 @@ import * as z from "zod";
 import InputField from "@/components/common/InputField";
 import Button from "@/components/common/Button";
 import Link from "next/link";
-import { useRegister } from "./hooks/useRegister";
+import { useRegister } from "../hooks/useRegister";
 
 const schema = z.object({
     name: z.string().min(2, { message: "2文字以上入力する必要があります。" }),
