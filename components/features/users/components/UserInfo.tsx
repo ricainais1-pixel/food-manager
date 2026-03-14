@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useUserInfo } from "../hooks/useUserInfo";
+import Button from "@/components/common/Button";
 
 export default function UserInfo() {
     const { userInfo } = useUserInfo();
@@ -57,10 +58,10 @@ export default function UserInfo() {
                         </ul>
                         <div className="flex justify-center mt-4">
                             <Link href="/users/edit">
-                                <button 
+                                <Button 
                                 className="text-center bg-blue-200 px-8 py-3 text-lg rounded-md mt-8 hover:bg-blue-400">
                                     編集
-                                </button>
+                                </Button>
                             </Link>
                         </div>
                     </div>

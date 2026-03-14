@@ -1,10 +1,10 @@
 "use client";
 
-import { Food } from "./hooks/types/newfood";
+import { NewFood } from "./hooks/types/newfood";
 import Button from "@/components/common/Button";
 
 type Props = {
-    food: Food;
+    food: NewFood;
     updateFood: (id: number, field: string, value: string | number) => Promise<void>;
     deleteFood: (id: number) => Promise<void>;
 };

@@ -1,69 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { Food,FixedRow } from "./types/newfood";
+import useFoodState from "./useNewFoodState";
+import { deleteFoodFromDB,updateFoodInDB,insertFoodsToDB } from "./useNewFoodAPI";
+import { NewFood } from "./types/newfood";
 
-const supabase = createClient();
+
 
 
 export default function useFoodForm() {
-    const [foods,setFoods] = useState <Food[]> ([
-        { id: -1, name: "", count: 1, expiry: new Date().toISOString().split("T")[0], category: "冷蔵庫" },
-        { id: -2, name: "", count: 1, expiry: new Date().toISOString().split("T")[0], category: "冷蔵庫" },
-        { id: -3, name: "", count: 1, expiry: new Date().toISOString().split("T")[0], category: "冷蔵庫" },
-    ]);
-    const [fixedRow, setFixedRow] = useState<FixedRow>({
-        name: "",
-        count: "1",
-        expiry: new Date().toISOString().split("T")[0],
-        category: "冷蔵庫",
-        isVisible: true
-    });
-
-    // 固定行リセット
-    const deleteFixedRow = () => {
-        setFixedRow({ ...fixedRow, isVisible: false });
-    };
-
-    // +追加ボタン
-    const handleAddFood = () => {
-        setFoods([
-            ...foods,
-            {
-            id: -Date.now(), 
-            name: "",
-            count: 1,
-            expiry: new Date().toISOString().split("T")[0],
-            category: "冷蔵庫"
-            }
-        ]);
-    };
+    const { foods, fixedRow, setFixedRow, deleteFixedRow, handleAddFood, removeFoodLocally, setFoods } = useFoodState();
 
     // 削除ボタン
     const deleteFood = async (id: number) => {
         if (id < 0) {
-            setFoods(foods.filter((food) => food.id !== id));
-            return;
+        removeFoodLocally(id);
+        return;
         }
-        const { error } = await supabase.from('Foods').delete().eq('id', id);
+        const error = await deleteFoodFromDB(id);
         if (error) console.log(error);
-        else setFoods(foods.filter((food) => food.id !== id));
+        else removeFoodLocally(id);
     };
 
     // selectを更新するとき
     const updateFood = async (id: number, field: string, value: string | number) => {
         const fieldMap: { [key: string]: string } = {
-            name: '食材名',
-            count: '個数',
-            expiry: '期限',
-            category: 'カテゴリー'
+            name: 'name',
+            count: 'count',
+            expiry: 'expiry',
+            category: 'category'
         };
         const dbField = fieldMap[field] || field;
-        const dbValue = field === 'count' ? (typeof value === 'string' ? parseInt(value) || null : value) : value;
+        const dbValue = field === 'count'
+            ? (typeof value === 'string' ? parseInt(value) || 1 : value)
+            : value;
 
         if (id > 0) {
-            const { error } = await supabase.from('Foods').update({ [dbField]: dbValue }).eq('id', id);
+            const  error  = await updateFoodInDB(id, dbField, dbValue);
             if (error) {
                 console.log(error);
                 return;
@@ -94,7 +66,7 @@ export default function useFoodForm() {
         });
 
         // 追加行のバリデーション
-        const unsavedFoods = allFoods.filter((f: Food) => f.id < 0);
+        const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0);
         for (const f of unsavedFoods) {
             if (!f.name.trim() || f.count === null || !f.expiry || !f.category) {
                 alert("追加行の食材情報はすべて入力してください");
@@ -110,12 +82,12 @@ export default function useFoodForm() {
         try {
             // id は送らずに Supabase に挿入
             const foodsToInsert = unsavedFoods.map((food) => ({
-                食材名: food.name,
-                個数: food.count,
-                期限: food.expiry,
-                カテゴリー: food.category
+                name: food.name,
+                count: food.count,
+                expiry: food.expiry,
+                category: food.category
             }));
-            const { error } = await supabase.from("Foods").insert(foodsToInsert);
+            const  error  = await insertFoodsToDB(foodsToInsert);
             if (error) {
                 alert("登録に失敗しました: " + error.message);
                 return;

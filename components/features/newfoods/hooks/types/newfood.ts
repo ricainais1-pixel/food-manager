@@ -15,3 +15,10 @@ export type FixedRow = {
     category: string;
     isVisible: boolean; // 表示中かどうか
 };
+
+export type DBFood = {
+    name: string;
+    count: number;
+    expiry: string;
+    category: string;
+};

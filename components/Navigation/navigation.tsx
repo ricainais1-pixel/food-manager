@@ -8,6 +8,7 @@ import type { Database } from "@/lib/database.types"
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
+import Button from "../common/Button"
 
 const Navigation = ({
     session,
@@ -72,7 +73,7 @@ const Navigation = ({
                                 <Link href="/users">ユーザー設定</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <button onClick={handleLogout}>ログアウト</button>
+                                <Button onClick={handleLogout}>ログアウト</Button>
                             </li>
                         </ul>
                     ) : (
@@ -88,12 +89,12 @@ const Navigation = ({
                     )}
                 </nav>
 
-                <button 
+                <Button 
                     onClick={toggleMenu}
                     className="md:hidden text-2xl font-bold hover:text-lime-800"
                 >
                     {isOpen ? '✕' : '☰'}
-                </button>
+                </Button>
             </div>
 
             {/* Mobile Menu */}
@@ -117,10 +118,10 @@ const Navigation = ({
                                 <Link href="/users" onClick={() => setIsOpen(false)}>ユーザー設定</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <button onClick={() => {
+                                <Button onClick={() => {
                                     handleLogout()
                                     setIsOpen(false)
-                                }}>ログアウト</button>
+                                }}>ログアウト</Button>
                             </li>
                         </ul>
                     ) : (

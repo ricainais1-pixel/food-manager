@@ -2,6 +2,7 @@
 
 type ErrorMessageProps = {
     message?: string;
+    type?: "error" | "warning" | "info";
 };
 
 export default function ErrorMessage({ message }: ErrorMessageProps) {

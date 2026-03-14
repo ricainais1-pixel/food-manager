@@ -24,8 +24,6 @@ export default function NewFoodTable({
     handleRegisterAll
 }: Props) {
 
-    const showFixedRow = () => setFixedRow({ ...fixedRow, isVisible: true });
-
         return(
             <div>
 
