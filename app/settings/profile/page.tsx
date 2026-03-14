@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { redirect } from "next/navigation";
-import Profile from '@/components/profile'
+import Profile from '@/components/features/profile/components/profile'
 
 import type { Database } from "@/lib/database.types"
 

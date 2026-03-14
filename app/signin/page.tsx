@@ -1,4 +1,4 @@
-import Login from "@/components/auth/login";
+import LoginForm from "@/components/features/auth/components/LoginForm";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -29,7 +29,7 @@ const SigninPage = async () => {
         redirect("/"); 
     }
 
-    return <Login />; 
+    return <LoginForm />; 
 };
 
 export default SigninPage;

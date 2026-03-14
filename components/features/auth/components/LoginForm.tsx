@@ -5,23 +5,18 @@ import { useLogin } from "../hooks/useLogin";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { loginSchema } from "../schema/loginSchema";
+import { LoginFormData } from "../types/loginType";
+
 import Link from "next/link";
 import Loading from "@/app/loading";
-import ErrorMessage from "../common/ErrorMessage";
-import InputField from "../common/InputField";
-import Button from "../common/Button";
+import ErrorMessage from "../../../common/ErrorMessage";
+import InputField from "../../../common/InputField";
+import Button from "../../../common/Button";
 
-// 入力データの検証ツールを定義
-const schema = z.object({
-    email: z.string().email({ message: 'メールアドレスの形式ではありません' }),
-    password: z.string().min(6, { message: '6文字以上入力する必要があります' }),
-})
-
-type Schema = z.infer<typeof schema>;
 
 // ログインページ
-export default function Login() {
+export default function LoginForm() {
     const router = useRouter()
     const { login, loading, message } = useLogin();
 
@@ -33,10 +28,10 @@ export default function Login() {
         // 初期値
         defaultValues: { email: '', password: '' },
         // 入力値の検証
-        resolver: zodResolver(schema),
+        resolver: zodResolver(loginSchema),
     })
 
-    const onSubmit: SubmitHandler<Schema> = async (data) => {
+    const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     const success = await login(data.email, data.password); // useLoginフックを呼ぶ
     if (success) router.push('/home'); // 成功したらホームへ
     };

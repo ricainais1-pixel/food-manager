@@ -1,6 +1,6 @@
 "use client";
 
-import Profile from "@/components/profile";
+import Profile from "@/components/features/profile/components/profile";
 
 export default function EditUserPage() {
     return (
