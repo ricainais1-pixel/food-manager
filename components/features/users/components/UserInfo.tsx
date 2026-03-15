@@ -23,7 +23,12 @@ export default function UserInfo() {
                         </li>
                         <li className="flex border-b pb-2 gap-x-4">
                             <h3 className="w-40 font-bold text-gray-600">パスワード</h3>
-                            <p>••••••••</p>
+                            <input
+                                type="password"
+                                value="password_placeholder"
+                                disabled
+                                className="border rounded px-2 py-1 w-72 h-10"
+                            />
                         </li>
                     </ul>
                     <div className="mt-6">

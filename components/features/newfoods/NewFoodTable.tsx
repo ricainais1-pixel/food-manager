@@ -41,7 +41,7 @@ export default function NewFoodTable({
 
                 <tbody>
                     {/* 固定行 */}
-                    {fixedRow.isVisible && fixedRow.name.trim() !== "" && (
+                    {fixedRow.isVisible && (
                         <FixedFoodRow
                             fixedRow={fixedRow}
                             setFixedRow={setFixedRow}

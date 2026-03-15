@@ -5,8 +5,6 @@ import { deleteFoodFromDB,updateFoodInDB,insertFoodsToDB } from "./useNewFoodAPI
 import { NewFood } from "./types/newfood";
 
 
-
-
 export default function useFoodForm() {
     const { foods, fixedRow, setFixedRow, deleteFixedRow, handleAddFood, removeFoodLocally, setFoods } = useFoodState();
 
@@ -52,27 +50,18 @@ export default function useFoodForm() {
         const allFoods = [...foods];
 
         // 固定行が入力されていれば追加
-        if (!fixedRow.name.trim() || !fixedRow.count || !fixedRow.expiry || !fixedRow.category) {
-            alert("固定行の食材情報はすべて入力してください");
-            return;
+        if (fixedRow.name.trim()) {
+            allFoods.push({
+                id: -Date.now(),
+                name: fixedRow.name,
+                count: parseInt(fixedRow.count) || 1,
+                expiry: fixedRow.expiry,
+                category: fixedRow.category,
+            });
         }
 
-        allFoods.push({
-            id: -Date.now(),
-            name: fixedRow.name,
-            count: parseInt(fixedRow.count) || 1,
-            expiry: fixedRow.expiry,
-            category: fixedRow.category,
-        });
-
-        // 追加行のバリデーション
-        const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0);
-        for (const f of unsavedFoods) {
-            if (!f.name.trim() || f.count === null || !f.expiry || !f.category) {
-                alert("追加行の食材情報はすべて入力してください");
-                return;
-            }
-        }
+        // 有効な行のみフィルタ（name, expiry, categoryが入力されているもの）
+        const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0 && f.name.trim() && f.expiry && f.category);
 
         if (unsavedFoods.length === 0) {
             alert("登録する行がありません");
@@ -93,14 +82,15 @@ export default function useFoodForm() {
                 return;
             }
 
-            // 登録後は画面表示用の foods をリセットして固定行もクリア
-            setFoods([]);        // 追加行リセット
-            setFixedRow({        // 固定行を非表示にする
+            // 登録後は画面表示用の foods をリセットして固定行もリセット
+            setFoods([]);  
+            setFixedRow({        
+                id: -1,
                 name: "",
                 count: "1",
                 expiry: new Date().toISOString().split("T")[0],
                 category: "冷蔵庫",
-                isVisible: false
+                isVisible: true
             });
             alert("登録完了しました！");
         } catch (e) {

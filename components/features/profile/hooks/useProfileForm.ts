@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { Database } from "@/lib/database.types"
 import { ProfileForm } from "../types/profileType";
 import { profileSchema } from "../schema/profileSchema";
+import { useRouter } from "next/navigation";
 import useStore from "@/store";
 
 
@@ -16,6 +17,8 @@ export const useProfileForm = () => {
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
+
+    const router = useRouter();
 
     const [loading,setLoading] = useState(false)
     const [message,setMessage] = useState('')
@@ -60,13 +63,18 @@ export const useProfileForm = () => {
                     password:data.password
                 })
             }
-            setMessage("プロフィールを更新しました")
+            alert("プロフィールを更新しました")
 
             }catch{
-                setMessage("エラーが発生しました")
+                alert("エラーが発生しました")
             }finally{
                 setLoading(false)
         }
+    };
+
+    // 戻るボタン
+    const handleBack = () => {
+        router.back(); 
     };
 
     useEffect(() => {
@@ -92,6 +100,6 @@ export const useProfileForm = () => {
         fetchUser();
     }, []);
 
-    return {form,onSubmit,loading,message,};
+    return {form,onSubmit,loading,message,handleBack};
 
 };

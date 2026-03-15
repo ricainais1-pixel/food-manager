@@ -5,7 +5,7 @@ import { useProfileForm } from "../hooks/useProfileForm"
 
 // プロフィール
 const Profile = () => {
-    const { form, onSubmit, loading, message } = useProfileForm();
+    const { form, onSubmit, loading,handleBack } = useProfileForm();
 
     const {register,handleSubmit,formState:{errors},}=form;
 
@@ -70,17 +70,17 @@ const Profile = () => {
                     <Button
                         className=" bg-lime-300 px-8 py-3  hover:bg-lime-500"
                         disabled={loading}
+                        onClick={handleSubmit(onSubmit)}
                     >
                         保存
                     </Button>
                     <Button
                         className=" bg-gray-300 px-8 py-3  hover:bg-gray-500"
+                        onClick={handleBack}
                     >
                         戻る
                     </Button>
                 </div>
-            
-            {message && (<div className="text-center mt-4 text-green-600">{message}</div>)}
             </div>
         </div>
     )

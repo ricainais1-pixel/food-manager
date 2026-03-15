@@ -54,7 +54,7 @@ const Header = ({
         <header className="sticky top-0 bg-lime-300 border-b z-50">
             <div className="flex items-center justify-between px-8 py-5">
                 <h1 className="text-xl md:text-3xl font-bold">
-                    <Link href="/home">食材ストック管理</Link>
+                    <Link href="/home">おうちストック</Link>
                 </h1>
 
                 <nav className="hidden md:block">
