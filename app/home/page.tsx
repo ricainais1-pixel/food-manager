@@ -42,15 +42,15 @@ export default function HomePage() {
     
     return (
     <div className="min-h-screen flex flex-col">
-        <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
             <section 
-            className="m-20 relative w-full max-w-6xl mx-auto">
+            className="m-10 relative w-full max-w-6xl mx-auto">
+                
                 <div
                 className="absolute left-6 -top-4 bg-red-300 px-5 py-1 rounded-md shadow font-bold z-10">
                     <h2 className="text-2xl font-bold">期限通知一覧</h2>
                 </div>
                 <div
-                className="border-2 rounded-xl p-6 pt-10 bg-white ">
+                className="border-2 rounded-xl p-6 pt-10 bg-white max-h-[300px] overflow-y-auto ">
                     <ul className="space-y-2 text-lg">
                         {foods.length === 0 ? (
                             <li>期限が近い食材はありません。</li>
@@ -120,7 +120,6 @@ export default function HomePage() {
                     </div>
                 </Link>
             </section>
-        </main>
     </div>
 );
 }

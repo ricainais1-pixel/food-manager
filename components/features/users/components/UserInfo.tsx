@@ -12,17 +12,17 @@ export default function UserInfo() {
             <div>
                 <h2 className="text-2xl font-bold mb-10">👤ユーザー情報</h2>
                 <div className="flex flex-col items-center">
-                    <ul className="space-y-5 text-lg w-full max-w-md">
-                        <li className="flex border-b pb-2">
-                            <span className="w-40 font-bold text-gray-600">氏名</span>
+                    <ul className="space-y-8 text-lg w-full max-w-md">
+                        <li className="flex border-b pb-2 gap-x-4">
+                            <h3 className="w-40 font-bold text-gray-600">氏名</h3>
                             <p>{userInfo?.name ?? "読み込み中..."}</p>
                         </li>
-                        <li className="flex border-b pb-2">
-                            <span className="w-40 font-bold text-gray-600">メールアドレス</span>
+                        <li className="flex border-b pb-2 gap-x-4">
+                            <h3 className="w-40 font-bold text-gray-600">メールアドレス</h3>
                             <p>{userInfo?.email ?? "読み込み中..."}</p>
                         </li>
-                        <li className="flex border-b pb-2">
-                            <span className="w-40 font-bold text-gray-600">パスワード</span>
+                        <li className="flex border-b pb-2 gap-x-4">
+                            <h3 className="w-40 font-bold text-gray-600">パスワード</h3>
                             <p>••••••••</p>
                         </li>
                     </ul>

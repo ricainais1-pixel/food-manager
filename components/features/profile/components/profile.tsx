@@ -19,7 +19,7 @@ const Profile = () => {
                 className="w-full max-w-lg mx-auto">
                     {/* 名前 */}
                     <div className="mb-5">
-                        <div className="text-lg mb-1 font-bold">名前</div>
+                        <h3 className="text-lg mb-1 font-bold">名前</h3>
                         <input 
                             type="text" 
                             id="name"
@@ -32,7 +32,7 @@ const Profile = () => {
 
                 {/* メールアドレス */}
                 <div className="mb-5">
-                    <div className="text-lg mb-1 font-bold">メールアドレス</div>
+                    <h3 className="text-lg mb-1 font-bold">メールアドレス</h3>
 
                     <input
                         type="email"
@@ -48,7 +48,10 @@ const Profile = () => {
 
                 {/* パスワード */}
                 <div className="mb-5">
-                    <div className="text-lg mb-1 font-bold">パスワード</div>
+                    <div className="flex items-center mb-1">
+                        <h3 className="text-lg mb-1 font-bold">パスワード</h3>
+                        <p className="color-red ml-6">※8文字以上の英数字を入力</p>
+                    </div>
 
                     <input
                         type="password"
@@ -63,14 +66,18 @@ const Profile = () => {
                 </div>
 
                 </form>
-                <div className="flex justify-center gap-4 mt-4">
+                <div className="flex justify-center space-x-14 mt-4 gap-4 sm:gap-6 md:gap-8">
                     <Button
-                        className="bg-lime-400 hover:bg-lime-500 px-6 py-2 rounded"
+                        className=" bg-lime-300 px-8 py-3  hover:bg-lime-500"
                         disabled={loading}
-                        >
+                    >
                         保存
                     </Button>
-                    <Button>戻る</Button>
+                    <Button
+                        className=" bg-gray-300 px-8 py-3  hover:bg-gray-500"
+                    >
+                        戻る
+                    </Button>
                 </div>
             
             {message && (<div className="text-center mt-4 text-green-600">{message}</div>)}

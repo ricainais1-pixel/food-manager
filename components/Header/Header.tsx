@@ -29,7 +29,7 @@ const Header = ({
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
-        router.refresh()
+        router.push('/signin')
     }
     
     const toggleMenu = () => {
@@ -54,7 +54,7 @@ const Header = ({
         <header className="sticky top-0 bg-lime-300 border-b z-50">
             <div className="flex items-center justify-between px-8 py-5">
                 <h1 className="text-xl md:text-3xl font-bold">
-                    <Link href="/">食材ストック管理</Link>
+                    <Link href="/home">食材ストック管理</Link>
                 </h1>
 
                 <nav className="hidden md:block">
@@ -64,19 +64,20 @@ const Header = ({
                                 <Link href="/home">ホーム</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/foods">食材一覧</Link>
+                                <Link href="/foods">一覧</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/newfoods">食材登録</Link>
+                                <Link href="/newfoods">登録</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
                                 <Link href="/shopping">購入リスト</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/users">ユーザー設定</Link>
+                                <Link href="/users">ユーザー</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Button onClick={handleLogout}>ログアウト</Button>
+                                <span onClick={handleLogout}
+                                className="cursor-pointer hover:text-lime-800">ログアウト</span>
                             </li>
                         </ul>
                     ) : (
@@ -109,22 +110,25 @@ const Header = ({
                                 <Link href="/home" onClick={() => setIsOpen(false)}>ホーム</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/foods" onClick={() => setIsOpen(false)}>食材一覧</Link>
+                                <Link href="/foods" onClick={() => setIsOpen(false)}>一覧</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/newfoods" onClick={() => setIsOpen(false)}>食材登録</Link>
+                                <Link href="/newfoods" onClick={() => setIsOpen(false)}>登録</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
                                 <Link href="/shopping" onClick={() => setIsOpen(false)}>購入リスト</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/users" onClick={() => setIsOpen(false)}>ユーザー設定</Link>
+                                <Link href="/users" onClick={() => setIsOpen(false)}>ユーザー</Link>
                             </li>
                             <li className="hover:text-lime-800 cursor-pointer">
-                                <Button onClick={() => {
-                                    handleLogout()
-                                    setIsOpen(false)
-                                }}>ログアウト</Button>
+                                <span 
+                                className="cursor-pointer hover:text-lime-800"
+                                onClick={() => {handleLogout()
+                                setIsOpen(false)}}
+                                >
+                                    ログアウト
+                                </span>
                             </li>
                         </ul>
                     ) : (
