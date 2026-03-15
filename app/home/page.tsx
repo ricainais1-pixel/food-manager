@@ -1,8 +1,45 @@
 "use client";
 
 import Link from "next/link";
+import { useState,useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
-export default function homePage() {
+const supabase = createClient();
+
+type Food = {
+    id: number;
+    name: string;
+    expiry: string;
+};
+
+
+export default function HomePage() {
+    const [foods,setFoods] = useState<Food[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        async function fetchFoods() {
+            const threeDaysLater = new Date(Date.now() + 3 * 86400000);
+
+            const { data, error } = await supabase
+            .from("Foods") 
+            .select("*")
+            .lte("expiry", threeDaysLater.toISOString());
+
+            if (error) {
+                console.error(error);
+            } else if (data) {
+                setFoods(data as Food[]);
+            }
+            setLoading(false);
+            }
+            fetchFoods();
+    }, []);
+
+    if (loading) return <div>読み込み中...</div>;
+
+    
     return (
     <div className="min-h-screen flex flex-col">
         {/* <header 
@@ -44,9 +81,22 @@ export default function homePage() {
                 <div
                 className="border-2 rounded-xl p-6 pt-10 bg-white ">
                     <ul className="space-y-2 text-lg">
-                        <li>食材Aが1日で期限切れになります。</li>
-                        <li>食材Bが1日で期限切れになります。</li>
-                        <li>食材Cが3日で期限切れになります。</li>
+                        {foods.length === 0 ? (
+                            <li>期限が近い食材はありません。</li>
+                        ) : (
+                            foods.map((food) => {
+                                const expiryDate = new Date(food.expiry);
+                                const today = new Date();
+                                const diffDays = Math.ceil(
+                                    (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+                            );
+                            return (
+                                <li key={food.id}>
+                                    {food.name} が {diffDays}日で期限切れになります。
+                                </li>
+                            );
+                            })
+                        )}
                     </ul>
                 </div>
             </section>

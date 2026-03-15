@@ -28,11 +28,10 @@ export default function useFoods() {
     const handleDelete = async (id: number) => {
         const { error } = await supabase
             .from("Foods")
-            .delete()
+            .update({ status: "expired" })
             .eq("id", id);
 
         if (error) {
-            console.log("削除エラー:",error);
             alert("削除に失敗しました");
         } else {
             setFoods(foods.filter((food) => food.id !== id));
@@ -41,6 +40,7 @@ export default function useFoods() {
 
     // 編集保存ボタン
     const handleSave = async () => {
+        if (!editingFood) return;
         
         const { error } = await supabase
             .from("Foods")
@@ -60,9 +60,10 @@ export default function useFoods() {
         const { data } = await supabase
             .from("Foods")
             .select("*")
+            .eq("status", "active")
             .order("expiry", { ascending: true });
 
-            setFoods(data as Food[]);
+            setFoods(data ? data as Food[] : []);
         }
     };
 
@@ -89,58 +90,71 @@ export default function useFoods() {
     // 在庫の個数変更 or 期限切れ処理
     const updateFoodCount = async (food: Food, newCount: number) => {
         const isExpired = new Date(food.expiry) < new Date();
-        if (newCount <= 0 || isExpired) {
-            // 期限切れ or 個数0 → 購入リストに追加して在庫削除
-            const { data: userData } = await supabase.auth.getUser();
-            const userId = userData?.user?.id;
-            if (!userId) {
-                alert("ユーザー情報が取得できません");
-                return;
-            }
+        // 期限切れの時
+        if (isExpired) {
+            const { error } = await supabase
+                .from("Foods")
+                .update({ status: "expired" })
+                .eq("id", food.id);
 
+                if (error) {
+                    alert("期限切れ更新エラー");
+                    return;
+                }
+
+            setFoods(prev => prev.filter(f => f.id !== food.id));
+            return;
+        }
+            
+        // 個数が0になった時、購入リストへ
+        if (newCount <= 0) {
+        const { data: userData } = await supabase.auth.getUser();
+        const userId = userData?.user?.id;
+
+        if (!userId) {
+            alert("ユーザーの取得できません");
+            return;
+        }
             const { error: insertError } = await supabase
                 .from("shopping_list")
                 .insert([{
                     name: food.name,
-                    count: 1,          // 必要な数だけ
+                    count: 1,          
                     category: food.category,
                     user_id: userId,
                 }]);
 
             if (insertError) {
-                console.error("購入リスト追加エラー:", insertError);
-                alert(`購入リスト追加エラー: ${insertError.message || "不明なエラー"}`);
+                alert(`購入リスト追加失敗`);
                 return;
             }
 
             const { error: deleteError } = await supabase
                 .from("Foods")
-                .delete()
+                .update({ status: "expired" })
                 .eq("id", food.id);
 
             if (deleteError) {
-                console.error("在庫削除エラー:", deleteError);
-                alert(`在庫削除エラー: ${deleteError.message || "不明なエラー"}`);
+                alert(`在庫削除エラー`);
                 return;
             }
 
             setFoods(prev => prev.filter(f => f.id !== food.id));
-        } else {
-            // 個数減少のみ → 在庫更新
+            return;
+        } 
+            // 通常の在庫更新
             const { error } = await supabase
                 .from("Foods")
                 .update({ count: newCount })
                 .eq("id", food.id);
 
             if (error) {
-                console.error("在庫更新エラー:", error);
-                alert(`在庫更新エラー: ${error.message || "不明なエラー"}`);
+                alert(`在庫更新エラー`);
             } else {
                 setFoods(prev =>
                     prev.map(f => (f.id === food.id ? { ...f, count: newCount } : f))
                 );
             }
-        }
     };
 
     useEffect(() => {
@@ -148,12 +162,13 @@ export default function useFoods() {
             const { data, error } = await supabase
             .from("Foods")
             .select("*")
+            .eq("status", "active")
             .order("expiry", { ascending: true });
 
             if (error) {
             console.log(error);
             } else {
-            setFoods(data as Food[]);
+            setFoods(data ? data as Food[] : []);
             }
         };
 
