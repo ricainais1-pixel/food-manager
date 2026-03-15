@@ -25,16 +25,40 @@ export default function useFoods() {
     }
 
     // 削除ボタン
-    const handleDelete = async (id: number) => {
-        const { error } = await supabase
+    const handleDelete = async (food: Food ) => {
+        const { data: userData } = await supabase.auth.getUser();
+        const userId = userData?.user?.id;
+
+        if (!userId) {
+            alert("ユーザーが取得できません");
+            return;
+        }
+
+        const { error: insertError } = await supabase
+            .from("shopping_list")
+            .insert([{
+                name: food.name,
+                count: food.count, 
+                category: food.category,
+                user_id: userId,
+            }]);
+
+        if (insertError) {
+            alert("購入リスト追加失敗");
+            return;
+        } 
+
+        const { error: deleteError } = await supabase
             .from("Foods")
             .update({ status: "expired" })
-            .eq("id", id);
+            .eq("id", food.id);
 
-        if (error) {
-            alert("削除に失敗しました");
-        } else {
-            setFoods(foods.filter((food) => food.id !== id));
+        if (deleteError) {
+            alert("在庫削除エラー");
+            return;
+        }
+        else {
+            setFoods(prev => prev.filter(f => f.id !== food.id));
         }
     };
 
@@ -119,7 +143,7 @@ export default function useFoods() {
                 .from("shopping_list")
                 .insert([{
                     name: food.name,
-                    count: 1,          
+                    count: food.count,          
                     category: food.category,
                     user_id: userId,
                 }]);

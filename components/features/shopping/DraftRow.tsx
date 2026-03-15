@@ -7,6 +7,7 @@ type Props = {
     draft: Item;
     handleDraftNameChange: (id: number, value: string) => void;
     handleDraftCountChange: (id: number, value: number) => void;
+    handleDraftCategoryChange: (id: number, value: string) => void;
     handleSave: (draft: Item) => void;
     handleDraftDelete: (id: number) => void;
 };
@@ -15,6 +16,7 @@ export default function DraftRow({
     draft,
     handleDraftNameChange,
     handleDraftCountChange,
+    handleDraftCategoryChange,
     handleSave,
     handleDraftDelete,
 }: Props) {
@@ -41,8 +43,14 @@ export default function DraftRow({
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+            <td className="border-r px-4 py-2">
+                <input 
+                placeholder="カテゴリ" 
+                value={draft.category || ""}
+                onChange={(e) =>
+                    handleDraftCategoryChange(draft.id, e.target.value)}
+                className="w-full border rounded px-2 py-1 focus:outline-none"/>
             </td>
-            <td className="px-2 py-2 text-center">
                 <div className="flex justify-center gap-4">
                     <Button
                     className="text-center bg-red-200 px-2 py-1 rounded-md hover:bg-red-400"

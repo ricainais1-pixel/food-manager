@@ -8,6 +8,7 @@ type Props = {
     editingId: number | null;
     originalItem: Item | null;
     handleNameChange: (id: number, value: string) => void;
+    handleCategoryChange: (id: number, value: string) => void;
     handleEditCountChange: (id: number, value: number) => void;
     handleUpdate: (item: Item) => void;
     handleDelete: (id: number) => void;
@@ -20,6 +21,7 @@ export default function ShoppingRow({
     item,
     editingId,
     handleNameChange,
+    handleCategoryChange,
     handleEditCountChange,
     handleUpdate,
     handleDelete,
@@ -59,8 +61,18 @@ export default function ShoppingRow({
                 ) : (
                     item.count
                 )}
+            <td
+            className="border-r px-4 py-2">
+                {editingId === item.id ? (
+                    <input
+                        value={item.category || ""}
+                        onChange={(e) => handleCategoryChange(item.id, e.target.value)}
+                        className="w-full border rounded px-2 py-1"
+                    />
+                ) : (
+                    item.category || ""
+                )}
             </td>
-            <td className="px-2 py-2 text-center">
                 <div className="flex justify-center gap-4">
                     {editingId === item.id ? (
                         <>

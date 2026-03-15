@@ -13,8 +13,10 @@ type Props = {
     handleSave: (draft: Item) => void;
     handleDraftNameChange: (id: number, value: string) => void;
     handleDraftCountChange: (id: number, value: number) => void;
+    handleDraftCategoryChange: (id: number, value: string) => void;
     handleDraftDelete: (id: number) => void;
     handleNameChange: (id: number, value: string) => void;
+    handleCategoryChange: (id: number, value: string) => void;
     handleEditCountChange: (id: number, value: number) => void;
     handleUpdate: (item: Item) => void;
     handleDelete: (id: number) => void;
@@ -32,6 +34,7 @@ export default function ShoppingTable(props: Props){
                 <tr>
                     <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-52">食材</th>
                     <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32">個数</th>
+                    <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-40">カテゴリ</th>
                     <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-40"></th>
                 </tr>
             </thead>

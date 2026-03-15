@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import useShopping from "./hooks/useShopping";
 import ShoppingTable from "./ShoppingTable";
 
@@ -14,8 +13,10 @@ export default function ShoppingPage() {
         handleSave,
         handleDraftNameChange,
         handleDraftCountChange,
+        handleDraftCategoryChange,
         handleDraftDelete,
         handleNameChange,
+        handleCategoryChange,
         handleEditCountChange,
         handleUpdate,
         handleDelete,
@@ -34,11 +35,13 @@ export default function ShoppingPage() {
             originalItem={originalItem}
             handleAdd={handleAdd}
             handleSave={handleSave}
+            handleEditCountChange={handleEditCountChange}
+            handleNameChange={handleNameChange} 
             handleDraftNameChange={handleDraftNameChange}
             handleDraftCountChange={handleDraftCountChange}
+            handleDraftCategoryChange={handleDraftCategoryChange}
             handleDraftDelete={handleDraftDelete}
-            handleNameChange={handleNameChange}
-            handleEditCountChange={handleEditCountChange}
+            handleCategoryChange={handleCategoryChange}
             handleUpdate={handleUpdate}
             handleDelete={handleDelete}
             handleCancel={handleCancel}

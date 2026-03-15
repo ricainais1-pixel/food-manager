@@ -18,7 +18,7 @@ export default function FoodRowView({ food, handlers, getRemainingDays }: FoodRo
                     </Button>
                     <Button 
                     className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
-                    onClick={() => handlers.handleDelete(food.id)}
+                    onClick={() => handlers.handleDelete(food)}
                     >
                         削除
                     </Button>
@@ -28,18 +28,3 @@ export default function FoodRowView({ food, handlers, getRemainingDays }: FoodRo
     );
 };
 
-
-                {/* <div className="flex flex-col">
-                    <Button
-                        onClick={() => handlers.updateFoodCount(food, food.count + 1)}
-                        className="bg-green-200 px-2 py-1 rounded hover:bg-green-400"
-                    >
-                        ▲
-                    </Button>
-                    <Button
-                        onClick={() => handlers.updateFoodCount(food, food.count - 1)}
-                        className="bg-red-200 px-2 py-1 rounded hover:bg-red-400"
-                    >
-                        ▼
-                    </Button>
-                </div> */}

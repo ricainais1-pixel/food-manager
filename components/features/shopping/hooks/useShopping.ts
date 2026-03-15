@@ -36,7 +36,8 @@ export default function useShopping() {
         const newItem = {
             id: Date.now(),
             name: "",
-            count: 1
+            count: 1,
+            category: ""
         };
         setDraftItems([...draftItems, newItem]);    
     };
@@ -53,7 +54,8 @@ export default function useShopping() {
             .from("shopping_list")
             .insert({
                 name: draft.name,
-                count: draft.count
+                count: draft.count,
+                category: draft.category || null
             });
 
         if (error) {
@@ -84,6 +86,15 @@ export default function useShopping() {
         setDraftItems(
             draftItems.map((item) =>
             item.id === id ? { ...item, count: value } : item
+            )
+        );
+    };
+
+    // カテゴリ変更
+    const handleDraftCategoryChange = (id: number, value: string) => {
+        setDraftItems(
+            draftItems.map((item) =>
+            item.id === id ? { ...item, category: value } : item
             )
         );
     };
@@ -125,7 +136,8 @@ export default function useShopping() {
             .from("shopping_list")
             .update({
                 name: item.name,
-                count: item.count
+                count: item.count,
+                category: item.category
             })
             .eq("id", item.id);
 
@@ -137,10 +149,10 @@ export default function useShopping() {
         setEditingId(null);
     };
 
-    const handleNameChange = (id: number, value: string) => {
+    const handleCategoryChange = (id: number, value: string) => {
         setItems(items.map(i =>
             i.id === id
-                ? { ...i, name: value }
+                ? { ...i, category: value }
                 : i
         ));
     };
@@ -149,6 +161,14 @@ export default function useShopping() {
         setItems(items.map(i =>
             i.id === id
                 ? { ...i, count: value }
+                : i
+        ));
+    };
+
+    const handleNameChange = (id: number, value: string) => {
+        setItems(items.map(i =>
+            i.id === id
+                ? { ...i, name: value }
                 : i
         ));
     };
@@ -179,8 +199,9 @@ export default function useShopping() {
     handleSave,
     handleDraftNameChange,
     handleDraftCountChange,
+    handleDraftCategoryChange,
     handleDraftDelete,
-    handleNameChange,
+    handleCountChange,    handleNameChange,    handleCategoryChange,
     handleEditCountChange,
     handleUpdate,
     handleDelete,

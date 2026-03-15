@@ -42,7 +42,7 @@ export default function FoodsPage () {
                 <Link 
                 href="/newfoods"
                 className="bg-blue-200 px-4 py-2 rounded-md hover:bg-blue-400" >
-                    食材追加
+                    + 追加
                 </Link>
                 </div>
             </div>

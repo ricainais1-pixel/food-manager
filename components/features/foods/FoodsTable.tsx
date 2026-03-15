@@ -46,7 +46,7 @@ export default function FoodsTable({
                                 <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32">個数</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-24 md:w-32">期限</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-20 md:w-32">カテゴリー</th>
-                                <th className="px-4 py-2 w-24 sm:w-32 md:w-28">操作</th>
+                                <th className="px-4 py-2 w-24 sm:w-32 md:w-28"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,7 +75,7 @@ export default function FoodsTable({
                                 <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32">個数</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-24 md:w-32">期限</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-20 md:w-32">カテゴリー</th>
-                                <th className="px-4 py-2 w-24 sm:w-32 md:w-28">操作</th>
+                                <th className="px-4 py-2 w-24 sm:w-32 md:w-28"></th>
                             </tr>
                         </thead>
                         <tbody>

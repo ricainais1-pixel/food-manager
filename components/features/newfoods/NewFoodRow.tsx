@@ -26,6 +26,7 @@ export default function FoodRow({ food, updateFood, deleteFood }: Props) {
                 className="w-full border rounded px-2 py-1 focus:outline-none"
                 value={food.count ?? 1}
                 onChange={(e) => updateFood(food.id, "count", e.target.value)}>
+                    <option value={0}>0</option>
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>

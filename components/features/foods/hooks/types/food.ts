@@ -21,7 +21,7 @@ export type FoodRowViewProps = {
     food: Food;
     handlers: {
         handleEdit: (food: Food) => void;
-        handleDelete: (id: number) => void;
+        handleDelete: (food: Food) => void;
         updateFoodCount: (food: Food, newCount: number) => void;
     };
     getRemainingDays: (expiry: string) => string;

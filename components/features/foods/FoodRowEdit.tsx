@@ -17,11 +17,12 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
                     onChange={(e) => handlers.handleFieldChange("count", Number(e.target.value))
                     }
                 >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value={0}>0</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
                 </select>
             </td>
             <td className="border-r px-4 py-2">
@@ -36,7 +37,7 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
             <td className="border-r px-4 py-2">
                 <select
                     value={food.category}
-                    onChange={(e) => handlers.handleFieldChange("expiry", e.target.value)}
+                    onChange={(e) => handlers.handleFieldChange("category", e.target.value)}
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>
@@ -47,7 +48,7 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
             <td className="border-r px-4 py-2">
                 <div className="flex justify-center gap-2">
                     <Button
-                    className="mr-4 bg-blue-200 px-2 py-1 rounded-md"
+                    className=" bg-blue-200 px-2 py-1 rounded-md"
                     onClick={() => handlers.handleSave(food)}
                     >
                         保存
