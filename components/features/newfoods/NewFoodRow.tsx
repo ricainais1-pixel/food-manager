@@ -54,7 +54,7 @@ export default function FoodRow({ food, updateFood, deleteFood }: Props) {
             </td>
             <td className="px-2 py-2 text-center">
                 <Button
-                    className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                    className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
                     onClick={()=>deleteFood(food.id)}
                 >
                     削除

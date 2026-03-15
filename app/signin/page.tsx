@@ -26,7 +26,7 @@ const SigninPage = async () => {
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session) {
-        redirect("/"); 
+        redirect("/home"); 
     }
 
     return <LoginForm />; 

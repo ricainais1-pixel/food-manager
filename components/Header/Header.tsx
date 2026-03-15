@@ -10,7 +10,7 @@ import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
 import Button from "../common/Button"
 
-const Navigation = ({
+const Header = ({
     session,
     profile
 }: {
@@ -37,14 +37,17 @@ const Navigation = ({
     }
 
     useEffect(() => {
-
-        setUser({
-            id:session ? session.user.id:'',
-            email: session?.user.email ?? '',
-            name:session && profile ? profile.name:'',
-            introduce:session && profile ? profile.introduce:'',
-        })
-},[session,setUser,profile])
+        if (session && profile) {
+            setUser({
+                id: session ? session.user.id : '',
+                email: session?.user.email ?? '',
+                name: profile?.name ?? '',
+                introduce: profile?.introduce ?? '',
+            })
+        } else {
+            setUser({ id: '', email: '', name: '', introduce: '' })
+        }
+    }, [session, profile, setUser])
 
 
     return (
@@ -144,4 +147,4 @@ const Navigation = ({
     )
 }
 
-export default Navigation
+export default Header

@@ -11,25 +11,28 @@ const Profile = () => {
 
     
     return (
-        <div>
-            <div className="text-center font-bold text-xl mb-10">ユーザー情報編集画面</div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {/* 名前 */}
-                <div className="mb-5">
-                    <div className="text-sm mb-1 font-bold">名前</div>
-                    <input 
-                        type="text" 
-                        id="name"
-                        placeholder="名前" 
-                        {...register("name")}
-                        className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"
-                    />
-                    <div className="my-3 text-center text-sm text-red-500">{errors.name?.message}</div>
-                </div>
+        <div className="min-h-screen flex flex-col">
+            <div>
+                <h2 className="text-2xl font-bold mb-10 text-left">👤ユーザー情報編集画面</h2>
+                <form 
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full max-w-lg mx-auto">
+                    {/* 名前 */}
+                    <div className="mb-5">
+                        <div className="text-lg mb-1 font-bold">名前</div>
+                        <input 
+                            type="text" 
+                            id="name"
+                            placeholder="名前" 
+                            {...register("name")}
+                            className="border rounded px-2 py-1 w-full h-10 focus:outline-none focus:ring-0"
+                        />
+                        <div className="my-3 text-center text-sm text-red-500">{errors.name?.message}</div>
+                    </div>
 
                 {/* メールアドレス */}
                 <div className="mb-5">
-                    <div className="text-sm mb-1 font-bold">メールアドレス</div>
+                    <div className="text-lg mb-1 font-bold">メールアドレス</div>
 
                     <input
                         type="email"
@@ -45,7 +48,7 @@ const Profile = () => {
 
                 {/* パスワード */}
                 <div className="mb-5">
-                    <div className="text-sm mb-1 font-bold">パスワード</div>
+                    <div className="text-lg mb-1 font-bold">パスワード</div>
 
                     <input
                         type="password"
@@ -59,7 +62,8 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div>
+                </form>
+                <div className="flex justify-center gap-4 mt-4">
                     <Button
                         className="bg-lime-400 hover:bg-lime-500 px-6 py-2 rounded"
                         disabled={loading}
@@ -68,9 +72,9 @@ const Profile = () => {
                     </Button>
                     <Button>戻る</Button>
                 </div>
-            </form>
-            {message && (<div className="text-center mt-4 text-green-600">{message}</div>
-)}
+            
+            {message && (<div className="text-center mt-4 text-green-600">{message}</div>)}
+            </div>
         </div>
     )
 

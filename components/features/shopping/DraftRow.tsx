@@ -26,7 +26,7 @@ export default function DraftRow({
                 value={draft.name}
                 onChange={(e) =>
                     handleDraftNameChange(draft.id, e.target.value)}
-                className="w-full border rounded px-2 py-1"/>
+                className="w-full border rounded px-2 py-1 focus:outline-none"/>
             </td>
             <td className="border-r px-4 py-2">
                 <select

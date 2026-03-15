@@ -1,10 +1,37 @@
+//  layout.tsx
+//  import Footer from '@/components/Footer';
+//  import Navigation from '@/components/Navigation/Navigation';
+//  import { SupabaseListener } from '@/components/supabase-listener';
+
+//  export default async function RootLayout({ children }: { children: React.ReactNode }) {
+//    const { session, profile } = await SupabaseListener();
+
+//    return (
+//      <html lang="ja">
+//        <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans">
+//          {/* ヘッダー */}
+//          <Navigation session={session} profile={profile} />
+
+//          {/* メインコンテンツ */}
+//          <main className="flex-1 max-w-[1400px] mx-auto w-full px-6 py-10">
+//            {children}
+//          </main>
+
+//          {/* フッター */}
+//          <Footer />
+//        </body>
+//      </html>
+//    );
+//  }
+
 import './globals.css'
 import { Inter } from 'next/font/google'
-import SupabaseListener from '../components/supabase-listener'
+import { SupabaseListener } from '@/components/supabase-listener'
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import Navigation from '../components/Navigation/navigation'
 import type { Database } from "@/lib/database.types"
+import Footer from '@/components/Footer'
+import Header from '@/components/Header/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,7 +40,7 @@ export const metadata = {
   description: 'Supabase Auth',
 }
 
-// レイアウト
+//  レイアウト
 export default async function RootLayout ({children,}: {children: React.ReactNode}) {
   const cookieStore = await cookies();
 
@@ -25,17 +52,22 @@ export default async function RootLayout ({children,}: {children: React.ReactNod
         getAll() {
           return cookieStore.getAll();
         },
-        setAll() {}
-      },
-    },
+        setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) =>
+          cookieStore.set(name, value, options)
+        )
+      }
+    }
+  }
   );
 
-  // セッション情報の取得
+
+  //  セッション情報の取得
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // プロフィールの取得
+  //  プロフィールの取得
   let profile = null
 
   if (session) {
@@ -47,9 +79,9 @@ export default async function RootLayout ({children,}: {children: React.ReactNod
 
     profile = currentProfile
 
-    // メールアドレスを変更した場合、プロフィールを更新
+    //  メールアドレスを変更した場合、プロフィールを更新
     if (currentProfile && currentProfile.email !== session.user.email){
-      // メールアドレスを更新
+      //  メールアドレスを更新
       const {data:updateProfile} = await supabase
         .from('profiles')
         .update({email:session.user.email})
@@ -63,10 +95,18 @@ export default async function RootLayout ({children,}: {children: React.ReactNod
 
   return (
     <html lang="ja">
-      <body>
-        <Navigation session={session} profile={profile} />
-        {children}
+      <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans">
+        {/* ヘッダー */}
+        <Header session={session} profile={profile} />
+
+        {/* メインコンテンツ */}
+        <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 pt-24 pb-10">
+          {children}
+        </main>
+
+        {/* フッター */}
+        <Footer />
       </body>
     </html>
   )
-}
+};

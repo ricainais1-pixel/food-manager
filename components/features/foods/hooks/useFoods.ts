@@ -13,7 +13,7 @@ export default function useFoods() {
     const [selectedCategory, setSelectedCategory] = useState<string>("すべて");
 
 
-        //編集ボタン
+    //編集ボタン
     const handleEdit = (food: Food ) => {
         setEditingFood({ ...food });
         console.log("編集開始");

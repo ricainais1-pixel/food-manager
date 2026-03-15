@@ -30,9 +30,9 @@ export default function ShoppingTable(props: Props){
         <table className="w-full border-2 border-gray-400 table-fixed mb-10">
             <thead className="border-b-2">
                 <tr>
-                    <th className="border-r px-4 py-2">食材</th>
-                    <th className="border-r px-4 py-2">個数</th>
-                    <th className="border-r px-4 py-2"></th>
+                    <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-52">食材</th>
+                    <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32">個数</th>
+                    <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-40"></th>
                 </tr>
             </thead>
 

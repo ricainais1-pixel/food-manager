@@ -19,68 +19,32 @@ export default function NewFoodPage() {
 
         return(
         <div className="min-h-screen flex flex-col">
-            {/* <header 
-            className="sticky top-0 bg-lime-300 border-b z-50">
-                <div
-                className="flex items-center justify-between px-8 py-5">
-                    <h1 className="text-xl md:text-3xl font-bold ">食材ストック管理</h1>
-                    <nav className="hidden md:block">
-                        <ul 
-                        className="flex gap-6 text-lg font-medium">
-                            <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/home">ホーム</Link>
-                            </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/foods">食材一覧</Link>
-                            </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/newfoods">食材登録</Link>
-                            </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/shopping">購入リスト</Link>
-                            </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
-                                <Link href="/users">ユーザー設定</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                    <button className="md:hidden text-2xl font-bold">☰</button>
-                </div>
-            </header> */}
-
-            <main className="max-w-[1400px] mx-auto mt-10 mb-10 px-6 flex-1">
-                <div>
-                    <h2 className="text-2xl font-bold mb-20">📋食材登録</h2>
-                        <NewFoodTable
-                            foods={foods}
-                            fixedRow={fixedRow}
-                            setFixedRow={setFixedRow}
-                            deleteFixedRow={deleteFixedRow}
-                            updateFood={updateFood}
-                            deleteFood={deleteFood}
-                            handleRegisterAll={handleRegisterAll}
-                        />
+            <h2 className="text-2xl font-bold mb-10">📋食材登録</h2>
+                <NewFoodTable
+                    foods={foods}
+                    fixedRow={fixedRow}
+                    setFixedRow={setFixedRow}
+                    deleteFixedRow={deleteFixedRow}
+                    updateFood={updateFood}
+                    deleteFood={deleteFood}
+                    handleRegisterAll={handleRegisterAll}
+                />
 
 
-                    <div className="flex justify-center mt-4 gap-6">
-                        <Button
-                            className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
-                            onClick={handleAddFood}
-                        >
-                            + 追加
-                        </Button>
-                        <Button
-                            className="text-center rounded-md bg-blue-200 px-8 py-3 w-32 text-lg hover:bg-blue-400"
-                            onClick={handleRegisterAll}
-                        >
-                            登録
-                        </Button>
-                    </div> 
-                </div>           
-            </main>
-            <footer className="bg-gray-100 border-t mt-10"> 
-                <div className="max-w-[1200px] mx-auto py-4 text-center text-sm text-gray-500">© 2026 Food Stock App</div>
-            </footer>
-        </div>
+            <div className="flex justify-center space-x-14 mt-4 gap-4 sm:gap-6 md:gap-8">
+                <Button
+                    className=" bg-lime-300 px-8 py-3 w-32 hover:bg-lime-500"
+                    onClick={handleAddFood}
+                >
+                    + 追加
+                </Button>
+                <Button
+                    className=" bg-blue-200 px-8 py-3 w-32 hover:bg-blue-400"
+                    onClick={handleRegisterAll}
+                >
+                    登録
+                </Button>
+            </div> 
+        </div>           
     )
 }

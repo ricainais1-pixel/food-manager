@@ -2,11 +2,10 @@
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import Navigation from "./Navigation/navigation";
 import type { Database } from "@/lib/database.types";
 
 // 認証状態の監視
-const SupabaseListener = async () => {
+export const SupabaseListener = async () => {
     const cookieStore = await cookies();
     
     const supabase = createServerClient<Database>(
@@ -14,18 +13,14 @@ const SupabaseListener = async () => {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         {
             cookies: {
-                getAll() {
-                    return cookieStore.getAll();
-                },
+                getAll() {return cookieStore.getAll()},
                 setAll() {}
-                },
             },
+        },
     );
 
     // セッション情報の取得
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
+    const {data: { session },} = await supabase.auth.getSession();
 
     // プロフィールの取得
     let profile = null
@@ -53,7 +48,5 @@ const SupabaseListener = async () => {
         }
     }
 
-    return <Navigation session={session} profile={profile}/>
+    return { session, profile };
 }
-
-export default SupabaseListener
