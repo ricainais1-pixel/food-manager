@@ -46,7 +46,7 @@ export default function FoodsTable({
                     className="w-full border-2 border-gray-400 table-fixed mb-10">
                         <thead className="border-b-2">
                             <tr>
-                                <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32"></th>
+                                <th className="border-r px-4 py-2 w-24 sm:w-8 md:w-16"></th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-32 md:w-40">食材名</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-14 md:w-32">個数</th>
                                 <th className="border-r px-4 py-2 w-24 sm:w-24 md:w-32">期限</th>

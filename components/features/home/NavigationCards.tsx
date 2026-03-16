@@ -48,12 +48,12 @@ export default function NavigationCards() {
                 </div>
             </Link>
             <Link href="/users" className="flex-1 min-w-[250px] max-w-[300px]">
-                <div className="border p-3 rounded-xl hover:-translate-y-1 hover:scale-105 transition duration-200">
+                <div className="border p-3 h-52 rounded-xl hover:-translate-y-1 hover:scale-105 transition duration-200">
                     <Image 
                         src="/images/user.jpg"
                         alt="ユーザー設定の画像"
-                        width={100}   // カード幅に合わせる
-                        height={100}  // 画像の自然な縦横比
+                        width={100} 
+                        height={100}  
                         className=" object-cover object-center rounded-md"
                     />
                     <p

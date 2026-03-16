@@ -71,7 +71,7 @@ export default function LoginForm() {
                         <div className="mb-5 flex justify-center">
                             <Button
                                 type="submit"
-                                className="text-center rounded-md bg-sky-500 px-8 py-3 w-32 text-lg hover:bg-sky-200"
+                                className=" bg-blue-200 px-8 py-3 w-32 hover:bg-blue-500"
                             >
                                 ログイン
                             </Button>

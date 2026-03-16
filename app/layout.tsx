@@ -1,29 +1,3 @@
-//  layout.tsx
-//  import Footer from '@/components/Footer';
-//  import Navigation from '@/components/Navigation/Navigation';
-//  import { SupabaseListener } from '@/components/supabase-listener';
-
-//  export default async function RootLayout({ children }: { children: React.ReactNode }) {
-//    const { session, profile } = await SupabaseListener();
-
-//    return (
-//      <html lang="ja">
-//        <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans">
-//          {/* ヘッダー */}
-//          <Navigation session={session} profile={profile} />
-
-//          {/* メインコンテンツ */}
-//          <main className="flex-1 max-w-[1400px] mx-auto w-full px-6 py-10">
-//            {children}
-//          </main>
-
-//          {/* フッター */}
-//          <Footer />
-//        </body>
-//      </html>
-//    );
-//  }
-
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { SupabaseListener } from '@/components/supabase-listener'
@@ -36,8 +10,8 @@ import Header from '@/components/Header/Header'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Supabase Auth',
-  description: 'Supabase Auth',
+  title: 'おうちストック',
+  description: 'おうちの食材管理アプリ',
 }
 
 //  レイアウト
@@ -95,12 +69,12 @@ export default async function RootLayout ({children,}: {children: React.ReactNod
 
   return (
     <html lang="ja">
-      <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans">
+      <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans bg-gray-50">
         {/* ヘッダー */}
         <Header session={session} profile={profile} />
 
         {/* メインコンテンツ */}
-        <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 pt-24 pb-10">
+        <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 pt-24 pb-10 ">
           {children}
         </main>
 

@@ -49,8 +49,9 @@ export default function FoodsPage () {
                 </Link>
 
                 <button
-                onClick={addSelectedToShoppingList
-                }>🛒</button>
+                onClick={addSelectedToShoppingList}
+                className="bg-lime-200 px-4 py-2 rounded-md hover:bg-lime-300"
+                >🛒</button>
                 </div>
             </div>
             <FoodsTable
