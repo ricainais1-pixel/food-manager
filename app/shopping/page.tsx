@@ -16,8 +16,10 @@ export default function Shopping () {
         handleSave,
         handleDraftNameChange,
         handleDraftCountChange,
+        handleDraftCategoryChange,
         handleDraftDelete,
         handleNameChange,
+        handleCategoryChange,
         handleEditCountChange,
         handleUpdate,
         handleDelete,
@@ -40,8 +42,10 @@ export default function Shopping () {
                     handleSave={handleSave}
                     handleDraftNameChange={handleDraftNameChange}
                     handleDraftCountChange={handleDraftCountChange}
+                    handleDraftCategoryChange={handleDraftCategoryChange}
                     handleDraftDelete={handleDraftDelete}
                     handleNameChange={handleNameChange}
+                    handleCategoryChange={handleCategoryChange}
                     handleEditCountChange={handleEditCountChange}
                     handleUpdate={handleUpdate}
                     handleDelete={handleDelete}

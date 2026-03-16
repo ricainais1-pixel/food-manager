@@ -18,6 +18,9 @@ export default function FoodsPage () {
         selectedCategory,
         setSelectedCategory,
         handleFieldChange,
+        checkedFoods,
+        toggleCheck, 
+        addSelectedToShoppingList
     } = useFoods();
     
 
@@ -42,25 +45,31 @@ export default function FoodsPage () {
                 <Link 
                 href="/newfoods"
                 className="bg-blue-200 px-4 py-2 rounded-md hover:bg-blue-400" >
-                    + 追加
+                    ＋
                 </Link>
+
+                <button
+                onClick={addSelectedToShoppingList
+                }>🛒</button>
                 </div>
             </div>
             <FoodsTable
                 foods={foods}
-                editingFood={editingFood}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                getRemainingDays={getRemainingDays}
-                handlers={{
-                    handleEdit,
-                    handleBack,
-                    handleDelete,
-                    handleSave,
-                    handleNameChange,
-                    updateFoodCount,
-                    handleFieldChange,
-                }}
+                    editingFood={editingFood}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    getRemainingDays={getRemainingDays}
+                    handlers={{
+                        handleEdit,
+                        handleBack,
+                        handleDelete,
+                        handleSave,
+                        handleNameChange,
+                        updateFoodCount,
+                        handleFieldChange,
+                    }}
+                    checkedFoods={checkedFoods}
+                    toggleCheck={toggleCheck}
             />
         </div>
     )

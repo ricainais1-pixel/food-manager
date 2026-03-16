@@ -2,9 +2,22 @@ import Button from "@/components/common/Button";
 import { FoodRowViewProps } from "./hooks/types/food";
 
 
-export default function FoodRowView({ food, handlers, getRemainingDays }: FoodRowViewProps) {
+export default function FoodRowView({ 
+    food, 
+    handlers, 
+    getRemainingDays,
+    checkedFoods,
+    toggleCheck 
+}: FoodRowViewProps) {
     return (
         <tr key={food.id}>
+            <td className="border-r px-4 py-2 text-center">
+                <input
+                    type="checkbox"
+                    checked={checkedFoods.includes(food.id)}
+                    onChange={() => toggleCheck(food.id)}
+                />
+            </td>
             <td className="border-r px-4 py-2">{food.name}</td>
             <td className="border-r px-4 py-2 text-center">{food.count}</td>
             <td className="border-r px-4 py-2 text-center">{getRemainingDays(food.expiry)}</td>
@@ -18,7 +31,7 @@ export default function FoodRowView({ food, handlers, getRemainingDays }: FoodRo
                     </Button>
                     <Button 
                     className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
-                    onClick={() => handlers.handleDelete(food)}
+                    onClick={() => handlers.handleDelete(food.id)}
                     >
                         削除
                     </Button>

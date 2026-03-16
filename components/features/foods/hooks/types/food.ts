@@ -15,15 +15,20 @@ export type FoodRowEditProps = {
         handleFieldChange: (field: keyof Food, value: string | number) => void;
         handleBack: () => void;
     };
+    getRemainingDays: (expiry: string | null) => string;
+    checkedFoods: number[];
+    toggleCheck: (id: number) => void;
 };
 
 export type FoodRowViewProps = {
     food: Food;
     handlers: {
         handleEdit: (food: Food) => void;
-        handleDelete: (food: Food) => void;
-        updateFoodCount: (food: Food, newCount: number) => void;
+        handleDelete: (id: number) => Promise<void>;
+        updateFoodCount: (id: number, count: number) => void;
     };
-    getRemainingDays: (expiry: string) => string;
+    getRemainingDays: (expiry: string | null) => string;
+    checkedFoods: number[];
+    toggleCheck: (id: number) => void;
 };
 

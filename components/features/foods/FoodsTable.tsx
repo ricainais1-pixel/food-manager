@@ -6,10 +6,10 @@ import FoodRowEdit from "./FoodRowEdit";
 
 type FoodHandlers = {
     handleEdit: (food: Food) => void;
-    handleDelete: (id: number) => void;
+    handleDelete: (id: number) => Promise<void>;
     handleSave: (food: Food) => void;
     handleNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    updateFoodCount: (food: Food, newCount: number) => void;
+    updateFoodCount: (id: number, count: number) => void;
     handleFieldChange: (field: keyof Food, value: string | number) => void;
     handleBack: () => void;
 };
@@ -20,7 +20,9 @@ type Props = {
     selectedCategory: string;
     setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
     handlers: FoodHandlers;
-    getRemainingDays: (expiry: string) => string;
+    getRemainingDays: (expiry: string | null) => string;
+    checkedFoods: number[];
+    toggleCheck: (id: number) => void;
 };
 
 export default function FoodsTable({
@@ -29,6 +31,8 @@ export default function FoodsTable({
     selectedCategory,
     handlers,
     getRemainingDays,
+    checkedFoods,
+    toggleCheck,
 }: Props) {
     const filteredFoods = foods.filter(
         (food) => selectedCategory === "すべて" || food.category === selectedCategory
@@ -60,6 +64,8 @@ export default function FoodsTable({
                                         updateFoodCount: handlers.updateFoodCount,
                                         }}
                                     getRemainingDays={getRemainingDays}
+                                    checkedFoods={checkedFoods}
+                                    toggleCheck={toggleCheck}
                                 />
                             ))}
                         </tbody>
@@ -83,11 +89,14 @@ export default function FoodsTable({
                                 <FoodRowEdit
                                     food={editingFood}
                                     handlers={{
-                                        handleSave: handlers.handleSave,
+                                        handleSave: (food: Food) => handlers.handleSave(food),
                                         handleNameChange: handlers.handleNameChange,
                                         handleFieldChange: handlers.handleFieldChange,
                                         handleBack: handlers.handleBack,
                                     }}
+                                    getRemainingDays={getRemainingDays}
+                                    checkedFoods={checkedFoods}
+                                    toggleCheck={toggleCheck}
                                 />
                             )}
                         </tbody>
