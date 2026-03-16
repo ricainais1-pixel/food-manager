@@ -11,10 +11,19 @@ type Food = {
     expiry: string;
 };
 
+export type ExpiryNotice = {
+    food: Food;
+    text: string;
+    colorClass: string;
+};
+
 export function useExpiryFoods() {
+    const [expiredFoods, setExpiredFoods] = useState<ExpiryNotice[]>([]);
     const [foods,setFoods] = useState<Food[]>([]);
+    const [soonFoods, setSoonFoods] = useState<ExpiryNotice[]>([]);
     const [loading, setLoading] = useState(true);
     
+    // 期限判定と色付け
     const formatExpiryNotice = (expiry: string): { text: string; colorClass: string } => {
         const today = new Date();
         const expiryDate = new Date(expiry);
@@ -22,55 +31,76 @@ export function useExpiryFoods() {
         const diffTime = expiryDate.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        let text = "";
-        let colorClass = "text-black";
-
-        if (diffDays < 0) {
-            text = "期限切れ";
-            colorClass = "text-red-600";
-        } else if (diffDays === 0) {
-            text = "今日まで";
-            colorClass = "text-red-500";
-        } else if (diffDays <= 3) {
-            text = `あと${diffDays}日で期限切れ`;
-            colorClass = "text-orange-500";
-        } else {
-            text = `あと${diffDays}日で期限切れ`;
-        }
-
-        return { text, colorClass };
+        if (diffDays < 0) return { text: "期限切れ", colorClass: "text-red-600" };
+        if (diffDays === 0) return { text: "今日まで", colorClass: "text-red-500" };
+        if (diffDays <= 3) return { text: `あと${diffDays}日で期限切れ`, colorClass: "text-orange-500" };
+        return { text: `あと${diffDays}日で期限切れ`, colorClass: "text-black" };
     };
     
-    
+    // 期限切れ食品を削除する関数
+    const removeExpiredFood = (id: number) => {
+        setExpiredFoods(prev => prev.filter(item => item.food.id !== id));
+    };
     
     useEffect(() => {
-        async function fetchFoods() {
-            const {data: { user }} = await supabase.auth.getUser();
+    async function fetchFoods() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
 
-            if (!user) return;
-
-            const threeDaysLater = new Date(Date.now() + 3 * 86400000);
-
-            const { data, error } = await supabase
-            .from("Foods") 
+        const { data, error } = await supabase
+            .from("Foods")
             .select("*")
             .eq("user_id", user.id)
-            .lte("expiry", threeDaysLater.toISOString())
             .order("expiry", { ascending: true });
 
-            if (error) {
-                console.error(error);
-            } else if (data) {
-                setFoods(data as Food[]);
-            }
-            setLoading(false);
-            }
-            fetchFoods();
-    }, []);
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        if (data) {
+            const expired: ExpiryNotice[] = [];
+            const soon: ExpiryNotice[] = [];
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const threeDaysAgo = new Date(today.getTime() - 3 * 86400000); // 今日から3日前
+            const threeDaysLater = new Date(today.getTime() + 3 * 86400000); // 今日から3日後
+
+            (data as Food[]).forEach(food => {
+                const notice = formatExpiryNotice(food.expiry);
+                const item: ExpiryNotice = { food, ...notice };
+
+                const expiryDate = new Date(food.expiry);
+                expiryDate.setHours(0, 0, 0, 0);
+
+                // 期限切れだけど3日以内なら expiredFoods に表示
+                if (expiryDate < today && expiryDate >= threeDaysAgo) {
+                    expired.push(item);
+                } 
+                // 期限切れ前で3日以内なら soonFoods に表示
+                else if (expiryDate >= today && expiryDate <= threeDaysLater) {
+                    soon.push(item);
+                }
+                // それ以外は何もしない（expired3日以上は自動的に除外）
+            });
+
+            setExpiredFoods(expired);
+            setSoonFoods(soon);
+        }
+
+        setLoading(false);
+    }
+
+    fetchFoods();
+}, []);
     
     return {
-        foods,
+        expiredFoods,
+        soonFoods,
         loading,
+        removeExpiredFood,
         formatExpiryNotice,
     };
 };

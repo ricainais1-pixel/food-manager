@@ -4,44 +4,59 @@ type Food = {
     expiry: string;
 };
 
-type Props = {
-    foods: Food[];
-    formatExpiryNotice: (
-        expiry: string
-    ) => { text: string; colorClass: string };
+export type ExpiryNotice = {
+    food: Food;
+    text: string;
+    colorClass: string;
 };
 
-export default function ExpiryNoticeCard({foods,formatExpiryNotice}:Props){
+type Props = {
+    expiredFoods: ExpiryNotice[];
+    soonFoods: ExpiryNotice[];
+};
+
+export default function ExpiryNoticeCard({expiredFoods, soonFoods}:Props){
     return(
         <section 
         className="m-10 relative w-full max-w-6xl mx-auto">
             
             <div
             className="absolute left-6 -top-4 bg-red-300 px-5 py-1 rounded-md shadow font-bold z-10">
-                <h2 className="text-2xl font-bold">期限のお知らせ</h2>
+                <h2 className="text-2xl font-bold">お知らせ</h2>
             </div>
             <div
-            className="border-2 rounded-xl p-6 pt-10 bg-white max-h-[300px] overflow-y-auto ">
-                <ul className="space-y-2 text-lg">
-                    {foods.length === 0 ? (
-                        <li>期限が近い食材はありません。</li>
-                    ) : (
-                        foods.map((food) => {
-                        const notice = formatExpiryNotice(
-                        food.expiry
-                        );
+            className="flex gap-6 border-2 rounded-xl p-6 pt-10 bg-white max-h-[300px] overflow-y-auto ">
+                {/* 期限切れ */}
+                <div className="flex-1 border-r pr-4">
+                    <h3 className="text-xl font-bold text-red-500 mb-2">― 期限切れ (期限切れてから3日後に削除) ―</h3>
+                    <ul className="space-y-2 text-lg">
+                        {expiredFoods.length === 0 ? (
+                            <li>期限切れはありません。</li>
+                        ) : (
+                            expiredFoods.map(item => (
+                                <li key={item.food.id}>
+                                    {item.food.name} <span className={item.colorClass}>{item.text}</span>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                </div>
 
-                        return (
-                            <li key={food.id}>
-                                {food.name} が{" "}
-                                <span className={notice.colorClass}>
-                                {notice.text}
-                                </span>
-                            </li>
-                            );
-                        })
-                    )}
-                </ul>
+                {/* 期限が近い */}
+                <div className="flex-1 pl-4">
+                    <h3 className="text-xl font-bold text-orange-500 mb-2">― 期限が近い ―</h3>
+                    <ul className="space-y-2 text-lg">
+                        {soonFoods.length === 0 ? (
+                            <li>期限が近い食材はありません</li>
+                        ) : (
+                            soonFoods.map(item => (
+                                <li key={item.food.id}>
+                                    {item.food.name} <span className={item.colorClass}>{item.text}</span>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                </div>
             </div>
         </section>
     )

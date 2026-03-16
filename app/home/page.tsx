@@ -7,7 +7,7 @@ import NavigationCards from "@/components/features/home/NavigationCards";
 
 
 export default function HomePage() {
-    const { foods, loading, formatExpiryNotice } =useExpiryFoods();
+    const { expiredFoods, soonFoods, loading } =useExpiryFoods();
 
     if (loading) {
     return (
@@ -21,8 +21,8 @@ export default function HomePage() {
     return (
     <div className="min-h-screen flex flex-col">
         <ExpiryNoticeCard
-            foods={foods}
-            formatExpiryNotice={formatExpiryNotice}
+            expiredFoods={expiredFoods}
+            soonFoods={soonFoods}
         />
 
         <NavigationCards />

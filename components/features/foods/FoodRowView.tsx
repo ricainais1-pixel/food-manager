@@ -10,7 +10,7 @@ export default function FoodRowView({
     toggleCheck 
 }: FoodRowViewProps) {
     return (
-        <tr key={food.id}>
+        <tr key={food.id} className={food.count <= 0 ? "bg-red-200" : ""}>
             <td className="border-r px-4 py-2 text-center">
                 <input
                     type="checkbox"
@@ -19,7 +19,14 @@ export default function FoodRowView({
                 />
             </td>
             <td className="border-r px-4 py-2">{food.name}</td>
-            <td className="border-r px-4 py-2 text-center">{food.count}</td>
+            <td className="border-r px-4 py-2 text-center">
+                <input
+                type="number"
+                value={food.count}
+                onChange={e => handlers.updateFoodCount(food.id, Number(e.target.value))}
+                className={`w-16 text-center ${food.count <= 0 ? "bg-red-200" : "bg-white"}`}
+                />
+            </td>
             <td className="border-r px-4 py-2 text-center">{getRemainingDays(food.expiry)}</td>
             <td className="border-r px-4 py-2 text-center">{food.category}</td>
             <td className="px-4 py-2 space-x-2 ">
