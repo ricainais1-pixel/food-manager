@@ -72,41 +72,41 @@ const Header =()=> {
 
 
     return (
-        <header className="sticky top-0 bg-lime-300 border-b z-50">
+        <header className="sticky top-0 bg-lime-200 border-b z-50">
             <div className="flex items-center justify-between px-8 py-5">
-                <h1 className="text-xl md:text-3xl font-bold">
+                <h1 className="text-xl md:text-3xl font-bold tracking-widest">
                     <Link href="/home">おうちストック</Link>
                 </h1>
 
                 <nav className="hidden md:block">
                     {session ? (
                         <ul className="flex gap-6 text-lg font-medium">
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/home">ホーム</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/foods">一覧</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/newfoods">登録</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/shopping">購入リスト</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/users">ユーザー</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <span onClick={handleLogout}
-                                className="cursor-pointer hover:text-lime-800">ログアウト</span>
+                                className="cursor-pointer hover:text-amber-900">ログアウト</span>
                             </li>
                         </ul>
                     ) : (
                         <ul className="flex gap-6 text-lg font-medium">
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/signin">ログイン</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/register"
                                 onClick={() => console.log('新規登録リンクがクリックされました')}>新規登録</Link>
                             </li>
@@ -116,7 +116,7 @@ const Header =()=> {
 
                 <Button 
                     onClick={toggleMenu}
-                    className="md:hidden text-2xl font-bold hover:text-lime-800"
+                    className="md:hidden text-2xl font-bold hover:text-amber-900"
                 >
                     {isOpen ? '✕' : '☰'}
                 </Button>
@@ -127,24 +127,24 @@ const Header =()=> {
                 <div className="md:hidden bg-lime-300 border-t px-8 py-4">
                     {session ? (
                         <ul className="flex flex-col gap-4 text-lg font-medium">
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/home" onClick={() => setIsOpen(false)}>ホーム</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/foods" onClick={() => setIsOpen(false)}>一覧</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/newfoods" onClick={() => setIsOpen(false)}>登録</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/shopping" onClick={() => setIsOpen(false)}>購入リスト</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/users" onClick={() => setIsOpen(false)}>ユーザー</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <span 
-                                className="cursor-pointer hover:text-lime-800"
+                                className="cursor-pointer hover:text-amber-900"
                                 onClick={() => {handleLogout()
                                 setIsOpen(false)}}
                                 >
@@ -154,10 +154,10 @@ const Header =()=> {
                         </ul>
                     ) : (
                         <ul className="flex flex-col gap-4 text-lg font-medium">
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/signin" onClick={() => setIsOpen(false)}>ログイン</Link>
                             </li>
-                            <li className="hover:text-lime-800 cursor-pointer">
+                            <li className="hover:text-amber-900 cursor-pointer">
                                 <Link href="/register"
                                 onClick={() => {
                                     console.log('新規登録リンクがクリックされました')

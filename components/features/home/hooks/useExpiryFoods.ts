@@ -26,13 +26,15 @@ export function useExpiryFoods() {
     // 期限判定と色付け
     const formatExpiryNotice = (expiry: string): { text: string; colorClass: string } => {
         const today = new Date();
-        const expiryDate = new Date(expiry);
+        const todayUTC = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
-        const diffTime = expiryDate.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const expiryDate = new Date(expiry);
+        const expiryUTC = Date.UTC(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
+
+        const diffDays = Math.floor((expiryUTC - todayUTC) / (1000 * 60 * 60 * 24));
 
         if (diffDays < 0) return { text: "期限切れ", colorClass: "text-red-600" };
-        if (diffDays === 0) return { text: "今日まで", colorClass: "text-red-500" };
+        if (diffDays === 0) return { text: "今日まで", colorClass: "text-orange-500" };
         if (diffDays <= 3) return { text: `あと${diffDays}日で期限切れ`, colorClass: "text-orange-500" };
         return { text: `あと${diffDays}日で期限切れ`, colorClass: "text-black" };
     };
@@ -69,21 +71,18 @@ export function useExpiryFoods() {
             const threeDaysLater = new Date(today.getTime() + 3 * 86400000); // 今日から3日後
 
             (data as Food[]).forEach(food => {
-                const notice = formatExpiryNotice(food.expiry);
-                const item: ExpiryNotice = { food, ...notice };
-
                 const expiryDate = new Date(food.expiry);
-                expiryDate.setHours(0, 0, 0, 0);
+                const todayUTC = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+                const expiryUTC = Date.UTC(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
+                const diffDays = Math.floor((expiryUTC - todayUTC) / (1000 * 60 * 60 * 24));
+                const item: ExpiryNotice = { food, ...formatExpiryNotice(food.expiry) };
 
-                // 期限切れだけど3日以内なら expiredFoods に表示
-                if (expiryDate < today && expiryDate >= threeDaysAgo) {
-                    expired.push(item);
-                } 
-                // 期限切れ前で3日以内なら soonFoods に表示
-                else if (expiryDate >= today && expiryDate <= threeDaysLater) {
-                    soon.push(item);
+                // 今日を含めて判定
+                if (diffDays < 0 && diffDays >= -3) {
+                    expired.push(item); // 期限切れ3日以内
+                } else if (diffDays >= 0 && diffDays <= 3) {
+                    soon.push(item); // 今日～3日以内
                 }
-                // それ以外は何もしない（expired3日以上は自動的に除外）
             });
 
             setExpiredFoods(expired);
