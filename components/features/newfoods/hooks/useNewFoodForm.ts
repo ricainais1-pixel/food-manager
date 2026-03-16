@@ -3,6 +3,7 @@
 import useFoodState from "./useNewFoodState";
 import { deleteFoodFromDB,updateFoodInDB,insertFoodsToDB } from "./useNewFoodAPI";
 import { NewFood } from "./types/newfood";
+import { createClient } from "@/lib/supabase/client";
 
 
 export default function useFoodForm() {
@@ -47,6 +48,14 @@ export default function useFoodForm() {
 
     // 登録ボタンでまとめて保存
     const handleRegisterAll = async () => {
+        const supabase = createClient();
+
+        const {data: { user }} = await supabase.auth.getUser();
+        if (!user) {
+            alert("ログインしてください");
+            return;
+        }
+
         const allFoods = [...foods];
 
         // 固定行が入力されていれば追加
@@ -54,7 +63,7 @@ export default function useFoodForm() {
             allFoods.push({
                 id: -Date.now(),
                 name: fixedRow.name,
-                count: parseInt(fixedRow.count) || 1,
+                count: fixedRow.count,
                 expiry: fixedRow.expiry,
                 category: fixedRow.category,
             });
@@ -74,7 +83,8 @@ export default function useFoodForm() {
                 name: food.name,
                 count: food.count,
                 expiry: food.expiry,
-                category: food.category
+                category: food.category,
+                user_id: user?.id
             }));
             const  error  = await insertFoodsToDB(foodsToInsert);
             if (error) {
@@ -87,7 +97,7 @@ export default function useFoodForm() {
             setFixedRow({        
                 id: -1,
                 name: "",
-                count: "1",
+                count: 1,
                 expiry: new Date().toISOString().split("T")[0],
                 category: "冷蔵庫",
                 isVisible: true

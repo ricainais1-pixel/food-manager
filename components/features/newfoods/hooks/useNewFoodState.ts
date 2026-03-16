@@ -9,8 +9,9 @@ export default function useFoodState() {
     ]);
 
     const [fixedRow, setFixedRow] = useState<FixedRow>({
+        id: -1,
         name: "",
-        count: "1",
+        count: 1,
         expiry: new Date().toISOString().split("T")[0],
         category: "冷蔵庫",
         isVisible: true

@@ -61,6 +61,7 @@ export default function ShoppingRow({
                 ) : (
                     item.count
                 )}
+            </td>
             <td
             className="border-r px-4 py-2">
                 {editingId === item.id ? (
@@ -73,6 +74,7 @@ export default function ShoppingRow({
                     item.category || ""
                 )}
             </td>
+            <td>
                 <div className="flex justify-center gap-4">
                     {editingId === item.id ? (
                         <>

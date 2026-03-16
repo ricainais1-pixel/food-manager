@@ -11,7 +11,7 @@ export type NewFood = {
 export type FixedRow = {
     id: number;     
     name: string;
-    count: string;
+    count: number;
     expiry: string;
     category: string;
     isVisible: boolean; 
