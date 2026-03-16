@@ -10,15 +10,11 @@ import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
 import Button from "../common/Button"
 
-const Header = ({
-    session,
-    profile
-}: {
-    session: Session | null
-    profile: ProfileType | null
-}) => {
+const Header =()=> {
     const { setUser } = useStore()
     const [isOpen, setIsOpen] = useState(false)
+    const [session, setSession] = useState<Session | null>(null)
+    const [profile, setProfile] = useState<ProfileType | null>(null)
 
     const router = useRouter()
 
@@ -35,6 +31,31 @@ const Header = ({
     const toggleMenu = () => {
         setIsOpen(!isOpen)
     }
+
+    const fetchProfile = async (userId: string): Promise<void> => {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single()
+        if(data) setProfile(data)
+    }
+
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+            setSession(data.session)
+            if(data.session) fetchProfile(data.session.user.id)
+        })
+
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+            if(session) fetchProfile(session.user.id)
+            else setProfile(null)
+        })
+        return () => listener.subscription.unsubscribe()
+    }, [])
+
 
     useEffect(() => {
         if (session && profile) {

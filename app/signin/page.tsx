@@ -40,20 +40,6 @@ export default SigninPage;
 //     }
 //     return(
 //         <div className="min-h-screen flex flex-col">
-//             <header 
-//             className="flex justify-between items-center p-4 bg-lime-500">
-//                 <h1 className="text-4xl font-bold  text-gray-200">食材ストック管理</h1>
-//                 <nav>
-//                     <ul className="flex text-lg font-bold ">
-//                         <li className="mr-3">
-//                             <button
-//                             className="text-center bg-gray-200 text-lg rounded-md px-4 py-2 hover:bg-lime-200">
-//                                 <Link href="/register">新規登録</Link>
-//                             </button>
-//                         </li>
-//                     </ul>
-//                 </nav>
-//             </header>
 
 //             <main className="max-w-[1400px] mx-auto mt-40 mb-10 px-6 flex-1">
 //                 <div className="max-w-xl mx-auto">

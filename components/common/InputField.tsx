@@ -6,9 +6,9 @@ type InputFieldProps = {
     type?: string;
     placeholder?: string;
     id?: string;
-    register: UseFormRegisterReturn; // react-hook-form の register を渡す
+    register: UseFormRegisterReturn;
     error?: string;
-    className?: string; // 追加
+    className?: string; 
 };
 
 export default function InputField({

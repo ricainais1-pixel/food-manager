@@ -31,58 +31,58 @@ export default function RegisterForm() {
 
 
     return (
-        <div className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
-        <div className="text-2xl font-bold mb-8 text-center">サインアップ</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/* 名前 */}
-            <InputField
-            type="text"
-            id="name"
-            placeholder="名前"
-            register={register("name")}
-            error={errors.name?.message}
-            className="mb-3 font-semibold"
-            />
+        <div className="max-w-md mx-auto mt-10 mb-6 px-6 flex-1">
+            <h2 className="text-2xl font-bold mb-8 text-center">サインアップ</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {/* 名前 */}
+                <InputField
+                type="text"
+                id="name"
+                placeholder="名前"
+                register={register("name")}
+                error={errors.name?.message}
+                className="mb-3 font-semibold"
+                />
 
-            {/* メールアドレス */}
-            <InputField
-            type="email"
-            id="email"
-            placeholder="メールアドレス"
-            register={register("email")}
-            error={errors.email?.message}
-            className="mb-3 font-semibold"
-            />
+                {/* メールアドレス */}
+                <InputField
+                type="email"
+                id="email"
+                placeholder="メールアドレス"
+                register={register("email")}
+                error={errors.email?.message}
+                className="mb-3 font-semibold"
+                />
 
-            {/* パスワード */}
-            <InputField
-            type="password"
-            id="password"
-            placeholder="パスワード"
-            register={register("password")}
-            error={errors.password?.message}
-            className="mb-3 font-semibold"
-            />
+                {/* パスワード */}
+                <InputField
+                type="password"
+                id="password"
+                placeholder="パスワード"
+                register={register("password")}
+                error={errors.password?.message}
+                className="mb-3 font-semibold"
+                />
 
-            {/* サインアップボタン */}
-            <div className="mb-5">
-            <Button
-                type="submit"
-                loading={loading}
-                className="text-center rounded-md bg-red-200 px-8 py-3 w-32 text-lg hover:bg-red-400"
-            >
-                サインアップ
-            </Button>
+                {/* サインアップボタン */}
+                <div className="mb-5 flex justify-center">
+                <Button
+                    type="submit"
+                    loading={loading}
+                    className=" bg-red-200 px-6 py-3 w-auto hover:bg-red-400"
+                >
+                    サインアップ
+                </Button>
+                </div>
+            </form>
+
+            {message && <div className="mt-4 text-red-500">{message}</div>}
+
+            <div className="mt-4 flex justify-center">
+                <Link href="/signin" className="text-gray-500 font-bold">
+                ログインはこちら
+                </Link>
             </div>
-        </form>
-
-        {message && <div className="mt-4 text-red-500">{message}</div>}
-
-        <div className="mt-4">
-            <Link href="/signin" className="text-gray-500 font-bold">
-            ログインはこちら
-            </Link>
-        </div>
         </div>
     );
 }

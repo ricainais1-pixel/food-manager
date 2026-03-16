@@ -38,8 +38,8 @@ export default function LoginForm() {
 
 
     return (
-        <div className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
-            <div className="text-2xl font-bold mb-6 text-center">ログイン</div>
+        <div className="max-w-md mx-auto mt-10 mb-6 px-6 flex-1">
+            <h2 className="text-2xl font-bold mb-6 text-center">ログイン</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* メールアドレス */}
                 <div>
@@ -50,7 +50,6 @@ export default function LoginForm() {
                         register={register("email")}
                         error={errors.email?.message}
                     />
-                    <ErrorMessage message={errors.email?.message} />
                 </div>
 
                 {/* パスワード */}
@@ -62,7 +61,6 @@ export default function LoginForm() {
                         register={register("password")}
                         error={errors.password?.message}
                     />
-                    <ErrorMessage message={errors.password?.message} />
                 </div>
 
                 {/* ログインボタン */}
@@ -70,7 +68,7 @@ export default function LoginForm() {
                     {loading ? (
                         <Loading />
                     ) : (
-                        <div className="mb-5">
+                        <div className="mb-5 flex justify-center">
                             <Button
                                 type="submit"
                                 className="text-center rounded-md bg-sky-500 px-8 py-3 w-32 text-lg hover:bg-sky-200"
@@ -86,7 +84,7 @@ export default function LoginForm() {
             <ErrorMessage message={message} />
 
             {/* サインアップページへのリンク */}
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center">
                 <Link href="/register" className="text-gray-500 font-bold">
                     新しいアカウントを作成
                 </Link>

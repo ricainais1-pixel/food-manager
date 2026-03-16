@@ -29,7 +29,7 @@ export default function useFoods() {
     const handleDelete = async (id: number) => {
         const food = foods.find(f => f.id === id);
         if (!food) return;
-        
+
         const { data: userData } = await supabase.auth.getUser();
         const userId = userData?.user?.id;
 
@@ -212,13 +212,17 @@ export default function useFoods() {
 
         const { error } = await supabase
             .from("shopping_list")
-            .insert(
+            .upsert(
                 foodsToAdd.map(food => ({
                     name: food.name,
                     count: food.count,
                     category: food.category,
                     user_id: userId,
-                }))
+                })),
+                {
+                    onConflict: "user_id,name", 
+                    ignoreDuplicates: true 
+                }
             );
 
         if (error) {
@@ -227,7 +231,8 @@ export default function useFoods() {
             alert(`${foodsToAdd.length} 件を購入リストに追加しました`);
             setCheckedFoods([]);
         }
-        };
+    };
+
 
     useEffect(() => {
         const getFoods = async () => {

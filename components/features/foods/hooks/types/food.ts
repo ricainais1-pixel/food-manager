@@ -32,3 +32,10 @@ export type FoodRowViewProps = {
     toggleCheck: (id: number) => void;
 };
 
+export type ShoppingListRow = {
+    id?: number;
+    name: string;
+    count: number;
+    category: string | null;
+    user_id: string;
+};
