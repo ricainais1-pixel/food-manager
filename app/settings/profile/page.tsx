@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
-import Profile from '@/components/features/profile/components/Profile';
+import Profile from "@/components/features/profile/components/Profile";
 import type { Database } from "@/lib/database.types";
 
 const ProfilePage = async () => {
