@@ -71,7 +71,7 @@ export default async function RootLayout ({children,}: {children: React.ReactNod
     <html lang="ja">
       <body className="min-h-screen flex flex-col bg-white text-gray-800 font-sans bg-gray-50">
         {/* ヘッダー */}
-        <Header session={session} profile={profile} />
+        <Header />
 
         {/* メインコンテンツ */}
         <main className="flex-1 max-w-[1400px] w-full mx-auto px-6 pt-24 pb-10 ">
