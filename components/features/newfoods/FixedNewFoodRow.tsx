@@ -28,7 +28,7 @@ export default function FixedFoodRow({ fixedRow, setFixedRow, registerFixedRow, 
                 <select
                     className="w-full border rounded px-2 py-1 focus:outline-none"
                     value={fixedRow.count}
-                    onChange={(e) => setFixedRow({ ...fixedRow, count: e.target.value })}
+                    onChange={(e) => setFixedRow({ ...fixedRow, count: Number(e.target.value) })}
                 >
                     <option value={0}>0</option>
                     <option value={1}>1</option>
