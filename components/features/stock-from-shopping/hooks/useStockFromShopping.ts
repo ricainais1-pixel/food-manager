@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Item,FoodInsert } from "../types/types";
+import { useRouter } from "next/navigation";
+
+
 
 const supabase = createClient();
 
@@ -51,6 +54,7 @@ export default function useStockFromShopping() {
             return;
         }
 
+        // 選択した食材をSupabase の Foods テーブルにユーザーごとの在庫として追加
         const itemsToInsert: FoodInsert[] = selectedItemsData.map(item => ({
             name: item.name,
             count: item.count,
@@ -81,13 +85,20 @@ export default function useStockFromShopping() {
             return;
         }
 
-        // ローカルのリストから削除されたアイテムを除去
+        // 購入リストから選択した食材を在庫に追加して、購入リストから削除する処理
         setItems(prev => prev.filter(item => !selectedItems.includes(item.id)));
         setSelectedItems([]);
 
         alert(`${selectedItemsData.length}件の食材を在庫に追加し、購入リストから削除しました`);
     };
 
+    // 戻るボタンの実装
+    const router = useRouter();
+    const goBackToShoppingList = () => {
+        router.push("/shopping"); 
+    };
+
+    // Supabase から買い物リストを取得
     useEffect(() => {
         const fetchItems = async () => {
             const { data, error } = await supabase
@@ -112,6 +123,7 @@ export default function useStockFromShopping() {
         handleExpiryChange,
         handleCategoryChange,
         addSelectedToStock,
+        goBackToShoppingList,
     }
 };
 

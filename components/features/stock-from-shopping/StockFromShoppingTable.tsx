@@ -10,6 +10,7 @@ type Props = {
     handleExpiryChange: (id: number, value: string) => void;
     handleCategoryChange: (id: number, value: string) => void;
     addSelectedToStock: () => void;
+    goBackToShoppingList: () => void;
 };
 
 export default function StockFromShoppingTable({
@@ -19,6 +20,7 @@ export default function StockFromShoppingTable({
     handleExpiryChange,
     handleCategoryChange,
     addSelectedToStock,
+    goBackToShoppingList
 }: Props) {
     return(
         <div className="min-h-screen flex flex-col">
@@ -58,6 +60,7 @@ export default function StockFromShoppingTable({
                                 <select
                                     value={item.category || "冷蔵庫"}
                                     onChange={e => handleCategoryChange(item.id, e.target.value)}
+                                    className="w-full border rounded px-2 py-1 focus:outline-none"
                                 >
                                     <option value="冷蔵庫">冷蔵庫</option>
                                     <option value="冷凍庫">冷凍庫</option>
@@ -71,9 +74,15 @@ export default function StockFromShoppingTable({
                 </table>
             </div>
 
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center space-x-14 mt-4 gap-4 sm:gap-6 md:gap-8">
                 <Button
-                    className="bg-blue-300 px-6 py-2 rounded hover:bg-blue-400"
+                    className="bg-gray-300 px-6 py-2 hover:bg-gray-400"
+                    onClick={goBackToShoppingList}
+                >
+                    戻る
+                </Button>
+                <Button
+                    className="bg-blue-300 px-6 py-2 hover:bg-blue-400"
                     onClick={addSelectedToStock}
                 >
                     在庫へ追加
