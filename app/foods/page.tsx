@@ -45,13 +45,13 @@ export default function FoodsPage () {
                 <Link 
                 href="/newfoods"
                 className="bg-blue-200 px-4 py-2 rounded-md hover:bg-blue-400" >
-                    ＋
+                    登録
                 </Link>
 
                 <button
                 onClick={addSelectedToShoppingList}
                 className="bg-lime-200 px-4 py-2 rounded-md hover:bg-lime-300"
-                >🛒</button>
+                >🧺</button>
                 </div>
             </div>
             <FoodsTable
