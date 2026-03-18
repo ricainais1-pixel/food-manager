@@ -20,7 +20,7 @@ export default function useFoodForm() {
         else removeFoodLocally(id);
     };
 
-    // selectを更新するとき
+    // 食材の特定フィールドを更新するとき
     const updateFood = async (id: number, field: string, value: string | number) => {
         const fieldMap: { [key: string]: string } = {
             name: 'name',
@@ -69,7 +69,7 @@ export default function useFoodForm() {
             });
         }
 
-        // 有効な行のみフィルタ（name, expiry, categoryが入力されているもの）
+        // 有効な行のみ登録できる（name, expiry, categoryが入力されているもの）
         const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0 && f.name.trim() && f.expiry && f.category);
 
         if (unsavedFoods.length === 0) {
@@ -92,7 +92,7 @@ export default function useFoodForm() {
                 return;
             }
 
-            // 登録後は画面表示用の foods をリセットして固定行もリセット
+            // 登録後は画面表示用の入力した項目をリセットして固定行もリセット
             setFoods([]);  
             setFixedRow({        
                 id: -1,
