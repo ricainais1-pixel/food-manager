@@ -11,6 +11,7 @@ export default function StockFromShopping() {
         handleExpiryChange,
         handleCategoryChange,
         addSelectedToStock,
+        goBackToShoppingList,
     } = useStockFromShopping();
 
 
@@ -22,6 +23,7 @@ export default function StockFromShopping() {
             handleExpiryChange={handleExpiryChange}
             handleCategoryChange={handleCategoryChange}
             addSelectedToStock={addSelectedToStock}
+            goBackToShoppingList={goBackToShoppingList}
         />
     );
 }
