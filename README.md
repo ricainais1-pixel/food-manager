@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥕 food-manager
 
-## Getting Started
+このアプリは、**家庭の食材を無駄なく使いきるため**のストック管理アプリです。
+期限や残数を確認したり、購入リストに追加したりできます。Next.js で作成されています。
 
-First, run the development server:
+***
 
+## 開発経緯
+
+自身の生活の中で、仕事帰りにスーパーに寄った際に冷蔵庫の中身が分からず、
+重複購入や買い忘れが発生することがありました。
+
+また、冷蔵庫に入りきらなかったり、奥に食材が眠ってしまった結果、
+食材を無駄にしてしまう経験から、家庭内の食材を管理できるアプリを作ろうと思いました。
+
+近年の物価高の影響により節約志向が高まる中で、
+食材を無駄にしない生活をサポートすることを目的として本アプリを開発しました。
+
+***
+
+## コンセプト
+
+本アプリは、一人暮らし向けに「ゆるっと管理」をコンセプトに設計しています。
+めんどくさがりな人でも継続して利用できるよう、必要最低限の入力で管理できる仕様としました。
+
+また、賞味期限の登録はカレンダー入力を採用し、  
+クリック操作のみで直感的に利用できるよう工夫しています。
+
+日常生活の中で無理なく続けられる、シンプルで負担の少ない食材管理体験の提供を目指しています。
+
+***
+
+## 🧪 デモアカウント
+
+こちらはデモアカウントとなります。実際に機能を体験することができます。
+
+-**URL**:[おうちストックを見る](https://food-manager-ashy.vercel.app/signin)
+-**email**:sample@example.com
+-**password**:password123
+
+***
+
+## ⭐ 機能
+
+-食材の追加や登録・編集・削除
+-食材削除時に自動で購入リストに追加
+-ホーム画面のお知らせにて、期限から3日以内の食材や、期限切れの食材を表示
+-購入リストに入っている食材を在庫に追加できる機能
+-食材一覧画面にて☑で選択後、購入リストに追加できる機能
+-ログイン・ログアウト機能
+-新規登録やユーザー変更の機能
+
+***
+
+## 工夫した点
+
+### 1.ゆるっと管理を意識したUX設計
+本アプリは「ゆるっと管理」をコンセプトとしているため、入力項目を最小限に抑え、直感的な操作で食材管理ができる設計としました。
+賞味期限の登録はカレンダー入力を採用し、手入力による負担やミスを減らす工夫を行っています。
+
+### 2.削除フローのUX改善
+食材一覧から誤って食材を削除した際に情報が完全に失われてしまうことを防ぐため、削除した食材は自動的に購入リストへ追加される仕様としました。
+
+### 3.コンポーネントの共通化による保守性向上
+ボタンコンポーネントを共通化し、UIの統一とコードの再利用性を意識した設計としました。
+これにより、今後の機能追加やデザイン変更にも対応しやすい構成としています。
+
+### 4.一覧性を重視したUI設計
+登録した食材を一目で把握できるよう、主要な画面を表形式で統一しました。
+情報量が増えても視認性を維持できるよう工夫しています。
+
+***
+
+## ⚙️技術スタック
+
+### フロントエンド
+- Next.js 16.1.6
+- React 19.2.3
+- TypeScript 5
+- Tailwind CSS 3.4.19
+
+### バックエンド
+- Supabase 2.99.1
+
+### 状態管理
+- Zustand 5.0.11
+
+### フォーム管理・バリデーション
+- React Hook Form 7.71.2
+- Zod 4.3.6
+
+### その他
+- UUID 13.0.0
+
+### インフラ
+-Vercel
+
+***
+
+## セットアップ
+
+### 1.リポジトリをクローン
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/ricainais1-pixel/food-manager.git
+cd food-manager
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2.依存関係をインストール
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+###　3.環境変数の設定
+`.env.local`を作成し、以下を設定してください。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-## Learn More
+### 4.サーバー起動
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+***
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 今後の課題
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-**スマートフォン操作への対応**
+現在はPC向けのUI設計となっており、レスポンシブ対応を行い、スマートフォンでも快適に利用できるよう改善したいと考えています。
+-**UI/UXデザインの改善**
+視認性や操作性の向上を目的として、全体のデザインの見直しを行い、より直感的に使えるインターフェースを目指します。
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-**通知機能の拡張**
+期限が近い食材をより適切に管理できるよう、メール通知機能の実装を検討しています。
