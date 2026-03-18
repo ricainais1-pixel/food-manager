@@ -7,6 +7,3 @@ export function createClient() {
     )
 }
 
-console.log('SUPABASE URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
-console.log('SUPABASE ANON KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-console.log('SUPABASE SERVICE KEY:', process.env.SUPABASE_KEY)
