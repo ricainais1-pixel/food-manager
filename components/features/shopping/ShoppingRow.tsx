@@ -45,13 +45,14 @@ export default function ShoppingRow({
                 )}
             </td>
             <td
-            className="border-r px-4 py-2">
+            className="border-r px-4 py-2 text-center">
                 {editingId === item.id ? (
                     <select
                         value={item.count}
-                        className="w-full border rounded px-2 py-1"
+                        className="w-full border rounded px-2 py-1 focus:outline-none"
                         onChange={(e) => handleEditCountChange(item.id, Number(e.target.value))}
                     >
+                        <option value={0}>0</option>
                         <option value={1}>1</option>
                         <option value={2}>2</option>
                         <option value={3}>3</option>
@@ -63,13 +64,19 @@ export default function ShoppingRow({
                 )}
             </td>
             <td
-            className="border-r px-4 py-2">
+            className="border-r px-4 py-2 text-center">
                 {editingId === item.id ? (
-                    <input
-                        value={item.category || ""}
-                        onChange={(e) => handleCategoryChange(item.id, e.target.value)}
-                        className="w-full border rounded px-2 py-1"
-                    />
+
+                <select
+                    value={item.category || ""}
+                    onChange={(e) => handleCategoryChange(item.id, e.target.value)}
+                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                >
+                    <option value="冷蔵庫">冷蔵庫</option>
+                    <option value="冷凍庫">冷凍庫</option>
+                    <option value="野菜室">野菜室</option>
+                    <option value="パントリー">パントリー</option>
+                </select>
                 ) : (
                     item.category || ""
                 )}
@@ -79,13 +86,13 @@ export default function ShoppingRow({
                     {editingId === item.id ? (
                         <>
                             <Button
-                                className="text-center bg-green-300 px-2 py-1 rounded-md hover:bg-green-400"
+                                className="mr-4 bg-green-200 px-2 py-1 hover:bg-green-400"
                                 onClick={() => handleUpdate(item)}
                             >
                                 保存
                             </Button>
                             <Button
-                                className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
                                 onClick={() => handleCancel()}
                             >
                                 戻る

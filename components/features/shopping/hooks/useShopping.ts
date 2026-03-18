@@ -13,6 +13,7 @@ export default function useShopping() {
     const [originalItem, setOriginalItem] = useState<Item | null>(null);
 
 
+    // supabaseからデーターを取得する
     useEffect(() => {
     const fetchItems = async () => {
         const { data, error } = await supabase
@@ -121,7 +122,7 @@ export default function useShopping() {
         );
     };
 
-
+    // 個数を変更する（編集用）
     const handleCountChange = (id: number, value: number) => {
         setItems(items.map(i =>
             i.id === id
@@ -149,6 +150,7 @@ export default function useShopping() {
         setEditingId(null);
     };
 
+    // カテゴリーを変更する
     const handleCategoryChange = (id: number, value: string) => {
         setItems(items.map(i =>
             i.id === id
@@ -157,6 +159,7 @@ export default function useShopping() {
         ));
     };
 
+    // 個数を変更する（一般用）
     const handleEditCountChange = (id: number, value: number) => {
         setItems(items.map(i =>
             i.id === id
@@ -165,6 +168,7 @@ export default function useShopping() {
         ));
     };
 
+    // 食材名変更
     const handleNameChange = (id: number, value: string) => {
         setItems(items.map(i =>
             i.id === id
