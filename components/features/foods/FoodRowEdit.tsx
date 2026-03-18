@@ -11,11 +11,11 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
                 onChange={(e) => handlers.handleFieldChange("name", e.target.value)}
                 />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-4 py-2 text-center">
                 <select
                     value={food.count}
-                    onChange={(e) => handlers.handleFieldChange("count", Number(e.target.value))
-                    }
+                    onChange={(e) => handlers.handleFieldChange("count", Number(e.target.value))}
+                    className="w-full border rounded px-2 py-1 focus:outline-none"
                 >
                     <option value={0}>0</option>
                     <option value={1}>1</option>
@@ -25,7 +25,7 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
                     <option value={5}>5</option>
                 </select>
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-4 py-2 text-center">
                 <input
                     type="date"
                     value={food.expiry}
@@ -34,10 +34,11 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
                     className="border rounded px-2 py-1"
                 />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-4 py-2 text-center">
                 <select
                     value={food.category}
                     onChange={(e) => handlers.handleFieldChange("category", e.target.value)}
+                    className="w-full border rounded px-2 py-1 focus:outline-none"
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>
@@ -48,15 +49,15 @@ export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
             <td className="border-r px-4 py-2">
                 <div className="flex justify-center gap-2">
                     <Button
-                    className=" bg-blue-200 px-2 py-1 rounded-md"
+                    className="mr-4 bg-green-200 px-2 py-1 hover:bg-green-400"
                     onClick={() => handlers.handleSave(food)}
                     >
                         保存
                     </Button>
                     <Button 
                     onClick={handlers.handleBack}
-                    className="text-center bg-gray-300 px-2 py-1 rounded-md
-                    ">
+                    className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
+                    >
                         戻る
                     </Button>
                 </div>
