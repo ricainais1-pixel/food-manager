@@ -34,7 +34,7 @@ export default function RegisterForm() {
         <div className="max-w-md mx-auto mt-10 mb-6 px-6 flex-1">
             <h2 className="text-2xl font-bold mb-8 text-center">サインアップ</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-                {/* 名前 */}
+
                 <InputField
                 type="text"
                 id="name"
@@ -44,7 +44,6 @@ export default function RegisterForm() {
                 className="mb-3 font-semibold"
                 />
 
-                {/* メールアドレス */}
                 <InputField
                 type="email"
                 id="email"
@@ -54,7 +53,6 @@ export default function RegisterForm() {
                 className="mb-3 font-semibold"
                 />
 
-                {/* パスワード */}
                 <InputField
                 type="password"
                 id="password"
@@ -64,7 +62,6 @@ export default function RegisterForm() {
                 className="mb-3 font-semibold"
                 />
 
-                {/* サインアップボタン */}
                 <div className="mb-5 flex justify-center">
                 <Button
                     type="submit"

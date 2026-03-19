@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Database } from "@/lib/database.types";
 import { createBrowserClient } from "@supabase/ssr";
+import { useRouter } from "next/navigation";
 
 type RegisterData = {
     name: string;
@@ -11,6 +12,7 @@ type RegisterData = {
 };
 
 export function useRegister() {
+    const router = useRouter()
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     
@@ -24,7 +26,6 @@ export function useRegister() {
         setMessage("");
 
         try {
-        // サインアップ
         const { error: errorSignup } = await supabase.auth.signUp({
             email: data.email,
             password: data.password,
@@ -36,7 +37,6 @@ export function useRegister() {
             return;
     }
 
-        // プロフィール更新
         const { error: updateError } = await supabase
             .from("profiles")
             .update({ name: data.name })
@@ -55,6 +55,7 @@ export function useRegister() {
             return false;
         } finally {
             setLoading(false);
+            router.refresh()
         }
     };
     return { registerUser, loading, message };
