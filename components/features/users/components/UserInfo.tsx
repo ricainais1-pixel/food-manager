@@ -12,29 +12,29 @@ export default function UserInfo() {
             <div>
                 <h2 className="text-2xl font-bold mb-10">👤ユーザー情報</h2>
                 <div className="flex flex-col items-center">
-                    <ul className="space-y-8 text-lg w-full max-w-md">
+                    <ul className="space-y-6 text-base sm:text-sm w-full max-w-md">
                         <li className="flex border-b pb-2 gap-x-4">
-                            <h3 className="w-40 font-bold text-gray-600">氏名</h3>
-                            <p>{userInfo?.name ?? "読み込み中..."}</p>
+                            <h3 className="w-40 font-bold text-gray-600 text-lg sm:text-sm md:text-lg">氏名</h3>
+                            <p className="text-base sm:text-sm md:text-lg">{userInfo?.name ?? "読み込み中..."}</p>
                         </li>
                         <li className="flex border-b pb-2 gap-x-4">
-                            <h3 className="w-40 font-bold text-gray-600">メールアドレス</h3>
-                            <p>{userInfo?.email ?? "読み込み中..."}</p>
+                            <h3 className="w-40 font-bold text-gray-600 text-lg sm:text-sm md:text-lg">メールアドレス</h3>
+                            <p className="text-base sm:text-sm md:text-lg">{userInfo?.email ?? "読み込み中..."}</p>
                         </li>
                         <li className="flex border-b pb-2 gap-x-4">
-                            <h3 className="w-40 font-bold text-gray-600">パスワード</h3>
+                            <h3 className="w-40 font-bold text-gray-600 text-lg sm:text-sm md:text-lg">パスワード</h3>
                             <input
                                 type="password"
                                 value="password_placeholder"
                                 disabled
-                                className="border rounded px-2 py-1 w-72 h-10"
+                                className="border rounded px-2 py-1 w-full max-w-xs h-10 text-base sm:text-sm md:text-base"
                             />
                         </li>
                     </ul>
                     <div className="mt-6">
                         <Link href="/users/edit">
                             <Button 
-                            className=" bg-blue-200 px-8 py-3  mt-8 hover:bg-blue-400">
+                            className="bg-blue-200 px-8 py-3 w-full sm:w-32 text-xs sm:text-sm md:text-base hover:bg-blue-400">
                                 編集
                             </Button>
                         </Link>

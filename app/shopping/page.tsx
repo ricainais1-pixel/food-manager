@@ -54,16 +54,16 @@ export default function Shopping () {
                     setOriginalItem={setOriginalItem}
                 />
 
-                <div className="flex justify-center space-x-14 mt-4 gap-4 sm:gap-6 md:gap-8">
+                <div className="flex flex-wrap justify-center mt-4 gap-4 sm:gap-6 md:gap-8">
                     <Button 
-                        className=" bg-lime-300 px-8 py-3 w-32  hover:bg-lime-500"
+                        className="bg-lime-300 px-6 py-3 w-full sm:w-32 md:w-36 hover:bg-lime-500 max-w-xs"
                         onClick={handleAdd}
                     >
                         + 追加
                     </Button>
                     <Link href="./shopping/stock-from-shopping" >
                         <Button 
-                            className=" ml-20 bg-blue-200 px-8 py-3 whitespace-nowrap hover:bg-blue-400"
+                            className="bg-blue-200 px-6 py-3 w-full sm:w-32 md:w-36 hover:bg-blue-400 max-w-xs"
                         >
                             在庫へ追加
                         </Button>

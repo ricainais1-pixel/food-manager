@@ -38,14 +38,13 @@ export default function ShoppingRow({
                     <input
                         value={item.name}
                         onChange={(e) => handleNameChange(item.id, e.target.value)}
-                        className="w-full border rounded px-2 py-1"
+                        className="w-full border rounded px-2 py-1 focus:outline-none"
                     />
                 ) : (
                     item.name
                 )}
             </td>
-            <td
-            className="border-r px-4 py-2 text-center">
+            <td className="border-r px-4 py-2">
                 {editingId === item.id ? (
                     <select
                         value={item.count}
@@ -64,7 +63,7 @@ export default function ShoppingRow({
                 )}
             </td>
             <td
-            className="border-r px-4 py-2 text-center">
+            className="border-r px-4 py-2">
                 {editingId === item.id ? (
 
                 <select
@@ -84,24 +83,24 @@ export default function ShoppingRow({
             <td>
                 <div className="flex justify-center gap-4">
                     {editingId === item.id ? (
-                        <>
+                        <div className="flex flex-wrap justify-center mt-4 gap-4 sm:gap-6 md:gap-8">
                             <Button
-                                className="mr-4 bg-green-200 px-2 py-1 hover:bg-green-400"
+                                className="bg-lime-300 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-lime-500"
                                 onClick={() => handleUpdate(item)}
                             >
                                 保存
                             </Button>
                             <Button
-                                className=" bg-gray-300 px-2 py-1 hover:bg-gray-400"
+                                className="bg-gray-300 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-gray-400"
                                 onClick={() => handleCancel()}
                             >
                                 戻る
                             </Button>
-                        </>
+                        </div>
                     ) : (
-                        <>
+                        <div className="flex flex-wrap justify-center mt-4 gap-4 sm:gap-6 md:gap-8">
                             <Button
-                                className="bg-blue-300 px-2 py-1 rounded-md hover:bg-blue-400"
+                                className="bg-blue-200 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-blue-400"
                                 onClick={() => {
                                     setEditingId(item.id);
                                     setOriginalItem(item);
@@ -111,12 +110,12 @@ export default function ShoppingRow({
                             </Button>
 
                             <Button
-                                className="bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                                className="bg-gray-300 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-gray-400"
                                 onClick={() => handleDelete(item.id)}
                             >
                                 削除
                             </Button>
-                        </>
+                        </div>
                     )}
                 </div>
             </td>

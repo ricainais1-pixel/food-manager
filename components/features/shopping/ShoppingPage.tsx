@@ -26,7 +26,7 @@ export default function ShoppingPage() {
     } = useShopping();
 
     return (
-    <div>
+    <div className="overflow-x-auto">
         <h2 className="text-2xl font-bold mb-10">📝購入リスト</h2>
         <ShoppingTable
             items={items}

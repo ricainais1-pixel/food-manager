@@ -26,7 +26,7 @@ export default function FoodRowView({
                 <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
                     <Button 
                     onClick={() => handlers.handleEdit(food)}
-                    className="bg-blue-200 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-blue-400">
+                    className="bg-gray-300 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-gray-400">
                         編集
                     </Button>
                     <Button 
