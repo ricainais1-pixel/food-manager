@@ -26,7 +26,6 @@ export default function ExpiryNoticeCard({expiredFoods, soonFoods}:Props){
             </div>
             <div
             className="flex gap-6 border-2 rounded-xl p-6 pt-10 bg-white max-h-[300px] overflow-y-auto ">
-                {/* 期限切れ */}
                 <div className="flex-1 border-r pr-4">
                     <h3 className="text-xl font-bold text-red-500 mb-2">― 期限切れ (期限切れてから3日後に削除) ―</h3>
                     <ul className="space-y-2 text-lg">
@@ -42,7 +41,6 @@ export default function ExpiryNoticeCard({expiredFoods, soonFoods}:Props){
                     </ul>
                 </div>
 
-                {/* 期限が近い */}
                 <div className="flex-1 pl-4">
                     <h3 className="text-xl font-bold text-orange-500 mb-2">― 期限が近い ―</h3>
                     <ul className="space-y-2 text-lg">

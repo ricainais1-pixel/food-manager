@@ -42,24 +42,54 @@ export type Database = {
       Foods: {
         Row: {
           id: number
-          カテゴリー: string | null
-          個数: number | null
-          期限: string | null
-          食材名: string
+          category: string | null
+          count: number | null
+          expiry: string | null
+          name: string
         }
         Insert: {
           id?: number
-          カテゴリー?: string | null
-          個数?: number | null
-          期限?: string | null
-          食材名: string
+          category?: string | null
+          count?: number | null
+          expiry?: string | null
+          name: string
         }
         Update: {
           id?: number
-          カテゴリー?: string | null
-          個数?: number | null
-          期限?: string | null
-          食材名?: string
+          category?: string | null
+          count?: number | null
+          expiry?: string | null
+          name?: string
+        }
+        Relationships: []
+      }
+      shopping_list: {
+        Row: {
+          id: bigint
+          user_id: string | null     
+          name: string | null       
+          count: number | null        
+          created_at: string | null   
+          bought: boolean | null      
+          category: string | null     
+        }
+        Insert: {
+          id?: bigint
+          user_id?: string | null
+          name?: string | null
+          count?: number | null
+          created_at?: string | null
+          bought?: boolean | null
+          category?: string | null
+        }
+        Update: {
+          id?: bigint
+          user_id?: string | null
+          name?: string | null
+          count?: number | null
+          created_at?: string | null
+          bought?: boolean | null
+          category?: string | null
         }
         Relationships: []
       }

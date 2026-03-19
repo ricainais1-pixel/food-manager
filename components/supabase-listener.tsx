@@ -4,7 +4,6 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/lib/database.types";
 
-// 認証状態の監視
 export const SupabaseListener = async () => {
     const cookieStore = await cookies();
     
@@ -19,10 +18,8 @@ export const SupabaseListener = async () => {
         },
     );
 
-    // セッション情報の取得
     const {data: { session },} = await supabase.auth.getSession();
 
-    // プロフィールの取得
     let profile = null
 
     if (session) {
@@ -34,9 +31,7 @@ export const SupabaseListener = async () => {
 
         profile = currentProfile
 
-        // メールアドレスを変更した場合、プロフィールを更新
         if (currentProfile && currentProfile.email !== session.user.email){
-            // メールアドレスを更新
             const {data:updateProfile} = await supabase
             .from('profiles')
             .update({email:session.user.email})

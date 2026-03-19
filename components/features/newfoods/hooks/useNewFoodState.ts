@@ -17,12 +17,10 @@ export default function useFoodState() {
         isVisible: true
     });
 
-    // 固定行リセット
     const deleteFixedRow = () => {
         setFixedRow({ ...fixedRow, isVisible: false });
     };
 
-    // +追加ボタン
     const handleAddFood = () => {
         setFoods([
             ...foods,
@@ -36,7 +34,7 @@ export default function useFoodState() {
         ]);
     };
 
-    // 削除ボタン
+
     const removeFoodLocally = (id: number) => 
         setFoods(foods.filter((food) => food.id !== id));
 

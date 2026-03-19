@@ -6,7 +6,7 @@ type ErrorMessageProps = {
 };
 
 export default function ErrorMessage({ message }: ErrorMessageProps) {
-  if (!message) return null; // メッセージがなければ何も表示しない
+    if (!message) return null;
 
     return (
         <div className="mt-2 text-sm text-red-500 text-center">

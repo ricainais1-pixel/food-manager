@@ -7,7 +7,6 @@ export type NewFood = {
     created_at?: string; 
 };
 
-// 固定行データの型（新規追加や一時行などで使用）
 export type FixedRow = {
     id: number;     
     name: string;

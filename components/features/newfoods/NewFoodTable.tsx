@@ -40,7 +40,6 @@ export default function NewFoodTable({
 
 
                 <tbody>
-                    {/* 固定行 */}
                     {fixedRow.isVisible && (
                         <FixedFoodRow
                             fixedRow={fixedRow}
@@ -51,7 +50,7 @@ export default function NewFoodTable({
                     )}
 
                     {foods
-                    .filter(food => food.id < 0) // まだ登録されていない行だけ
+                    .filter(food => food.id < 0)
                     .map((food: NewFood) => (
                         <FoodRow
                             key={food.id}

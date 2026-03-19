@@ -13,7 +13,6 @@ export default function useShopping() {
     const [originalItem, setOriginalItem] = useState<Item | null>(null);
 
 
-    // supabaseからデーターを取得する
     useEffect(() => {
     const fetchItems = async () => {
         const { data, error } = await supabase
@@ -32,7 +31,6 @@ export default function useShopping() {
 
     }, []);
 
-    // 追加ボタン
     const handleAdd = () => {
         const newItem = {
             id: Date.now(),
@@ -43,7 +41,6 @@ export default function useShopping() {
         setDraftItems([...draftItems, newItem]);    
     };
 
-    // 保存ボタン
     const handleSave = async (draft: Item) => {
 
         if (!draft.name.trim()) {
@@ -73,7 +70,6 @@ export default function useShopping() {
         setDraftItems(draftItems.filter(item => item.id !== draft.id));
     };
 
-    // 追加フォームで名前入力
     const handleDraftNameChange = (id: number, value: string) => {
         setDraftItems(
             draftItems.map((item) =>
@@ -82,7 +78,6 @@ export default function useShopping() {
         );
     };
 
-    // 個数変更
     const handleDraftCountChange = (id: number, value: number) => {
         setDraftItems(
             draftItems.map((item) =>
@@ -91,7 +86,6 @@ export default function useShopping() {
         );
     };
 
-    // カテゴリ変更
     const handleDraftCategoryChange = (id: number, value: string) => {
         setDraftItems(
             draftItems.map((item) =>
@@ -100,7 +94,6 @@ export default function useShopping() {
         );
     };
 
-    // 保存済みの削除ボタン
     const handleDelete = async (id: number) => {
         const { error } = await supabase
             .from("shopping_list")
@@ -115,14 +108,12 @@ export default function useShopping() {
     setItems(items.filter((item) => item.id !== id));
 };
 
-    // 追加フォームの削除ボタン
     const handleDraftDelete = (id: number) => {
         setDraftItems(
             draftItems.filter((item) => item.id !== id)
         );
     };
 
-    // 個数を変更する（編集用）
     const handleCountChange = (id: number, value: number) => {
         setItems(items.map(i =>
             i.id === id
@@ -131,7 +122,6 @@ export default function useShopping() {
         ));
     };
 
-    // 編集ボタン
     const handleUpdate = async (item: Item) => {
         const { error } = await supabase
             .from("shopping_list")
@@ -150,7 +140,6 @@ export default function useShopping() {
         setEditingId(null);
     };
 
-    // カテゴリーを変更する
     const handleCategoryChange = (id: number, value: string) => {
         setItems(items.map(i =>
             i.id === id
@@ -159,7 +148,6 @@ export default function useShopping() {
         ));
     };
 
-    // 個数を変更する（一般用）
     const handleEditCountChange = (id: number, value: number) => {
         setItems(items.map(i =>
             i.id === id
@@ -168,7 +156,6 @@ export default function useShopping() {
         ));
     };
 
-    // 食材名変更
     const handleNameChange = (id: number, value: string) => {
         setItems(items.map(i =>
             i.id === id
@@ -177,7 +164,6 @@ export default function useShopping() {
         ));
     };
 
-    // 戻るボタン
     const handleCancel = () => {
         if (!originalItem) return;
 

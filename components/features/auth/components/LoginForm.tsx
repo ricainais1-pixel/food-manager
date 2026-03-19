@@ -1,6 +1,5 @@
 "use client";
 
-// ログイン画面の実装
 import { useLogin } from "../hooks/useLogin";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -15,7 +14,6 @@ import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
 
 
-// ログインページ
 export default function LoginForm() {
     const router = useRouter()
     const { login, loading, message } = useLogin();
@@ -25,15 +23,13 @@ export default function LoginForm() {
         handleSubmit,
         formState: { errors },
     } = useForm({
-        // 初期値
         defaultValues: { email: '', password: '' },
-        // 入力値の検証
         resolver: zodResolver(loginSchema),
     })
 
     const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    const success = await login(data.email, data.password); // useLoginフックを呼ぶ
-    if (success) router.push('/home'); // 成功したらホームへ
+    const success = await login(data.email, data.password); 
+    if (success) router.push('/home'); 
     };
 
 
@@ -41,7 +37,6 @@ export default function LoginForm() {
         <div className="max-w-md mx-auto mt-10 mb-6 px-6 flex-1">
             <h2 className="text-2xl font-bold mb-6 text-center">ログイン</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-                {/* メールアドレス */}
                 <div>
                     <InputField
                         id="email"
@@ -52,7 +47,6 @@ export default function LoginForm() {
                     />
                 </div>
 
-                {/* パスワード */}
                 <div>
                     <InputField
                         id="password"
@@ -63,7 +57,6 @@ export default function LoginForm() {
                     />
                 </div>
 
-                {/* ログインボタン */}
                 <div className="mb-5">
                     {loading ? (
                         <Loading />
@@ -80,10 +73,8 @@ export default function LoginForm() {
                 </div>
             </form>
 
-            {/* エラーメッセージ */}
             <ErrorMessage message={message} />
 
-            {/* サインアップページへのリンク */}
             <div className="mt-4 flex justify-center">
                 <Link href="/register" className="text-gray-500 font-bold">
                     新しいアカウントを作成

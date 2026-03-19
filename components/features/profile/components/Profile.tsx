@@ -3,7 +3,6 @@
 import Button from "@/components/common/Button";
 import { useProfileForm } from "../hooks/useProfileForm"
 
-// プロフィール
 const Profile = () => {
     const { form, onSubmit, loading,handleBack } = useProfileForm();
 
@@ -17,7 +16,6 @@ const Profile = () => {
                 <form 
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full max-w-lg mx-auto">
-                    {/* 名前 */}
                     <div className="mb-5">
                         <h3 className="text-lg mb-1 font-bold">名前</h3>
                         <input 
@@ -30,7 +28,6 @@ const Profile = () => {
                         <div className="my-3 text-center text-sm text-red-500">{errors.name?.message}</div>
                     </div>
 
-                {/* メールアドレス */}
                 <div className="mb-5">
                     <h3 className="text-lg mb-1 font-bold">メールアドレス</h3>
 
@@ -46,7 +43,6 @@ const Profile = () => {
                     </div>
                 </div>
 
-                {/* パスワード */}
                 <div className="mb-5">
                     <div className="flex items-center mb-1">
                         <h3 className="text-lg mb-1 font-bold">パスワード</h3>

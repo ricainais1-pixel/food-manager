@@ -1,6 +1,5 @@
 'use client'
 
-// データが存在しないときの画面
 export const NotFound = () => {
     return (
     <div>

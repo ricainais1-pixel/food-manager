@@ -13,14 +13,12 @@ export default function useStockFromShopping() {
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [items, setItems] = useState<Item[]>([]);
 
-    // 選択チェック
     const handleSelectChange = (id: number, checked: boolean) => {
         setSelectedItems(prev =>
             checked ? [...prev, id] : prev.filter(i => i !== id)
         );
     };
 
-    // 期限変更
     const handleExpiryChange = (id: number, value: string) => {
         setItems(prevItems =>
         prevItems.map(item =>
@@ -29,7 +27,6 @@ export default function useStockFromShopping() {
         );
     };
 
-    // カテゴリー変更
     const handleCategoryChange = (id: number, value: string) => {
         setItems(prevItems =>
         prevItems.map(item =>
@@ -38,7 +35,6 @@ export default function useStockFromShopping() {
         );
     };
 
-    // 在庫に追加
     const addSelectedToStock = async () => {
         const selectedItemsData = items.filter(item => selectedItems.includes(item.id));
         if (selectedItemsData.length === 0) {
@@ -46,7 +42,6 @@ export default function useStockFromShopping() {
             return;
         }
 
-        // ログイン中のユーザーID取得
         const { data: userData } = await supabase.auth.getUser();
         const userId = userData?.user?.id;
         if (!userId) {
@@ -54,7 +49,6 @@ export default function useStockFromShopping() {
             return;
         }
 
-        // 選択した食材をSupabase の Foods テーブルにユーザーごとの在庫として追加
         const itemsToInsert: FoodInsert[] = selectedItemsData.map(item => ({
             name: item.name,
             count: item.count,
@@ -73,7 +67,6 @@ export default function useStockFromShopping() {
             return;
         }
 
-        // 購入リストから削除
         const { error: deleteError } = await supabase
             .from("shopping_list")
             .delete()
@@ -85,20 +78,17 @@ export default function useStockFromShopping() {
             return;
         }
 
-        // 購入リストから選択した食材を在庫に追加して、購入リストから削除する処理
         setItems(prev => prev.filter(item => !selectedItems.includes(item.id)));
         setSelectedItems([]);
 
         alert(`${selectedItemsData.length}件の食材を在庫に追加し、購入リストから削除しました`);
     };
 
-    // 戻るボタンの実装
     const router = useRouter();
     const goBackToShoppingList = () => {
         router.push("/shopping"); 
     };
 
-    // Supabase から買い物リストを取得
     useEffect(() => {
         const fetchItems = async () => {
             const { data, error } = await supabase

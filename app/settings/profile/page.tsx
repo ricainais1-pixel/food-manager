@@ -13,7 +13,7 @@ const ProfilePage = async () => {
         data: { session },
     } = await supabase.auth.getSession();
 
-    if (!session?.user) redirect('/auth/login');
+    if (!session?.user) redirect('/users');
 
     return <Profile />;
 };

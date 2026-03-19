@@ -19,7 +19,7 @@ export const useLogin = () => {
                 setMessage('ログインに失敗しました: ' + error.message);
                 return false;
             }
-            return true; // 成功したかどうか
+            return true;
             } catch (err) {
                 setMessage('エラーが発生しました: ' + (err instanceof Error ? err.message : String(err)));
                 return false;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Food } from "./hooks/types/food";
+import { Food } from "./types/food";
 import FoodRowView from "./FoodRowView";
 import FoodRowEdit from "./FoodRowEdit";
 

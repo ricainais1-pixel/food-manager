@@ -16,7 +16,6 @@ export default function NavigationCards() {
                     />
                     <p
                     className="text-lg font-bold text-center mt-4">食材一覧</p>
-                    {/* <p>今ある食材の一覧を確認します。</p> */}
                 </div>
             </Link>
             <Link href="/newfoods" className="flex-1 min-w-[250px] max-w-[300px]">
@@ -30,7 +29,6 @@ export default function NavigationCards() {
                     />
                     <p
                     className="text-lg font-bold text-center mt-8">食材登録</p>
-                    {/* <p>新たに食材を登録します。</p> */}
                 </div>
             </Link>
             <Link href="/shopping" className="flex-1 min-w-[250px] max-w-[300px]">
@@ -44,7 +42,6 @@ export default function NavigationCards() {
                     />
                     <p
                     className="text-lg font-bold text-center mt-4">購入リスト</p>
-                    {/* <p>購入リストを確認します。</p> */}
                 </div>
             </Link>
             <Link href="/users" className="flex-1 min-w-[250px] max-w-[300px]">
@@ -58,7 +55,6 @@ export default function NavigationCards() {
                     />
                     <p
                     className="text-lg font-bold text-center mt-2">ユーザー設定</p>
-                    {/* <p>ユーザ情報を確認・編集します。</p> */}
                 </div>
             </Link>
         </section>

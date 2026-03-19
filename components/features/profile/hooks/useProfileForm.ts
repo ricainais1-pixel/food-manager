@@ -1,6 +1,5 @@
 'use client'
 
-// ユーザー情報の更新
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import {useForm,SubmitHandler} from 'react-hook-form';
@@ -24,7 +23,6 @@ export const useProfileForm = () => {
     const [message,setMessage] = useState('')
     const {user} =useStore()
 
-    // フォーム用の state を作る
     const form = useForm<ProfileForm>({
         defaultValues: {
             name: user.name ?? "",
@@ -43,7 +41,6 @@ export const useProfileForm = () => {
 
             if(!userData.user) return
 
-            // プロフィール更新
             await supabase
             .from("profiles")
             .update({
@@ -52,12 +49,10 @@ export const useProfileForm = () => {
             })
             .eq("id",userData.user.id)
 
-            // メール更新
             await supabase.auth.updateUser({
             email:data.email
             })
 
-            // パスワード更新
             if(data.password){
                 await supabase.auth.updateUser({
                     password:data.password
@@ -72,7 +67,6 @@ export const useProfileForm = () => {
         }
     };
 
-    // 戻るボタン
     const handleBack = () => {
         router.back(); 
     };

@@ -1,6 +1,5 @@
 'use client'
 
-//ログアウト画面の実装
 import { createBrowserClient } from "@supabase/ssr"
 import { useRouter } from "next/navigation"
 import type { Database } from "@/lib/database.types"

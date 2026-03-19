@@ -9,7 +9,6 @@ import { createClient } from "@/lib/supabase/client";
 export default function useFoodForm() {
     const { foods, fixedRow, setFixedRow, deleteFixedRow, handleAddFood, removeFoodLocally, setFoods } = useFoodState();
 
-    // 削除ボタン
     const deleteFood = async (id: number) => {
         if (id < 0) {
         removeFoodLocally(id);
@@ -20,7 +19,6 @@ export default function useFoodForm() {
         else removeFoodLocally(id);
     };
 
-    // 食材の特定フィールドを更新するとき
     const updateFood = async (id: number, field: string, value: string | number) => {
         const fieldMap: { [key: string]: string } = {
             name: 'name',
@@ -46,7 +44,6 @@ export default function useFoodForm() {
         );
     };
 
-    // 登録ボタンでまとめて保存
     const handleRegisterAll = async () => {
         const supabase = createClient();
 
@@ -58,7 +55,6 @@ export default function useFoodForm() {
 
         const allFoods = [...foods];
 
-        // 固定行が入力されていれば追加
         if (fixedRow.name.trim()) {
             allFoods.push({
                 id: -Date.now(),
@@ -69,7 +65,6 @@ export default function useFoodForm() {
             });
         }
 
-        // 有効な行のみ登録できる（name, expiry, categoryが入力されているもの）
         const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0 && f.name.trim() && f.expiry && f.category);
 
         if (unsavedFoods.length === 0) {
@@ -78,7 +73,6 @@ export default function useFoodForm() {
         }
 
         try {
-            // id は送らずに Supabase に挿入
             const foodsToInsert = unsavedFoods.map((food) => ({
                 name: food.name,
                 count: food.count,
@@ -92,7 +86,6 @@ export default function useFoodForm() {
                 return;
             }
 
-            // 登録後は画面表示用の入力した項目をリセットして固定行もリセット
             setFoods([]);  
             setFixedRow({        
                 id: -1,

@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import { FoodRowViewProps } from "./hooks/types/food";
+import { FoodRowViewProps } from "./types/food";
 
 
 export default function FoodRowView({ 

@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import { FoodRowEditProps } from "./hooks/types/food";
+import { FoodRowEditProps } from "./types/food";
 
 export default function FoodRowEdit({ food, handlers }: FoodRowEditProps) {
     return (

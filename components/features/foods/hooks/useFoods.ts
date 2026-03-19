@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
-import { Food } from "./types/food";
+import { Food } from "../types/food";
 
 const supabase = createClient();
 
@@ -98,10 +98,10 @@ export default function useFoods() {
     };
 
     
-    const getRemainingDays = (expiry日: string | null): string => {
-        if (!expiry日) return "不明";
+    const getRemainingDays = (expiry: string | null): string => {
+        if (!expiry) return "不明";
         const today = new Date();
-        const expiryDate = new Date(expiry日);
+        const expiryDate = new Date(expiry);
         const diffTime = expiryDate.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
