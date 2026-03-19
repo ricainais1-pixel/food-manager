@@ -27,11 +27,11 @@ export default function FoodsPage () {
 
     return(
         <div className="min-h-screen flex flex-col">
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 space-y-4 md:space-y-0">
                 
             <h2 className="text-2xl font-bold">🥬食材一覧</h2>
         
-            <div className="flex items-center space-x-6">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6">
                 <select 
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
