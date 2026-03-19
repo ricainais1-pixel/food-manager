@@ -26,6 +26,7 @@ export function useExpiryFoods() {
     // 期限判定と色付け
     const formatExpiryNotice = (expiry: string): { text: string; colorClass: string } => {
         const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const todayUTC = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
         const expiryDate = new Date(expiry);
@@ -46,9 +47,10 @@ export function useExpiryFoods() {
     
     useEffect(() => {
     async function fetchFoods() {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user } } = await supabase.auth.getUser();  //ユーザーを取得
         if (!user) return;
 
+        // 食材データの取得
         const { data, error } = await supabase
             .from("Foods")
             .select("*")
