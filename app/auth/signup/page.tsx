@@ -1,10 +1,9 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { redirect } from "next/navigation";
-import Signup from "@/components/features/auth/signup";
 import type { Database } from "@/lib/database.types";
+import RegisterForm from "@/components/features/auth/components/RegisterForm";
 
-// サインアップページ
 const SignupPage = async () => {
 
     const cookieStore = await cookies()
@@ -26,18 +25,16 @@ const SignupPage = async () => {
     }
     )
 
-    // セッションの取得
     const {
         data:{session},
     }=await supabase.auth.getSession()
 
-    // 認証している場合、リダイレクト
     if (session) {
         redirect('/')
     }
 
     return(
-        <Signup />
+        <RegisterForm />
     )
 }
 
