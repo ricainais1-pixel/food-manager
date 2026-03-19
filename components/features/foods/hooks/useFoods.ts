@@ -13,19 +13,15 @@ export default function useFoods() {
     const [selectedCategory, setSelectedCategory] = useState<string>("すべて");
     const [checkedFoods, setCheckedFoods] = useState<number[]>([]);
 
-
-    //編集ボタン
     const handleEdit = (food: Food ) => {
         setEditingFood({ ...food });
         console.log("編集開始");
     };
 
-    //戻るボタン
     const handleBack = () => {
         setEditingFood(null);
     }
 
-    // 削除ボタン
     const handleDelete = async (id: number) => {
         const food = foods.find(f => f.id === id);
         if (!food) return;
@@ -64,9 +60,8 @@ export default function useFoods() {
         else {
             setFoods(prev => prev.filter(f => f.id !== food.id));
         }
-    };
+    }
 
-    // 編集保存ボタン
     const handleSave = async () => {
         if (!editingFood) return;
         
@@ -103,7 +98,6 @@ export default function useFoods() {
     };
 
     
-    // 残日数計算
     const getRemainingDays = (expiry日: string | null): string => {
         if (!expiry日) return "不明";
         const today = new Date();
@@ -116,13 +110,11 @@ export default function useFoods() {
         return `期限切れ`;
     };
 
-    // 在庫の個数変更 or 期限切れ処理
     const updateFoodCount = async (id: number, count: number) => {
         const food = foods.find(f => f.id === id);
         if (!food) return;
 
         const isExpired = new Date(food.expiry) < new Date();
-        // 期限切れの時
         if (isExpired) {
             const { error } = await supabase
                 .from("Foods")
@@ -138,7 +130,6 @@ export default function useFoods() {
             return;
         }
             
-        // 個数が0になった時、購入リストへ
         if (count <= 0) {
         const { data: userData } = await supabase.auth.getUser();
         const userId = userData?.user?.id;
@@ -174,7 +165,7 @@ export default function useFoods() {
             setFoods(prev => prev.filter(f => f.id !== food.id));
             return;
         } 
-            // 通常の在庫更新
+
             const { error } = await supabase
                 .from("Foods")
                 .update({ count: count })
@@ -189,7 +180,6 @@ export default function useFoods() {
             }
     };
 
-    // チェックボックスで購入リストに追加
     const toggleCheck = (id: number) => {
         setCheckedFoods(prev =>
             prev.includes(id) ? prev.filter(fId => fId !== id) : [...prev, id]
@@ -201,7 +191,6 @@ export default function useFoods() {
             return;
         }
 
-         // ユーザー取得
         const { data: userData } = await supabase.auth.getUser();
         const userId = userData?.user?.id;
         if (!userId) {
