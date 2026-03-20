@@ -15,9 +15,16 @@ export default function useShopping() {
 
     useEffect(() => {
     const fetchItems = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) return;
+
         const { data, error } = await supabase
             .from("shopping_list")
-            .select("*");
+            .select("*")
+            .eq("user_id", user.id);
 
         if (error) {
             console.log(error);
@@ -43,6 +50,11 @@ export default function useShopping() {
 
     const handleSave = async (draft: Item) => {
 
+        const { data: authData } = await supabase.auth.getUser();
+        const user = authData.user;
+
+        if (!user) return;
+
         if (!draft.name.trim()) {
             alert("食材名を入力してください");
             return;
@@ -51,6 +63,7 @@ export default function useShopping() {
         const { error } = await supabase
             .from("shopping_list")
             .insert({
+                user_id: user.id,
                 name: draft.name,
                 count: draft.count,
                 category: draft.category || null
@@ -64,7 +77,8 @@ export default function useShopping() {
 
         const { data } = await supabase
             .from("shopping_list")
-            .select("*");
+            .select("*")
+            .eq("user_id", user.id);
 
         setItems(data ?? []);
         setDraftItems(draftItems.filter(item => item.id !== draft.id));

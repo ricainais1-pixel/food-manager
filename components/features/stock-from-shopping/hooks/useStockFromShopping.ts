@@ -91,9 +91,19 @@ export default function useStockFromShopping() {
 
     useEffect(() => {
         const fetchItems = async () => {
+            const {
+                data: { user },
+            } = await supabase.auth.getUser();
+
+            if (!user) {
+                console.error("ユーザー情報がありません");
+                return;
+            }
+
             const { data, error } = await supabase
                 .from("shopping_list")
-                .select("*");
+                .select("*")
+                .eq("user_id", user.id);
                 
             if (error) {
                 console.error("取得エラー:", error);
