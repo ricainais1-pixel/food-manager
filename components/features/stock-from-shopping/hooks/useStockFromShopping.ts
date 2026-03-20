@@ -49,10 +49,16 @@ export default function useStockFromShopping() {
             return;
         }
 
+        const noExpiryItem = selectedItemsData.find(item => !item.expiry);
+        if (noExpiryItem) {
+            alert(`${noExpiryItem.name} の期限を入力してください`);
+            return;
+        }
+
         const itemsToInsert: FoodInsert[] = selectedItemsData.map(item => ({
             name: item.name,
             count: item.count,
-            expiry: item.expiry ?? null,
+            expiry: item.expiry,
             category: item.category ?? "冷蔵庫",
             user_id: userId,
         }));
