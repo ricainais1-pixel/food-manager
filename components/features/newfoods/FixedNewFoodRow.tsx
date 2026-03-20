@@ -5,12 +5,13 @@ import Button from "@/components/common/Button";
 
 type Props = {
     fixedRow: FixedRow;
-    setFixedRow: React.Dispatch<React.SetStateAction<FixedRow>>;
+    setFixedRow: (updatedRow: FixedRow) => void;
     registerFixedRow: () => void;
     deleteFixedRow: () => void;
+    updateFixedRow: (id: number, field: string, value: string | number) => void;
 }
 
-export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow }: Props) {
+export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow,updateFixedRow }: Props) {
     if (!fixedRow.isVisible) return null;
 
     return(
@@ -21,14 +22,14 @@ export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow }: P
                     placeholder="食材名"
                     className="w-full border rounded px-2 py-1 focus:outline-none"
                     value={fixedRow.name}
-                    onChange={(e) => setFixedRow({ ...fixedRow, name: e.target.value })}
+                    onChange={(e) => updateFixedRow(fixedRow.id, "name", e.target.value)}
                 />
             </td>
             <td className="border-r px-4 py-2">
                 <select
                     className="w-full border rounded px-2 py-1 focus:outline-none"
                     value={fixedRow.count}
-                    onChange={(e) => setFixedRow({ ...fixedRow, count: Number(e.target.value) })}
+                    onChange={(e) => updateFixedRow(fixedRow.id, "count", Number(e.target.value))}
                 >
                     <option value={0}>0</option>
                     <option value={1}>1</option>
@@ -43,14 +44,14 @@ export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow }: P
                     type="date"
                     className="w-full border rounded px-2 py-1 focus:outline-none"
                     value={fixedRow.expiry}
-                    onChange={(e) => setFixedRow({ ...fixedRow, expiry: e.target.value })}
+                    onChange={(e) => updateFixedRow(fixedRow.id, "expiry", e.target.value)}
                 />
             </td>
             <td className="border-r px-4 py-2">
                 <select
                     className="w-full border rounded px-2 py-1 focus:outline-none"
                     value={fixedRow.category}
-                    onChange={(e) => setFixedRow({ ...fixedRow, category: e.target.value })}
+                    onChange={(e) => updateFixedRow(fixedRow.id, "category", e.target.value)}
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>

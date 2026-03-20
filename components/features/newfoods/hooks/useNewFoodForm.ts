@@ -7,7 +7,14 @@ import { createClient } from "@/lib/supabase/client";
 
 
 export default function useFoodForm() {
-    const { foods, fixedRow, setFixedRow, deleteFixedRow, handleAddFood, removeFoodLocally, setFoods } = useFoodState();
+    const { foods, 
+        fixedRows, 
+        setFixedRows, 
+        deleteFixedRow, 
+        handleAddFood, 
+        removeFoodLocally, 
+        setFoods,
+        updateFixedRow } = useFoodState();
 
     const deleteFood = async (id: number) => {
         if (id < 0) {
@@ -55,15 +62,17 @@ export default function useFoodForm() {
 
         const allFoods = [...foods];
 
-        if (fixedRow.name.trim()) {
-            allFoods.push({
-                id: -Date.now(),
-                name: fixedRow.name,
-                count: fixedRow.count,
-                expiry: fixedRow.expiry,
-                category: fixedRow.category,
-            });
-        }
+        fixedRows.forEach(row => {
+            if (row.isVisible && row.name.trim()) {
+                allFoods.push({
+                    id: -Date.now() - Math.floor(Math.random() * 1000),
+                    name: row.name,
+                    count: row.count,
+                    expiry: row.expiry,
+                    category: row.category,
+                });
+            }
+        });
 
         const unsavedFoods = allFoods.filter((f: NewFood) => f.id < 0 && f.name.trim() && f.expiry && f.category);
 
@@ -80,21 +89,22 @@ export default function useFoodForm() {
                 category: food.category,
                 user_id: user?.id
             }));
+
             const  error  = await insertFoodsToDB(foodsToInsert);
             if (error) {
                 alert("登録に失敗しました: " + error.message);
                 return;
             }
-
             setFoods([]);  
-            setFixedRow({        
-                id: -1,
+
+            setFixedRows(fixedRows.map(row => ({
+                ...row,
                 name: "",
                 count: 1,
                 expiry: new Date().toISOString().split("T")[0],
                 category: "冷蔵庫",
                 isVisible: true
-            });
+            })));
             alert("登録完了しました！");
         } catch (e) {
             console.error(e);
@@ -103,15 +113,18 @@ export default function useFoodForm() {
     };
 
 
-
     return{
-        foods,
-        fixedRow,
-        setFixedRow,
-        deleteFixedRow,
-        handleAddFood,
-        deleteFood,
+        foods, 
+        fixedRows,    
+        deleteFood,   
+        setFixedRows,   
+        deleteFixedRow, 
+        handleAddFood, 
+        removeFoodLocally, 
         updateFood,
-        handleRegisterAll}
+        updateFixedRow,
+        setFoods,
+        handleRegisterAll
+    }
 };
 

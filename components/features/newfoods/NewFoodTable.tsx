@@ -1,15 +1,15 @@
 "use client";
 
 import { NewFood, FixedRow } from "./hooks/types/newfood";
-import FoodRow from "./NewFoodRow";
 import FixedFoodRow from "./FixedNewFoodRow";
 import NewFoodRow from "./NewFoodRow";
 
 type Props = {
     foods: NewFood[];
-    fixedRow: FixedRow;
-    setFixedRow: React.Dispatch<React.SetStateAction<FixedRow>>;
-    deleteFixedRow: () => void;
+    fixedRows: FixedRow[];
+    setFixedRows: React.Dispatch<React.SetStateAction<FixedRow[]>>;
+    updateFixedRow: (id: number, field: string, value: string | number) => void;
+    deleteFixedRow: (id: number) => void;
     updateFood: (id: number, field: string, value: string | number) => Promise<void>;
     deleteFood: (id: number) => Promise<void>;
     handleRegisterAll: () => void;
@@ -17,8 +17,8 @@ type Props = {
 
 export default function NewFoodTable({
     foods,
-    fixedRow,
-    setFixedRow,
+    fixedRows,
+    updateFixedRow,
     deleteFixedRow,
     updateFood,
     deleteFood,
@@ -39,14 +39,21 @@ export default function NewFoodTable({
                 </thead>
 
                 <tbody>
-                    {fixedRow.isVisible && (
+                    {fixedRows.map(row => row.isVisible && (
                         <FixedFoodRow
-                            fixedRow={fixedRow}
-                            setFixedRow={setFixedRow}
+                            key={row.id}
+                            fixedRow={row}
+                            setFixedRow={(updatedRow: FixedRow) => {
+                                updateFixedRow(row.id, "name", updatedRow.name);
+                                updateFixedRow(row.id, "count", updatedRow.count);
+                                updateFixedRow(row.id, "expiry", updatedRow.expiry);
+                                updateFixedRow(row.id, "category", updatedRow.category);
+                            }}
+                            updateFixedRow={updateFixedRow}
                             registerFixedRow={handleRegisterAll}
-                            deleteFixedRow={deleteFixedRow}
+                            deleteFixedRow={() => deleteFixedRow(row.id)}
                         />
-                    )}
+                    ))}
 
                     {foods
                     .filter(food => food.id < 0)

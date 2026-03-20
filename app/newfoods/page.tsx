@@ -8,12 +8,13 @@ import Button from "@/components/common/Button";
 export default function NewFoodPage() {
     const {
         foods,
-        fixedRow,
-        setFixedRow,
+        fixedRows,
+        setFixedRows,
         deleteFixedRow,
         handleAddFood,
         deleteFood,
         updateFood,
+        updateFixedRow,
         handleRegisterAll
     } = useFoodForm();
 
@@ -22,8 +23,9 @@ export default function NewFoodPage() {
             <h2 className="text-2xl font-bold mb-10">📋食材登録</h2>
                 <NewFoodTable
                     foods={foods}
-                    fixedRow={fixedRow}
-                    setFixedRow={setFixedRow}
+                    fixedRows={fixedRows}
+                    setFixedRows={setFixedRows}
+                    updateFixedRow={updateFixedRow} 
                     deleteFixedRow={deleteFixedRow}
                     updateFood={updateFood}
                     deleteFood={deleteFood}
