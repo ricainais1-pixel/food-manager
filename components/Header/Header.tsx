@@ -38,7 +38,14 @@ const Header =()=> {
             .select('*')
             .eq('id', userId)
             .single()
-        if(data) setProfile(data)
+            
+        if (error) {
+            console.error('プロフィール取得エラー:', error)
+            setProfile(null)
+            return
+        }
+
+        setProfile(data)
     }
 
 

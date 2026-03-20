@@ -42,8 +42,8 @@ export default function useStockFromShopping() {
             return;
         }
 
-        const { data: userData } = await supabase.auth.getUser();
-        const userId = userData?.user?.id;
+        const { data: { session } } = await supabase.auth.getSession();
+        const userId = session?.user.id;
         if (!userId) {
             alert("ユーザー情報が取得できません");
             return;
@@ -94,7 +94,7 @@ export default function useStockFromShopping() {
             const { data, error } = await supabase
                 .from("shopping_list")
                 .select("*");
-
+                
             if (error) {
                 console.error("取得エラー:", error);
                 return;
