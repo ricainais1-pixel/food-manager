@@ -58,14 +58,14 @@ export default function DraftRow({
                 </select>
             </td>
             <td>
-                <div className="flex justify-center gap-4">
+                <div className="flex flex-wrap justify-center mt-4 gap-4 sm:gap-6 md:gap-8">
                     <Button
-                    className="text-center bg-red-200 px-2 py-1 rounded-md hover:bg-red-400"
+                    className="bg-red-200 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-red-400"
                     onClick={()=>handleSave(draft)}>
                         保存
                     </Button>
                     <Button
-                    className="text-center bg-gray-300 px-2 py-1 rounded-md hover:bg-gray-400"
+                    className="bg-gray-300 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-gray-400"
                     onClick={()=>handleDraftDelete(draft.id)}>
                         削除
                     </Button>
