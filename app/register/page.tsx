@@ -1,14 +1,11 @@
-"use client";
+'use client'
 
-import RegisterForm from "@/components/features/auth/components/RegisterForm";
-
+import RegisterForm from '@/components/features/auth/components/RegisterForm'
 
 export default function RegisterPage() {
-    return (
-        <div className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
-        <RegisterForm />
-        </div>
-    );
+  return (
+    <div className="max-w-[1400px] mx-auto mt-20 mb-10 px-6 flex-1">
+      <RegisterForm />
+    </div>
+  )
 }
-
-
