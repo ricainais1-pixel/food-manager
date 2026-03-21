@@ -22,17 +22,17 @@ export default function DraftRow({
 }: Props) {
     return (
         <tr>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm md:px-4 md:py-2 md:text-base">
                 <input 
                 placeholder="食材名" 
                 value={draft.name}
                 onChange={(e) =>
                     handleDraftNameChange(draft.id, e.target.value)}
-                className="w-full border rounded px-2 py-1 focus:outline-none"/>
+                className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"/>
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select
-                className="w-full border rounded px-2 py-1 focus:outline-none"
+                className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                 value={draft.count}
                 onChange={(e) =>
                     handleDraftCountChange(draft.id, Number(e.target.value))
@@ -45,11 +45,11 @@ export default function DraftRow({
                     <option value={5}>5</option>
                 </select>
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select
                     value={draft.category || ""}
                     onChange={(e) =>handleDraftCategoryChange(draft.id, e.target.value)}
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>
@@ -57,7 +57,7 @@ export default function DraftRow({
                     <option value="パントリー">パントリー</option>
                 </select>
             </td>
-            <td>
+            <td className="px-2 py-2 text-center">
                 <div className="flex flex-wrap justify-center mt-4 gap-4 sm:gap-6 md:gap-8">
                     <Button
                     className="bg-red-200 px-2 py-1 text-xs sm:text-sm md:text-base hover:bg-red-400"

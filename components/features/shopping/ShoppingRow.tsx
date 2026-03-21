@@ -33,22 +33,22 @@ export default function ShoppingRow({
     return (
         <tr>
             <td
-            className="border-r px-4 py-2">
+            className="border-r px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm md:px-4 md:py-2 md:text-base">
                 {editingId === item.id ? (
                     <input
                         value={item.name}
                         onChange={(e) => handleNameChange(item.id, e.target.value)}
-                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                        className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                     />
                 ) : (
                     item.name
                 )}
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 {editingId === item.id ? (
                     <select
                         value={item.count}
-                        className="w-full border rounded px-2 py-1 focus:outline-none"
+                        className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                         onChange={(e) => handleEditCountChange(item.id, Number(e.target.value))}
                     >
                         <option value={0}>0</option>
@@ -63,13 +63,13 @@ export default function ShoppingRow({
                 )}
             </td>
             <td
-            className="border-r px-4 py-2">
+            className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 {editingId === item.id ? (
 
                 <select
                     value={item.category || ""}
                     onChange={(e) => handleCategoryChange(item.id, e.target.value)}
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                 >
                     <option value="冷蔵庫">冷蔵庫</option>
                     <option value="冷凍庫">冷凍庫</option>

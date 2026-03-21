@@ -16,18 +16,18 @@ export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow,upda
 
     return(
         <tr>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm md:px-4 md:py-2 md:text-base">
                 <input
                     type="text"
                     placeholder="食材名"
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                     value={fixedRow.name}
                     onChange={(e) => updateFixedRow(fixedRow.id, "name", e.target.value)}
                 />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                     value={fixedRow.count}
                     onChange={(e) => updateFixedRow(fixedRow.id, "count", Number(e.target.value))}
                 >
@@ -39,17 +39,17 @@ export default function FixedFoodRow({ fixedRow, setFixedRow,deleteFixedRow,upda
                     <option value={5}>5</option>
                 </select>
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <input
                     type="date"
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                     value={fixedRow.expiry}
                     onChange={(e) => updateFixedRow(fixedRow.id, "expiry", e.target.value)}
                 />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                     value={fixedRow.category}
                     onChange={(e) => updateFixedRow(fixedRow.id, "category", e.target.value)}
                 >

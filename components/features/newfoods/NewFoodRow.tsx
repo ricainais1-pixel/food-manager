@@ -12,18 +12,18 @@ type Props = {
 export default function NewFoodRow({ food, updateFood, deleteFood }: Props) {
     return(
         <tr>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm md:px-4 md:py-2 md:text-base">
                 <input
                     type="text"
                     value={food.name}
                     placeholder="食材名"
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                     onChange={(e) => updateFood(food.id, "name", e.target.value)}
                     />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select 
-                className="w-full border rounded px-2 py-1 focus:outline-none"
+                className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                 value={food.count ?? 1}
                 onChange={(e) => updateFood(food.id, "count", e.target.value)}>
                     <option value={0}>0</option>
@@ -34,17 +34,17 @@ export default function NewFoodRow({ food, updateFood, deleteFood }: Props) {
                     <option value={5}>5</option>
                 </select>
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <input
                     type="date"
-                    className="w-full border rounded px-2 py-1 focus:outline-none"
+                    className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base"
                     value={food.expiry ?? new Date().toISOString().split("T")[0]}
                     onChange={(e) => updateFood(food.id, "expiry", e.target.value)}
                 />
             </td>
-            <td className="border-r px-4 py-2">
+            <td className="border-r px-2 py-1 text-center text-xs sm:text-sm md:text-base">
                 <select 
-                className="w-full border rounded px-2 py-1 focus:outline-none"
+                className="w-full border rounded px-1 py-1 text-xs sm:text-sm md:text-base focus:outline-none"
                 value={food.category ?? "冷蔵庫"}
                 onChange={(e) => updateFood(food.id, "category", e.target.value)}>
                     <option value="冷蔵庫">冷蔵庫</option>

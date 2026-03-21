@@ -61,7 +61,8 @@ export default function Shopping () {
                     >
                         + 追加
                     </Button>
-                    <Link href="./shopping/stock-from-shopping" >
+                    <Link href="./shopping/stock-from-shopping"
+                    className="w-full sm:w-32 md:w-36 max-w-xs" >
                         <Button 
                             className="bg-blue-200 px-6 py-3 w-full sm:w-32 md:w-36 hover:bg-blue-400 max-w-xs"
                         >
